@@ -11,15 +11,17 @@ const ExpenseItem: React.FC<ExpenseItemProps> = ({ expense }) => {
     <form className="flex items-center space-x-2 mb-2">
       <button
         className={`px-2 py-1 flex-1 text-left ${
-          expense.completed ? "line-through" : ""
+          expense.paid ? "line-through" : ""
         }`}
         formAction={async () => {
           "use server";
-          await updateExpenseAction(
-            expense.id,
-            { completed: !expense.completed },
-            "/"
-          );
+          await updateExpenseAction({
+            expense: {
+              ...expense,
+              paid: !expense.paid,
+            },
+            path: "/",
+          });
         }}
       >
         {expense.title}
@@ -31,7 +33,7 @@ const ExpenseItem: React.FC<ExpenseItemProps> = ({ expense }) => {
           formAction={async () => {
             "use server";
             await deleteExpenseAction({
-              id: expense.id,
+              id: expense?.id ?? "",
               path: "/",
             });
           }}

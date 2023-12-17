@@ -1,11 +1,11 @@
 "use client";
 
 import { updateExpenseAction } from "@/app/_action";
-import { TodoClass } from "@/models/Expense";
+import { ExpenseClass } from "@/models/Expense";
 import { useTransition } from "react";
 
 type CheckBoxProps = {
-  expense: TodoClass;
+  expense: ExpenseClass;
 };
 
 export default function CheckBox({ expense }: CheckBoxProps) {
@@ -14,15 +14,17 @@ export default function CheckBox({ expense }: CheckBoxProps) {
   return (
     <input
       type="checkbox"
-      checked={expense.completed}
-      name="completed"
+      checked={expense.paid}
+      name="paid"
       onChange={() =>
         startTransition(() =>
-          updateExpenseAction(
-            expense.id,
-            { completed: !expense.completed },
-            "/with-server-actions"
-          )
+          updateExpenseAction({
+            expense: {
+              ...expense,
+              paid: !expense.paid,
+            },
+            path: "/with-server-actions",
+          })
         )
       }
       disabled={isPending}

@@ -1,25 +1,30 @@
 "use server";
 
 import { createExpense, deleteExpense, updateExpense } from "@/lib/expenses-db";
+import { ExpenseClass } from "@/models/Expense";
 import { revalidatePath } from "next/cache";
 
 export async function createExpenseAction({
-  title,
+  expense,
   path,
 }: {
-  title: string;
+  expense: ExpenseClass;
   path: string;
 }) {
-  await createExpense(title);
+  await createExpense(expense);
   revalidatePath(path);
 }
 
 export async function updateExpenseAction(
-  id: string,
-  update: { tilte?: string; completed?: boolean },
-  path: string
+  {
+    expense,
+    path
+  }: {
+    expense: ExpenseClass,
+    path: string
+  }
 ) {
-  await updateExpense(id, update);
+  await updateExpense(expense);
   revalidatePath(path);
 }
 

@@ -1,4 +1,4 @@
-import { Expense } from "@/models/Expense";
+import { Expense, ExpenseClass } from "@/models/Expense";
 import connectDB from "./connect-db";
 import { stringToObjectId } from "./utils";
 
@@ -30,14 +30,13 @@ export async function getExpenses(filter: ExpensesFilter = {}) {
   }
 }
 
-export async function createExpense(title: string) {
+export async function createExpense(expense: ExpenseClass) {
   try {
     await connectDB();
 
-    const expense = await Expense.create({ title });
-
+    const created = await Expense.create(expense);
     return {
-      expense,
+      expense: created,
     };
   } catch (error) {
     return { error };
@@ -68,29 +67,28 @@ export async function getExpense(id: string) {
 }
 
 export async function updateExpense(
-  id: string,
-  { title, completed }: { title?: string; completed?: boolean }
+  expense: ExpenseClass
 ) {
   try {
     await connectDB();
 
-    const parsedId = stringToObjectId(id);
+    const parsedId = stringToObjectId(expense?.id ?? '');
 
     if (!parsedId) {
       return { error: "Expense not found" };
     }
 
-    const expense = await Expense.findByIdAndUpdate(
+    const found = await Expense.findByIdAndUpdate(
       parsedId,
-      { title, completed },
+      expense,
       { new: true }
     )
       .lean()
       .exec();
 
-    if (expense) {
+    if (found) {
       return {
-        expense,
+        found,
       };
     } else {
       return { error: "Expense not found" };

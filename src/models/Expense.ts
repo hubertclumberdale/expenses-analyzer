@@ -18,7 +18,7 @@ import mongoose from "mongoose";
   // @ts-ignore
   if (this.op === "find") {
     docs.forEach((doc) => {
-      doc.id = doc._id.toString();
+      doc.id = doc?._id?.toString();
       doc._id = doc.id;
     });
   }
@@ -37,13 +37,40 @@ class ExpenseClass {
   @prop({ required: true, unique: true })
   title: string;
 
-  @prop({ default: false })
-  completed: boolean;
+  @prop({ required: true })
+  fromDate: Date;
 
-  _id: mongoose.Types.ObjectId | string;
+  @prop({ required: true })
+  toDate: Date;
 
-  id: string;
+  @prop({ required: true })
+  cost: number;
+
+  @prop({ required: true })
+  smcConsumption: number;
+
+  @prop()
+  activationCost?: number;
+
+  @prop({ required: true })
+  totalCost: number;
+
+  @prop()
+  paid?: boolean;
+  @prop()
+  monthlyInstallments?: number;
+
+  @prop({ required: true })
+  monthlyCost: number;
+
+  @prop()
+  notes?: string;
+
+  _id?: mongoose.Types.ObjectId | string;
+
+  id?: string;
 }
+
 
 const Expense = getModelForClass(ExpenseClass);
 export { Expense, ExpenseClass };

@@ -32,10 +32,10 @@ import mongoose from "mongoose";
     allowMixed: Severity.ALLOW,
   },
 })
-@index({ title: 1 })
+@index({ name: 1 })
 class ExpenseClass {
   @prop({ required: true, unique: true })
-  title: string;
+  name: string;
 
   @prop({ required: true })
   fromDate: Date;
@@ -47,20 +47,19 @@ class ExpenseClass {
   cost: number;
 
   @prop({ required: true })
-  smcConsumption: number;
+  consumption: number;
 
   @prop()
   activationCost?: number;
 
-  @prop({ required: true })
   totalCost: number;
 
   @prop()
   paid?: boolean;
+
   @prop()
   monthlyInstallments?: number;
 
-  @prop({ required: true })
   monthlyCost: number;
 
   @prop()

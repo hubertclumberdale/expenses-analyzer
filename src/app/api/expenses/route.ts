@@ -36,11 +36,11 @@ export async function POST(request: Request) {
 
     const body = await request.json();
 
-    if (!body.title) {
-      return createErrorResponse("Expense must have a title", 400);
+    if (!body.name) {
+      return createErrorResponse("Expense must have a name", 400);
     }
 
-    const { expense, error } = await createExpense(body.title);
+    const { expense, error } = await createExpense(body.name);
     if (error) {
       throw error;
     }

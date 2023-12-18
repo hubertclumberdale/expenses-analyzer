@@ -35,6 +35,7 @@ export async function createExpense(expense: ExpenseClass) {
     await connectDB();
 
     const created = await Expense.create(expense);
+
     return {
       expense: created,
     };
@@ -88,7 +89,7 @@ export async function updateExpense(
 
     if (found) {
       return {
-        found,
+        expense: found,
       };
     } else {
       return { error: "Expense not found" };

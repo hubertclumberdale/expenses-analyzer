@@ -43,7 +43,7 @@ export async function PATCH(
     const id = params.id;
     let body = await request.json();
 
-    const { expense, error } = await updateExpense(id, body);
+    const { expense, error } = await updateExpense(body);
 
     if (error) {
       throw error;

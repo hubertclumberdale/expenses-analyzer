@@ -6,11 +6,11 @@ import { Button, Form } from "react-bootstrap";
 
 export default function ExpenseForm() {
   const [formData, setFormData] = useState<Omit<ExpenseClass, "_id" | "id">>({
-    title: "",
+    name: "",
     fromDate: new Date(),
     toDate: new Date(),
     cost: 0,
-    smcConsumption: 0,
+    consumption: 0,
     activationCost: 0,
     totalCost: 0,
     paid: false,
@@ -23,24 +23,21 @@ export default function ExpenseForm() {
     event.preventDefault();
 
     const {
-      title,
+      name,
       fromDate,
       toDate,
       cost,
-      smcConsumption,
-      activationCost,
+      consumption,
       totalCost,
       monthlyCost,
     } = formData;
     if (
-      !title ||
-      typeof title !== "string" ||
+      !name ||
+      typeof name !== "string" ||
       !fromDate ||
       !toDate ||
       !cost ||
-      !smcConsumption ||
-      !totalCost ||
-      !monthlyCost
+      !consumption
     ) {
       return;
     }
@@ -58,15 +55,16 @@ export default function ExpenseForm() {
 
   return (
     <Form onSubmit={action} className="flex items-center space-x-2 mb-4">
-      <Form.Group className="mb-3" controlId="title">
-        <Form.Label>Title</Form.Label>
+      <Form.Group className="mb-3" controlId="name">
+        <Form.Label>Name</Form.Label>
         <Form.Control
           type="text"
-          name="title"
-          value={formData.title}
+          name="name"
+          value={formData.name}
           onChange={handleChange}
           className="border rounded px-2 py-1 flex-1"
-          placeholder="Title"
+          placeholder="name"
+          required
         />
       </Form.Group>
 
@@ -79,6 +77,7 @@ export default function ExpenseForm() {
           onChange={handleChange}
           className="border rounded px-2 py-1"
           placeholder="From Date"
+          required
         />
       </Form.Group>
 
@@ -91,6 +90,7 @@ export default function ExpenseForm() {
           onChange={handleChange}
           className="border rounded px-2 py-1"
           placeholder="To Date"
+          required
         />
       </Form.Group>
 
@@ -103,18 +103,20 @@ export default function ExpenseForm() {
           onChange={handleChange}
           className="border rounded px-2 py-1"
           placeholder="Cost"
+          required
         />
       </Form.Group>
 
-      <Form.Group className="mb-3" controlId="smcConsumption">
-        <Form.Label>SMC Consumption</Form.Label>
+      <Form.Group className="mb-3" controlId="consumption">
+        <Form.Label>Consumption</Form.Label>
         <Form.Control
           type="number"
-          name="smcConsumption"
-          value={formData.smcConsumption}
+          name="consumption"
+          value={formData.consumption}
           onChange={handleChange}
           className="border rounded px-2 py-1"
-          placeholder="SMC Consumption"
+          placeholder="Consumption"
+          required
         />
       </Form.Group>
 

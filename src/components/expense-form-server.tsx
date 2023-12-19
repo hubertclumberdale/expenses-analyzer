@@ -6,9 +6,11 @@ import { Button, Form } from "react-bootstrap";
 
 export default function ExpenseForm() {
   const [formData, setFormData] = useState<Omit<ExpenseClass, "_id" | "id">>({
-    name: "",
+    reference: 0,
+    issuedDate: new Date(),
     fromDate: new Date(),
     toDate: new Date(),
+    dueDate: new Date(),
     cost: 0,
     consumption: 0,
     activationCost: 0,
@@ -23,7 +25,7 @@ export default function ExpenseForm() {
     event.preventDefault();
 
     const {
-      name,
+      reference,
       fromDate,
       toDate,
       cost,
@@ -32,7 +34,7 @@ export default function ExpenseForm() {
       monthlyCost,
     } = formData;
     if (
-      !name ||
+      !reference ||
       typeof name !== "string" ||
       !fromDate ||
       !toDate ||
@@ -55,15 +57,15 @@ export default function ExpenseForm() {
 
   return (
     <Form onSubmit={action} className="flex items-center space-x-2 mb-4">
-      <Form.Group className="mb-3" controlId="name">
-        <Form.Label>Name</Form.Label>
+      <Form.Group className="mb-3" controlId="reference">
+        <Form.Label>Reference</Form.Label>
         <Form.Control
-          type="text"
-          name="name"
-          value={formData.name}
+          type="number"
+          name="reference"
+          value={formData.reference}
           onChange={handleChange}
           className="border rounded px-2 py-1 flex-1"
-          placeholder="name"
+          placeholder="Reference"
           required
         />
       </Form.Group>

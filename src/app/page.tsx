@@ -1,18 +1,29 @@
 "use client";
-import { updateExpenseAction } from "@/app/_action";
+import {
+  createExpenseAction,
+  deleteExpenseAction,
+  updateExpenseAction,
+} from "@/app/_action";
+import ExpensesCharts from "@/components/charts/expenses-charts";
 import ExpenseFormServerComponent from "@/components/expense-form-server";
 import ExpensesTable from "@/components/expenses-table";
-import { ExpenseClass } from "@/models/Expense";
+import PdfUploader from "@/components/pdf-uploader";
+import { Expense } from "@/types/Expenses";
 import { startTransition, useEffect, useState } from "react";
-import { Container, Row } from "react-bootstrap";
+import { Accordion, Col, Container, Row } from "react-bootstrap";
 
 export default function Home() {
-  const [expenses, setExpenses] = useState<ExpenseClass[]>([]);
+  const [expenses, setExpenses] = useState<Expense[]>([]);
   const [results, setResults] = useState<number>(0);
-  const [isLoading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [refresh, setRefresh] = useState<number>(0);
+
+  const incrementRefresh = () => {
+    const newRefresh = refresh + 1;
+    setRefresh(newRefresh);
+  };
 
   const fetchExpenses = async () => {
-    console.log("fetching expenses");
     const url = process.env.NEXT_PUBLIC_HOST;
     const response = await fetch(`${url}/api/expenses`);
     const result = await response.json();
@@ -29,7 +40,7 @@ export default function Home() {
     }
   };
 
-  const updateExpense = async (expense: ExpenseClass) => {
+  const updateExpense = async (expense: Expense) => {
     setLoading(true);
     await updateExpenseAction({
       expense: {
@@ -38,38 +49,97 @@ export default function Home() {
       path: "/with-server-actions",
     });
     setLoading(false);
-    console.log("updated expense");
+    incrementRefresh();
+  };
+
+  const createExpenses = async (expenses: Expense[]) => {
+    console.log(expenses);
+    setLoading(true);
+    expenses.forEach(async (expense, index) => {
+      const newExpense = {
+        ...expense,
+      };
+      console.log(newExpense);
+      await createExpenseAction({
+        expense: newExpense,
+        path: "/with-server-actions",
+      });
+    });
+    setLoading(false);
+  };
+
+  const deleteExpenses = async (expenses: Expense[]) => {
+    console.log(expenses);
+    setLoading(true);
+    expenses.forEach(async (expense) => {
+      await deleteExpenseAction({
+        expense,
+        path: "/with-server-actions",
+      });
+    });
+    setLoading(false);
   };
 
   useEffect(() => {
-    if (!isLoading) {
-      fetchExpenses();
-    }
-  }, [isLoading]);
+    fetchExpenses();
+  }, [refresh]);
 
   return (
     <Container className="mx-auto max-w-md p-4">
       <Row>
-        <h1 className="text-2xl font-bold mb-4">Expenses List</h1>
-        {results === 0 ? (
-          <p className="text-center">No Expenses Found</p>
-        ) : (
-          expenses && (
-            <ExpensesTable
-              expenses={expenses}
-              updateExpense={function (expense) {
-                startTransition(() => {
-                  updateExpense(expense);
-                });
-              }}
-            ></ExpensesTable>
-          )
-        )}
+        <Col lg={12}>
+          <h1 className="text-2xl font-bold mb-4">Expenses List</h1>
+          {results === 0 ? (
+            <p className="text-center">No Expenses Found</p>
+          ) : (
+            expenses && (
+              <ExpensesTable
+                expenses={expenses}
+                updateExpense={function (expense) {
+                  startTransition(() => {
+                    updateExpense(expense);
+                  });
+                }}
+                /* loading={loading > 0}
+              deleteExpenses={deleteExpenses} */
+              ></ExpensesTable>
+            )
+          )}
+        </Col>
+        <Col className="mt-4">
+          <Accordion defaultActiveKey={"1"}>
+            <Accordion.Item eventKey="0">
+              <Accordion.Header>Add a new expense manually</Accordion.Header>
+              <Accordion.Body>
+                <ExpenseFormServerComponent />
+              </Accordion.Body>
+            </Accordion.Item>
+            <Accordion.Item eventKey="1">
+              <Accordion.Header>...or add it automatically</Accordion.Header>
+              <Accordion.Body>
+                <PdfUploader
+                  onSuccess={function (expenses) {
+                    console.log(expenses);
+                    startTransition(() => {
+                      createExpenses(expenses);
+                    });
+                  }}
+                ></PdfUploader>
+              </Accordion.Body>
+            </Accordion.Item>
+          </Accordion>
+        </Col>
       </Row>
       <hr></hr>
       <Row>
-        <h1 className="text-2xl font-bold mb-4">Add a new expense</h1>
-        <ExpenseFormServerComponent />
+        <Container>
+          <Row>
+            <Col>
+              <hr></hr>
+              <ExpensesCharts expenses={expenses}></ExpensesCharts>
+            </Col>
+          </Row>
+        </Container>
       </Row>
     </Container>
   );

@@ -1,10 +1,10 @@
 import { deleteExpenseAction, updateExpenseAction } from "@/app/_action";
 import CheckBox from "./checkbox";
-import { ExpenseClass } from "@/models/Expense";
 import { Button, Form } from "react-bootstrap";
+import { Expense } from "@/types/Expenses";
 
 interface ExpenseItemProps {
-  expense: ExpenseClass;
+  expense: Expense;
 }
 
 const ExpenseItem: React.FC<ExpenseItemProps> = ({ expense }) => {
@@ -25,7 +25,7 @@ const ExpenseItem: React.FC<ExpenseItemProps> = ({ expense }) => {
           });
         }}
       >
-        {expense.name}
+        {expense.reference}
       </Button>
       <div className="flex items-center">
         <CheckBox expense={expense} />
@@ -34,7 +34,7 @@ const ExpenseItem: React.FC<ExpenseItemProps> = ({ expense }) => {
           formAction={async () => {
             "use server";
             await deleteExpenseAction({
-              id: expense?.id ?? "",
+              expense,
               path: "/",
             });
           }}

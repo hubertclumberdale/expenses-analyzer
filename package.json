@@ -11,27 +11,29 @@
     "run": "docker-compose up -d"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
-    "@mui/material": "^5.15.0",
-    "@mui/x-data-grid": "^6.18.5",
     "@typegoose/typegoose": "^11.3.0",
     "@types/node": "20.4.1",
-    "@types/react": "18.2.14",
-    "@types/react-dom": "18.2.6",
+    "ag-grid-community": "^31.0.1",
+    "ag-grid-react": "^31.0.1",
     "autoprefixer": "10.4.14",
     "bootstrap": "^5.3.2",
+    "chatgpt": "^5.2.5",
     "eslint": "8.44.0",
     "eslint-config-next": "^14.0.4",
     "mongoose": "^7.3.3",
     "next": "^14.0.4",
+    "pdf-parse": "^1.1.1",
     "postcss": "8.4.25",
     "react": "^18.2.0",
     "react-bootstrap": "^2.9.1",
     "react-dom": "^18.2.0",
+    "react-dropzone": "^14.2.3",
+    "recharts": "^2.10.3",
     "typescript": "5.1.6"
   },
   "devDependencies": {
-    "@types/react-bootstrap-table-next": "^4.0.25"
+    "@types/pdf-parse": "^1.1.4",
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18"
   }
 }

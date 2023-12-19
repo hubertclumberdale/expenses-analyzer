@@ -6,7 +6,7 @@ import { IExpense } from "@/types/Expenses";
 import { startTransition } from "react";
 
 const Page = () => {
-  const { expenses, results } = useExpensesContext();
+  const { expenses, results, incrementRefresh } = useExpensesContext();
 
   const updateExpense = async (expense: IExpense) => {
     await updateExpenseAction({
@@ -15,6 +15,7 @@ const Page = () => {
       },
       path: "/with-server-actions",
     });
+    incrementRefresh();
   };
   return (
     <>

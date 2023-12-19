@@ -46,12 +46,19 @@ const Sidebar = () => {
 
         <hr className="sidebar-divider" />
 
-        <div className="sidebar-heading">Visualize</div>
+        <div className="sidebar-heading">Visualize Charts</div>
 
         <li className="nav-item">
           <Link href="/dashboard/charts" className="nav-link">
             <i className="fas fa-fw fa-chart-area"></i>
-            <span>Charts</span>
+            <span>Based on data</span>
+          </Link>
+        </li>
+
+        <li className="nav-item">
+          <Link href="/dashboard/charts" className="nav-link">
+            <i className="fas fa-fw fa-chart-area"></i>
+            <span>Forecast</span>
           </Link>
         </li>
 

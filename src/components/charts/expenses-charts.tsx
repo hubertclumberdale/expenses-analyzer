@@ -1,49 +1,65 @@
-import AreaChart from "@/components/charts/area-chart";
-import BarChart from "@/components/charts/bar-chart";
-import LineChart from "@/components/charts/line-chart";
-import RadarChart from "@/components/charts/radar-chart";
+import AreaChartMonthlyCost from "@/components/charts/AreaChartMonthlyCost";
+import BarChartTotalCost from "@/components/charts/BarChartTotalCost";
+import FunnelChartPaymentStatus from "@/components/charts/FunnelChartPaymentStatus";
+import LineChartConsumption from "@/components/charts/LineChartConsumption";
+import PieChartExpenseDistribution from "@/components/charts/PieChartExpenseDistribution";
+import RadarChartExpenseBreakdown from "@/components/charts/RadarChartExpenseBreakdown";
+import RadialBarChartTotalCostType from "@/components/charts/RadialBarChartTotalCostType";
+import ScatterPlotDueDateTotalCost from "@/components/charts/ScatterPlotDueDateTotalCost";
+import StackedBarChartCostActivation from "@/components/charts/StackedBarChartCostActivation";
+import TreemapExpenseDistribution from "@/components/charts/TreemapExpenseDistribution";
 import { useExpensesContext } from "@/contexts/expenses-context";
 import React from "react";
-import { Container, Row } from "react-bootstrap";
-
-const data = [
-  {
-    name: "Spesa 1",
-    cost: 123,
-    consumption: 123,
-    activationCost: 1111,
-    paid: true,
-    monthlyInstallments: 1,
-  },
-  {
-    name: "Spesa 5",
-    cost: 123,
-    consumption: 123123,
-    activationCost: 123,
-    paid: true,
-    monthlyInstallments: 1123,
-  },
-  {
-    name: "asdfadfasdfasdfasdf",
-    cost: 123,
-    consumption: 123,
-    activationCost: 123,
-    paid: false,
-    monthlyInstallments: 1123,
-  },
-];
+import { Col, Container, Row } from "react-bootstrap";
 
 const ExpensesCharts = () => {
-  const { expenses } = useExpensesContext();
-
   return (
     <>
       <Container>
         <Row>
-          <LineChart expenses={expenses}></LineChart>
-          <AreaChart expenses={expenses}></AreaChart>
-          <BarChart expenses={expenses}></BarChart>
-          <RadarChart expenses={expenses}></RadarChart>
+          <Col>
+            Bar Chart - Total Cost vs. Reference
+            <BarChartTotalCost></BarChartTotalCost>
+          </Col>
+          <Col>
+            Line Chart - Consumption Over Time
+            <LineChartConsumption></LineChartConsumption>
+          </Col>
+          <Col>
+            Pie Chart - Expense Distribution by Type
+            <PieChartExpenseDistribution></PieChartExpenseDistribution>
+          </Col>
+
+          <Col>
+            Area Chart - Monthly Cost Over Time
+            <AreaChartMonthlyCost></AreaChartMonthlyCost>
+          </Col>
+          <Col>
+            Stacked Bar Chart - Cost vs. Activation Cost
+            <StackedBarChartCostActivation></StackedBarChartCostActivation>
+          </Col>
+
+          <Col>
+            Radar Chart - Expense Breakdown
+            <RadarChartExpenseBreakdown></RadarChartExpenseBreakdown>
+          </Col>
+          <Col>
+            Scatter Plot - Due Date vs. Total Cost
+            <ScatterPlotDueDateTotalCost></ScatterPlotDueDateTotalCost>
+          </Col>
+
+          <Col>
+            Treemap - Expense Distribution by Reference
+            <TreemapExpenseDistribution></TreemapExpenseDistribution>
+          </Col>
+          <Col>
+            Radial Bar Chart - Total Cost by Type
+            <RadialBarChartTotalCostType></RadialBarChartTotalCostType>
+          </Col>
+          <Col>
+            Funnel Chart - Expense Payment Status
+            <FunnelChartPaymentStatus></FunnelChartPaymentStatus>
+          </Col>
         </Row>
       </Container>
     </>

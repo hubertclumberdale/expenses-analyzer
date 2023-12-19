@@ -2,7 +2,7 @@ import AreaChart from "@/components/charts/area-chart";
 import BarChart from "@/components/charts/bar-chart";
 import LineChart from "@/components/charts/line-chart";
 import RadarChart from "@/components/charts/radar-chart";
-import { ExpenseClass } from "@/models/Expense";
+import { useExpensesContext } from "@/contexts/expenses-context";
 import React from "react";
 import { Container, Row } from "react-bootstrap";
 
@@ -33,7 +33,9 @@ const data = [
   },
 ];
 
-const ExpensesCharts = ({ expenses }: { expenses: ExpenseClass[] }) => {
+const ExpensesCharts = () => {
+  const { expenses } = useExpensesContext();
+
   return (
     <>
       <Container>

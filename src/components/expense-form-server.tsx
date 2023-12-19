@@ -1,11 +1,11 @@
 "use client";
 import React, { useState } from "react";
 import { createExpenseAction } from "@/app/_action";
-import { ExpenseClass } from "@/models/Expense";
 import { Button, Form } from "react-bootstrap";
+import { IExpense } from "@/types/Expenses";
 
 export default function ExpenseForm() {
-  const [formData, setFormData] = useState<Omit<ExpenseClass, "_id" | "id">>({
+  const [formData, setFormData] = useState<Omit<IExpense, "_id" | "id">>({
     reference: 0,
     issuedDate: new Date(),
     fromDate: new Date(),

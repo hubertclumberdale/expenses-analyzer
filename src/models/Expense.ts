@@ -1,4 +1,4 @@
-import { Expense as IExpense } from "@/types/Expenses";
+import { IExpense } from "@/types/Expenses";
 import {
   ModelOptions,
   Severity,
@@ -9,13 +9,13 @@ import {
 } from "@typegoose/typegoose";
 import mongoose from "mongoose";
 
-@post<ExpenseClass>("save", function (doc) {
+@post<ExpenseModel>("save", function (doc) {
   if (doc) {
     doc.id = doc._id.toString();
     doc._id = doc.id;
   }
 })
-@post<ExpenseClass[]>(/^find/, function (docs) {
+@post<ExpenseModel[]>(/^find/, function (docs) {
   // @ts-ignore
   if (this.op === "find") {
     docs.forEach((doc) => {
@@ -34,7 +34,7 @@ import mongoose from "mongoose";
   },
 })
 @index({ reference: 1 })
-class ExpenseClass implements IExpense {
+class ExpenseModel implements IExpense {
   @prop({ required: true, unique: true })
   reference: number;
 
@@ -87,5 +87,5 @@ class ExpenseClass implements IExpense {
 }
 
 
-const Expense = getModelForClass(ExpenseClass);
-export { Expense, ExpenseClass };
+const Expense = getModelForClass(ExpenseModel);
+export { Expense, ExpenseModel };

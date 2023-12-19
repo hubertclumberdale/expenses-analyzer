@@ -2,7 +2,7 @@ import React from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import { Expense } from "@/types/Expenses";
+import { IExpense } from "@/types/Expenses";
 
 const columns = [
   {
@@ -50,8 +50,8 @@ const ExpensesTable = ({
   expenses,
   updateExpense,
 }: {
-  expenses: Expense[];
-  updateExpense: (expense: Expense) => void;
+  expenses: IExpense[];
+  updateExpense: (expense: IExpense) => void;
 }) => {
   return (
     <div className="ag-theme-alpine" style={{ height: 400, width: "100%" }}>
@@ -62,7 +62,6 @@ const ExpensesTable = ({
         }))}
         columnDefs={columns}
         onCellValueChanged={(params) => {
-          console.log("updating expense");
           updateExpense(params.data);
         }}
       />

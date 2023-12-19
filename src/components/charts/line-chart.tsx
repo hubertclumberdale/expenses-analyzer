@@ -1,4 +1,4 @@
-import { ExpenseClass } from "@/models/Expense";
+import { IExpense } from "@/types/Expenses";
 import React, { useEffect, useState } from "react";
 import {
   LineChart as RechartsLineChart,
@@ -10,8 +10,8 @@ import {
   Legend,
 } from "recharts";
 
-const LineChart = ({ expenses }: { expenses: ExpenseClass[] }) => {
-  const [localExpenses, setLocalExpenses] = useState<ExpenseClass[]>([]);
+const LineChart = ({ expenses }: { expenses: IExpense[] }) => {
+  const [localExpenses, setLocalExpenses] = useState<IExpense[]>([]);
 
   useEffect(() => {
     setLocalExpenses(expenses);

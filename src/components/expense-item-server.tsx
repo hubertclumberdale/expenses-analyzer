@@ -1,10 +1,10 @@
 import { deleteExpenseAction, updateExpenseAction } from "@/app/_action";
 import CheckBox from "./checkbox";
 import { Button, Form } from "react-bootstrap";
-import { Expense } from "@/types/Expenses";
+import { IExpense } from "@/types/Expenses";
 
 interface ExpenseItemProps {
-  expense: Expense;
+  expense: IExpense;
 }
 
 const ExpenseItem: React.FC<ExpenseItemProps> = ({ expense }) => {

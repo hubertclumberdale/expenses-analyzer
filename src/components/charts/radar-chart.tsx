@@ -1,4 +1,4 @@
-import { Expense } from "@/types/Expenses";
+import { IExpense } from "@/types/Expenses";
 import React, { useEffect, useState } from "react";
 import {
   RadarChart as RechartsRadarChart,
@@ -9,8 +9,8 @@ import {
   Radar,
 } from "recharts";
 
-const RadarChart = ({ expenses }: { expenses: Expense[] }) => {
-  const [localExpenses, setLocalExpenses] = useState<Expense[]>([]);
+const RadarChart = ({ expenses }: { expenses: IExpense[] }) => {
+  const [localExpenses, setLocalExpenses] = useState<IExpense[]>([]);
 
   useEffect(() => {
     setLocalExpenses(expenses);

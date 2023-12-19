@@ -1,6 +1,7 @@
-import { Expense, ExpenseClass } from "@/models/Expense";
+import { Expense } from "@/models/Expense";
 import connectDB from "./connect-db";
 import { stringToObjectId } from "./utils";
+import { IExpense } from "@/types/Expenses";
 
 interface ExpensesFilter {
   page?: number;
@@ -30,7 +31,7 @@ export async function getExpenses(filter: ExpensesFilter = {}) {
   }
 }
 
-export async function createExpense(expense: ExpenseClass) {
+export async function createExpense(expense: IExpense) {
   try {
     await connectDB();
 
@@ -68,7 +69,7 @@ export async function getExpense(id: string) {
 }
 
 export async function updateExpense(
-  expense: ExpenseClass
+  expense: IExpense
 ) {
   try {
     await connectDB();

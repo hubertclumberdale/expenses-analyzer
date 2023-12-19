@@ -1,4 +1,4 @@
-import { Expense } from "@/types/Expenses";
+import { IExpense } from "@/types/Expenses";
 import React, { useEffect, useState } from "react";
 import {
   BarChart as RechartsBarChart,
@@ -10,8 +10,8 @@ import {
   Bar,
 } from "recharts";
 
-const BarChart = ({ expenses }: { expenses: Expense[] }) => {
-  const [localExpenses, setLocalExpenses] = useState<Expense[]>([]);
+const BarChart = ({ expenses }: { expenses: IExpense[] }) => {
+  const [localExpenses, setLocalExpenses] = useState<IExpense[]>([]);
 
   useEffect(() => {
     setLocalExpenses(expenses);

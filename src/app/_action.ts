@@ -3,7 +3,7 @@
 import chatGPTClient from "@/lib/chatgpt-client";
 import { createExpense, deleteExpense, updateExpense } from "@/lib/expenses-db";
 import { extractContentFromFile } from "@/lib/utils";
-import { Expense } from "@/types/Expenses";
+import { IExpense } from "@/types/Expenses";
 import { revalidatePath } from "next/cache";
 const pdf = require('pdf-parse');
 
@@ -11,7 +11,7 @@ export async function createExpenseAction({
   expense,
   path,
 }: {
-  expense: Expense;
+  expense: IExpense;
   path: string;
 }) {
   await createExpense(expense);
@@ -23,7 +23,7 @@ export async function updateExpenseAction(
     expense,
     path
   }: {
-    expense: Expense,
+    expense: IExpense,
     path: string
   }
 ) {
@@ -35,7 +35,7 @@ export async function deleteExpenseAction({
   expense,
   path,
 }: {
-  expense: Expense;
+  expense: IExpense;
   path: string;
 }) {
   if (expense.id) {
@@ -53,7 +53,7 @@ export async function uploadExpenseAction(data: FormData) {
   let parentMessageId: string | undefined = undefined
   try {
     const expensesPromises = files.map(async (file: File) => {
-      return new Promise<Expense>(async (resolve) => {
+      return new Promise<IExpense>(async (resolve) => {
         try {
           const bytes = await file.arrayBuffer();
           const buffer = Buffer.from(bytes);
@@ -80,7 +80,7 @@ export async function uploadExpenseAction(data: FormData) {
           resolve(parsedExpense);
         } catch (error) {
           console.error('Error processing file:', error);
-          resolve({} as Expense);
+          resolve({} as IExpense);
         }
       });
     });

@@ -1,3 +1,4 @@
+import { Expense as IExpense } from "@/types/Expenses";
 import {
   ModelOptions,
   Severity,
@@ -32,16 +33,22 @@ import mongoose from "mongoose";
     allowMixed: Severity.ALLOW,
   },
 })
-@index({ name: 1 })
-class ExpenseClass {
+@index({ reference: 1 })
+class ExpenseClass implements IExpense {
   @prop({ required: true, unique: true })
-  name: string;
+  reference: number;
+
+  @prop({ required: true })
+  issuedDate: Date;
 
   @prop({ required: true })
   fromDate: Date;
 
   @prop({ required: true })
   toDate: Date;
+
+  @prop({ required: true })
+  dueDate: Date;
 
   @prop({ required: true })
   cost: number;
@@ -52,7 +59,12 @@ class ExpenseClass {
   @prop()
   activationCost?: number;
 
-  totalCost: number;
+  get totalCost() {
+    if (!this.activationCost) {
+      return this.cost
+    }
+    return this.cost + this.activationCost
+  }
 
   @prop()
   paid?: boolean;
@@ -64,6 +76,10 @@ class ExpenseClass {
 
   @prop()
   notes?: string;
+
+  @prop({ required: true })
+  type?: 'gas' | 'electricty';
+
 
   _id?: mongoose.Types.ObjectId | string;
 

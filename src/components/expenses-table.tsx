@@ -1,11 +1,31 @@
-import * as React from "react";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { ExpenseClass } from "@/models/Expense";
+import React from "react";
+import { AgGridReact } from "ag-grid-react";
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-alpine.css";
+import { Expense } from "@/types/Expenses";
 
 const columns = [
-  { field: "name", headerName: "Name", flex: 1, editable: true },
-  /* { field: "fromDate", headerName: "From Date", type: "date", flex: 1 },
-  { field: "toDate", headerName: "To Date", type: "date", flex: 1 }, */
+  {
+    field: "reference",
+    headerName: "Reference",
+    flex: 1,
+    editable: true,
+  },
+
+  {
+    field: "fromDate",
+    headerName: "From Date",
+    editable: true,
+    type: "date",
+    flex: 1,
+  },
+  {
+    field: "toDate",
+    headerName: "To Date",
+    editable: true,
+    type: "date",
+    flex: 1,
+  },
   { field: "cost", headerName: "Cost", flex: 1, editable: true },
   { field: "consumption", headerName: "Consumption", flex: 1, editable: true },
   {
@@ -30,24 +50,20 @@ const ExpensesTable = ({
   expenses,
   updateExpense,
 }: {
-  expenses: ExpenseClass[];
-  updateExpense: (expense: ExpenseClass) => void;
+  expenses: Expense[];
+  updateExpense: (expense: Expense) => void;
 }) => {
   return (
-    <div style={{ height: 400, width: "100%" }}>
-      <DataGrid
-        rows={expenses.map((expense) => ({
+    <div className="ag-theme-alpine" style={{ height: 400, width: "100%" }}>
+      <AgGridReact
+        rowData={expenses.map((expense) => ({
           ...expense,
           id: expense._id?.toString(),
         }))}
-        columns={columns}
-        checkboxSelection
-        components={{
-          Toolbar: GridToolbar,
-        }}
-        processRowUpdate={(updatedRow) => {
-          updateExpense(updatedRow);
-          return updatedRow;
+        columnDefs={columns}
+        onCellValueChanged={(params) => {
+          console.log("updating expense");
+          updateExpense(params.data);
         }}
       />
     </div>

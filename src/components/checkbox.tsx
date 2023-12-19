@@ -1,11 +1,11 @@
 "use client";
 
 import { updateExpenseAction } from "@/app/_action";
-import { ExpenseClass } from "@/models/Expense";
+import { Expense } from "@/types/Expenses";
 import { useTransition } from "react";
 
 type CheckBoxProps = {
-  expense: ExpenseClass;
+  expense: Expense;
 };
 
 export default function CheckBox({ expense }: CheckBoxProps) {

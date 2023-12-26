@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { createExpenseAction } from "@/app/_action";
+import { createExpenseAction } from "@/actions/expenses";
 import { Button, Form } from "react-bootstrap";
 import { Bill } from "@/types/types";
 

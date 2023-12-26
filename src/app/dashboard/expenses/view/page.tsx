@@ -1,5 +1,5 @@
 "use client";
-import { updateExpenseAction } from "@/app/_action";
+import { updateExpenseAction } from "@/actions/expenses";
 import ExpensesTable from "@/components/expenses-table";
 import { useExpensesContext } from "@/contexts/expenses-context";
 import { Expense } from "@/types/types";

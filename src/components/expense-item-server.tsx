@@ -1,4 +1,4 @@
-import { deleteExpenseAction, updateExpenseAction } from "@/app/_action";
+import { deleteExpenseAction, updateExpenseAction } from "@/actions/expenses";
 import CheckBox from "./checkbox";
 import { Button, Form } from "react-bootstrap";
 import { Expense } from "@/types/types";

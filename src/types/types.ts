@@ -1,13 +1,11 @@
 import mongoose from "mongoose";
 
 export interface Participant {
-    id: number;
     name: string;
     incomes: Income[]
 }
 
 export interface Transaction {
-    _id?: mongoose.Types.ObjectId | string; // other id used by mongoose
     id?: string // id used by mongoose
     transactionId: number, // generally the number that identifies the transaction such as rif.bolletta
     date: Date
@@ -17,6 +15,7 @@ export interface Transaction {
 }
 
 export interface Household {
+    name: string
     participants: Participant[]
     expenses: (Expense | Bill)[]
 }
@@ -60,14 +59,14 @@ export interface Bill extends Expense {
     activationCost?: number;
 
     /* this is the sum between cost and activation cost */
-    readonly totalCost: number;
-
+    /*     readonly totalCost: number;
+     */
     /* this is the number of months of this expense  */
     monthlyInstallments?: number;
 
     /* this is the total cost divided per months */
-    readonly monthlyCost: number;
-
+    /*     readonly monthlyCost: number;
+     */
     notes?: string;
 
     provider: 'gas' | 'electricity'

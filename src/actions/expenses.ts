@@ -9,7 +9,6 @@ const pdf = require('pdf-parse');
 
 export async function getExpensesAction() {
   const expenses = await getExpenses()
-  console.log(expenses)
   return expenses
 }
 

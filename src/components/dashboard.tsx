@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import RecapMeter from "@/components/layout/recap-meters/recap-meter";
 import { useExpensesContext } from "@/contexts/expenses-context";
-import { Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
+import {
+  createHouseholdAction,
+  getAllHouseholdsAction,
+} from "@/actions/household";
+import { Household } from "@/types/types";
 
 const Dashboard = () => {
   const { expenses } = useExpensesContext();
 
-  // State to track expenses data
   const [expensesData, setExpensesData] = useState({
     monthlyEarnings: 0,
     annualEarnings: 0,
@@ -14,8 +18,11 @@ const Dashboard = () => {
     monthlyExpenses: 0,
   });
 
+  const [households, setHouseholds] = useState<Household[]>([]);
+  const [loadingHouseholds, setLoadingHouseholds] = useState(false);
+  const [errorHouseholds, setErrorHouseholds] = useState<string | null>(null);
+
   useEffect(() => {
-    // Calculate values based on the expenses array
     const monthlyEarnings = expenses.reduce(
       (acc, expense) => acc + expense.amount,
       0
@@ -24,7 +31,6 @@ const Dashboard = () => {
     const totalExpenses = expenses.length;
     const monthlyExpenses = 0;
 
-    // Update the state with the calculated values
     setExpensesData({
       monthlyEarnings,
       annualEarnings,
@@ -33,9 +39,69 @@ const Dashboard = () => {
     });
   }, [expenses]);
 
+  const createHousehold = () => {
+    const household: Household = {
+      name: "fugoini",
+      expenses: [
+        {
+          amount: 100,
+          date: new Date(),
+          dueDate: new Date(),
+          fromDate: new Date(),
+          paid: false,
+          provider: "gas",
+          toDate: new Date(),
+          transactionId: 12345,
+          type: "expense",
+        },
+      ],
+      participants: [
+        {
+          name: "Umberto",
+          incomes: [
+            {
+              amount: 1000,
+              date: new Date(),
+              paid: true,
+              transactionId: 12345,
+              type: "income",
+            },
+          ],
+        },
+      ],
+    };
+
+    createHouseholdAction(household);
+  };
+
+  const getAllHouseholds = async () => {
+    try {
+      setLoadingHouseholds(true);
+      setErrorHouseholds(null);
+
+      const allHouseholds = await getAllHouseholdsAction();
+      console.log(allHouseholds);
+    } catch (error) {
+      console.error("Error fetching households:", error);
+      setErrorHouseholds("Error fetching households. Please try again.");
+    } finally {
+      setLoadingHouseholds(false);
+    }
+  };
   return (
     <>
       <Container className="mx-auto max-w-md p-4">
+        <Row>
+          <Col>
+            <Button onClick={createHousehold}>Create new Household</Button>
+          </Col>
+          <Col>
+            <Button onClick={getAllHouseholds}>Get all Household</Button>
+          </Col>
+          <Col></Col>
+        </Row>
+        {loadingHouseholds && <p>Loading households...</p>}
+        {errorHouseholds && <p>Error: {errorHouseholds}</p>}
         <Row>
           <RecapMeter
             title="EARNINGS (MONTHLY)"

@@ -3,7 +3,7 @@
 import chatGPTClient from "@/lib/chatgpt-client";
 import { createExpense, deleteExpense, updateExpense } from "@/lib/expenses-db";
 import { extractContentFromFile } from "@/lib/utils";
-import { IExpense } from "@/types/Expenses";
+import { Expense } from "@/types/types";
 import { revalidatePath } from "next/cache";
 const pdf = require('pdf-parse');
 
@@ -11,7 +11,7 @@ export async function createExpenseAction({
   expense,
   path,
 }: {
-  expense: IExpense;
+  expense: Expense;
   path: string;
 }) {
   await createExpense(expense);
@@ -23,7 +23,7 @@ export async function updateExpenseAction(
     expense,
     path
   }: {
-    expense: IExpense,
+    expense: Expense,
     path: string
   }
 ) {
@@ -35,7 +35,7 @@ export async function deleteExpenseAction({
   expense,
   path,
 }: {
-  expense: IExpense;
+  expense: Expense;
   path: string;
 }) {
   if (expense.id) {
@@ -53,14 +53,14 @@ export async function uploadExpenseAction(data: FormData) {
   let parentMessageId: string | undefined = undefined
   try {
     const expensesPromises = files.map(async (file: File) => {
-      return new Promise<IExpense>(async (resolve) => {
+      return new Promise<Expense>(async (resolve) => {
         try {
           const bytes = await file.arrayBuffer();
           const buffer = Buffer.from(bytes);
           const result = await pdf(buffer, { max: 1 });
           const firstPage = result?.text;
 
-          const extractedInterface = extractContentFromFile('src/types/Expenses.ts')
+          const extractedInterface = extractContentFromFile('src/types/types.ts')
 
           const prompt = `I need you to extract the following information in a JSON with this schema:
         
@@ -80,7 +80,7 @@ export async function uploadExpenseAction(data: FormData) {
           resolve(parsedExpense);
         } catch (error) {
           console.error('Error processing file:', error);
-          resolve({} as IExpense);
+          resolve({} as Expense);
         }
       });
     });

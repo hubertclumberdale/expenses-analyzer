@@ -1,5 +1,5 @@
 import { useExpensesContext } from "@/contexts/expenses-context";
-import { IExpense } from "@/types/Expenses";
+import { Expense } from "@/types/types";
 import { useEffect, useState } from "react";
 import { Tooltip } from "react-bootstrap";
 import { Line, LineChart, XAxis, YAxis } from "recharts";
@@ -7,7 +7,7 @@ import { Line, LineChart, XAxis, YAxis } from "recharts";
 const LineChartConsumption = () => {
   const { expenses } = useExpensesContext();
 
-  const [localExpenses, setLocalExpenses] = useState<IExpense[]>([]);
+  const [localExpenses, setLocalExpenses] = useState<Expense[]>([]);
 
   useEffect(() => {
     setLocalExpenses(expenses);

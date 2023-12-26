@@ -1,8 +1,7 @@
 import { Expense } from "@/models/Expense";
 import connectDB from "./connect-db";
 import { stringToObjectId } from "./utils";
-import { IExpense } from "@/types/Expenses";
-
+import { Expense as IExpense } from '@/types/types'
 interface ExpensesFilter {
   page?: number;
   limit?: number;

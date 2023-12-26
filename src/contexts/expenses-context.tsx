@@ -1,4 +1,4 @@
-import { Expense, IExpense } from "@/types/Expenses";
+import { Expense } from "@/types/types";
 import React, {
   createContext,
   useContext,
@@ -8,8 +8,8 @@ import React, {
 } from "react";
 
 interface ExpensesContextProps {
-  expenses: IExpense[];
-  setExpenses: React.Dispatch<React.SetStateAction<IExpense[]>>;
+  expenses: Expense[];
+  setExpenses: React.Dispatch<React.SetStateAction<Expense[]>>;
   results: number;
   setResults: React.Dispatch<React.SetStateAction<number>>;
   loading: boolean;
@@ -26,7 +26,7 @@ const ExpensesContext = createContext<ExpensesContextProps | undefined>(
 export const ExpensesProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [expenses, setExpenses] = useState<IExpense[]>([]);
+  const [expenses, setExpenses] = useState<Expense[]>([]);
   const [results, setResults] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
   const [refresh, setRefresh] = useState<number>(0);
@@ -42,7 +42,7 @@ export const ExpensesProvider: React.FC<{ children: ReactNode }> = ({
     const result = await response.json();
     const { status, expenses, results } = result as {
       status: string;
-      expenses: IExpense[];
+      expenses: Expense[];
       results: number;
     };
     if (status !== "success") {
@@ -50,8 +50,7 @@ export const ExpensesProvider: React.FC<{ children: ReactNode }> = ({
       return;
     }
     if (expenses) {
-      const instances = expenses.map((expense) => new Expense(expense));
-      setExpenses(instances);
+      setExpenses(expenses);
     }
     if (results) {
       setResults(results);

@@ -2,13 +2,13 @@
 import { updateExpenseAction } from "@/app/_action";
 import ExpensesTable from "@/components/expenses-table";
 import { useExpensesContext } from "@/contexts/expenses-context";
-import { IExpense } from "@/types/Expenses";
+import { Expense } from "@/types/types";
 import { startTransition } from "react";
 
 const Page = () => {
   const { expenses, results, incrementRefresh } = useExpensesContext();
 
-  const updateExpense = async (expense: IExpense) => {
+  const updateExpense = async (expense: Expense) => {
     await updateExpenseAction({
       expense: {
         ...expense,

@@ -1,5 +1,5 @@
 import { useExpensesContext } from "@/contexts/expenses-context";
-import { IExpense } from "@/types/Expenses";
+import { Expense } from "@/types/types";
 import { data } from "autoprefixer";
 import { useState, useEffect } from "react";
 import { Tooltip } from "react-bootstrap";
@@ -8,7 +8,7 @@ import { Treemap } from "recharts";
 const TreemapExpenseDistribution = () => {
   const { expenses } = useExpensesContext();
 
-  const [localExpenses, setLocalExpenses] = useState<IExpense[]>([]);
+  const [localExpenses, setLocalExpenses] = useState<Expense[]>([]);
 
   useEffect(() => {
     setLocalExpenses(expenses);

@@ -1,10 +1,10 @@
 import { deleteExpenseAction, updateExpenseAction } from "@/app/_action";
 import CheckBox from "./checkbox";
 import { Button, Form } from "react-bootstrap";
-import { IExpense } from "@/types/Expenses";
+import { Expense } from "@/types/types";
 
 interface ExpenseItemProps {
-  expense: IExpense;
+  expense: Expense;
 }
 
 const ExpenseItem: React.FC<ExpenseItemProps> = ({ expense }) => {
@@ -25,7 +25,7 @@ const ExpenseItem: React.FC<ExpenseItemProps> = ({ expense }) => {
           });
         }}
       >
-        {expense.reference}
+        {expense.transactionId}
       </Button>
       <div className="flex items-center">
         <CheckBox expense={expense} />

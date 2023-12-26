@@ -17,18 +17,12 @@ const Dashboard = () => {
   useEffect(() => {
     // Calculate values based on the expenses array
     const monthlyEarnings = expenses.reduce(
-      (acc, expense) => acc + expense.monthlyCost,
+      (acc, expense) => acc + expense.amount,
       0
     );
-    const annualEarnings = expenses.reduce(
-      (acc, expense) => acc + expense.totalCost,
-      0
-    );
+    const annualEarnings = 0;
     const totalExpenses = expenses.length;
-    const monthlyExpenses = expenses.reduce(
-      (acc, expense) => acc + expense.monthlyCost,
-      0
-    );
+    const monthlyExpenses = 0;
 
     // Update the state with the calculated values
     setExpensesData({

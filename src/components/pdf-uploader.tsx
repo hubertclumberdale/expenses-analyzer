@@ -1,12 +1,12 @@
 import { uploadExpenseAction } from "@/app/_action";
-import { IExpense } from "@/types/Expenses";
+import { Expense } from "@/types/types";
 import React, { startTransition, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 
 const PdfUploader = ({
   onSuccess,
 }: {
-  onSuccess: (expenses: IExpense[]) => void;
+  onSuccess: (expenses: Expense[]) => void;
 }) => {
   const uploadAndGetExpense = async (files: File[]) => {
     let formData = new FormData();

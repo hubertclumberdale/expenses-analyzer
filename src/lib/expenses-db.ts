@@ -1,4 +1,4 @@
-import { Expense } from "@/models/Expense";
+import { ExpenseModel } from "@/models/models";
 import connectDB from "./connect-db";
 import { stringToObjectId } from "./utils";
 import { Expense as IExpense } from '@/types/types'
@@ -15,7 +15,7 @@ export async function getExpenses(filter: ExpensesFilter = {}) {
     const limit = filter.limit ?? 10;
     const skip = (page - 1) * limit;
 
-    const expenses = await Expense.find().skip(skip).limit(limit).lean().exec();
+    const expenses = await ExpenseModel.find().skip(skip).limit(limit).lean().exec();
 
     const results = expenses.length;
 
@@ -34,7 +34,7 @@ export async function createExpense(expense: IExpense) {
   try {
     await connectDB();
 
-    const created = await Expense.create(expense);
+    const created = await ExpenseModel.create(expense);
 
     return {
       expense: created,
@@ -54,7 +54,7 @@ export async function getExpense(id: string) {
       return { error: "Expense not found" };
     }
 
-    const expense = await Expense.findById(parsedId).lean().exec();
+    const expense = await ExpenseModel.findById(parsedId).lean().exec();
     if (expense) {
       return {
         expense,
@@ -79,7 +79,7 @@ export async function updateExpense(
       return { error: "Expense not found" };
     }
 
-    const found = await Expense.findByIdAndUpdate(
+    const found = await ExpenseModel.findByIdAndUpdate(
       parsedId,
       expense,
       { new: true }
@@ -109,7 +109,7 @@ export async function deleteExpense(id: string) {
       return { error: "Expense not found" };
     }
 
-    const expense = await Expense.findByIdAndDelete(parsedId).exec();
+    const expense = await ExpenseModel.findByIdAndDelete(parsedId).exec();
 
     if (expense) {
       return {};

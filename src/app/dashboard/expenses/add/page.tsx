@@ -4,10 +4,10 @@ import ExpenseFormServerComponent from "@/components/expense-form-server";
 import PdfUploader from "@/components/pdf-uploader";
 import { startTransition } from "react";
 import { createExpenseAction } from "@/app/_action";
-import { IExpense } from "@/types/Expenses";
+import { Expense } from "@/types/types";
 
 const Page = () => {
-  const createExpenses = async (expenses: IExpense[]) => {
+  const createExpenses = async (expenses: Expense[]) => {
     expenses.forEach(async (expense) => {
       const newExpense = {
         ...expense,

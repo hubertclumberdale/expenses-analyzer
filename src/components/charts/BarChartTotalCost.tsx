@@ -1,12 +1,12 @@
 import { useExpensesContext } from "@/contexts/expenses-context";
-import { IExpense } from "@/types/Expenses";
+import { Expense } from "@/types/types";
 import React, { useEffect, useState } from "react";
 import { BarChart, Tooltip, XAxis, YAxis, Bar } from "recharts";
 
 const BarChartTotalCost = () => {
   const { expenses } = useExpensesContext();
 
-  const [localExpenses, setLocalExpenses] = useState<IExpense[]>([]);
+  const [localExpenses, setLocalExpenses] = useState<Expense[]>([]);
 
   useEffect(() => {
     setLocalExpenses(expenses);

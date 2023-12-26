@@ -2,16 +2,16 @@
 import React, { useState } from "react";
 import { createExpenseAction } from "@/app/_action";
 import { Button, Form } from "react-bootstrap";
-import { IExpense } from "@/types/Expenses";
+import { Bill } from "@/types/types";
 
 export default function ExpenseForm() {
-  const [formData, setFormData] = useState<Omit<IExpense, "_id" | "id">>({
-    reference: 0,
-    issuedDate: new Date(),
+  const [formData, setFormData] = useState<Omit<Bill, "_id" | "id">>({
+    transactionId: 0,
+    date: new Date(),
     fromDate: new Date(),
     toDate: new Date(),
     dueDate: new Date(),
-    cost: 0,
+    amount: 0,
     consumption: 0,
     activationCost: 0,
     totalCost: 0,
@@ -19,26 +19,20 @@ export default function ExpenseForm() {
     monthlyInstallments: 1,
     monthlyCost: 0,
     notes: "",
+    provider: "gas",
+    type: "expense",
   });
 
   async function action(event: any) {
     event.preventDefault();
 
-    const {
-      reference,
-      fromDate,
-      toDate,
-      cost,
-      consumption,
-      totalCost,
-      monthlyCost,
-    } = formData;
+    const { transactionId, fromDate, toDate, amount, consumption } = formData;
     if (
-      !reference ||
+      !transactionId ||
       typeof name !== "string" ||
       !fromDate ||
       !toDate ||
-      !cost ||
+      !amount ||
       !consumption
     ) {
       return;
@@ -62,7 +56,7 @@ export default function ExpenseForm() {
         <Form.Control
           type="number"
           name="reference"
-          value={formData.reference}
+          value={formData.transactionId}
           onChange={handleChange}
           className="border rounded px-2 py-1 flex-1"
           placeholder="Reference"
@@ -101,7 +95,7 @@ export default function ExpenseForm() {
         <Form.Control
           type="number"
           name="cost"
-          value={formData.cost}
+          value={formData.amount}
           onChange={handleChange}
           className="border rounded px-2 py-1"
           placeholder="Cost"

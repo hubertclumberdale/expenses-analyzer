@@ -3,7 +3,7 @@ import { Accordion } from "react-bootstrap";
 import ExpenseFormServerComponent from "@/components/expense-form-server";
 import PdfUploader from "@/components/pdf-uploader";
 import { startTransition } from "react";
-import { createExpenseAction } from "@/app/_action";
+import { createExpenseAction } from "@/actions/expenses";
 import { Expense } from "@/types/types";
 
 const Page = () => {

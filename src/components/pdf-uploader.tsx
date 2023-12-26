@@ -1,4 +1,4 @@
-import { uploadExpenseAction } from "@/app/_action";
+import { uploadExpenseAction } from "@/actions/expenses";
 import { Expense } from "@/types/types";
 import React, { startTransition, useCallback } from "react";
 import { useDropzone } from "react-dropzone";

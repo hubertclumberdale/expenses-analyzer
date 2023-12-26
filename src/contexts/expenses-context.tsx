@@ -1,3 +1,4 @@
+import { getExpensesAction } from "@/actions/expenses";
 import { Expense } from "@/types/types";
 import React, {
   createContext,
@@ -37,15 +38,8 @@ export const ExpensesProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const fetchExpenses = async () => {
-    const url = process.env.NEXT_PUBLIC_HOST;
-    const response = await fetch(`${url}/api/expenses`);
-    const result = await response.json();
-    const { status, expenses, results } = result as {
-      status: string;
-      expenses: Expense[];
-      results: number;
-    };
-    if (status !== "success") {
+    const { expenses, results } = await getExpensesAction();
+    if (expenses?.length === 0) {
       setResults(0);
       return;
     }

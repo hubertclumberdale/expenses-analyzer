@@ -1,6 +1,6 @@
 "use client";
 
-import { updateExpenseAction } from "@/app/_action";
+import { updateExpenseAction } from "@/actions/expenses";
 import { Expense } from "@/types/types";
 import { useTransition } from "react";
 

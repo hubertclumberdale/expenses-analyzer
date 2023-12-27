@@ -1,6 +1,7 @@
 import * as typegoose from '@typegoose/typegoose';
 import mongoose from 'mongoose';
 
+
 @typegoose.modelOptions({ options: { allowMixed: typegoose.Severity.ALLOW } })
 export class Transaction {
     @typegoose.prop({ type: () => mongoose.Types.ObjectId })
@@ -88,7 +89,6 @@ export class Participant {
     @typegoose.prop({ ref: () => Income })
     incomes!: typegoose.Ref<Income>[];
 }
-
 @typegoose.modelOptions({ options: { allowMixed: typegoose.Severity.ALLOW } })
 export class Household {
 
@@ -98,7 +98,7 @@ export class Household {
     @typegoose.prop({ ref: () => Participant })
     participants!: typegoose.Ref<Participant>[];
 
-    @typegoose.prop({ items: [Expense] })
+    @typegoose.prop({ ref: () => Expense })
     expenses!: (typegoose.Ref<Expense | Bill>)[];
 }
 

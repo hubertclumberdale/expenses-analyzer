@@ -13,7 +13,7 @@ export interface Participant {
 }
 
 export interface Transaction {
-    id?: string // id used by mongoose
+    _id?: mongoose.Schema.Types.ObjectId | string // id used by mongoose
     transactionId: number, // generally the number that identifies the transaction such as rif.bolletta
     date: Date
     amount: number;

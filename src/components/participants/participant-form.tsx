@@ -80,7 +80,7 @@ const ParticipantForm: React.FC<ParticipantFormProps> = ({ onSubmit }) => {
                   <Form.Label>Date:</Form.Label>
                   <Form.Control
                     type="date"
-                    value={income.date.toISOString().split("T")[0]}
+                    value={income.date?.toISOString?.()?.split("T")[0]}
                     onChange={(e) =>
                       handleIncomeChange(index, "date", e.target.value)
                     }

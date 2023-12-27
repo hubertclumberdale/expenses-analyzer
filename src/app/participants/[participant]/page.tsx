@@ -6,14 +6,14 @@ import { Participant } from "@/types/types";
 import { useEffect, useState } from "react";
 
 const Page = ({ params }: { params: { participant: string } }) => {
-  const { participants, createParticipant } = useParticipantsContext();
+  const { participants, editParticipant } = useParticipantsContext();
 
   const [currentParticipant, setCurrentParticipant] = useState<Participant>({
     name: "",
     incomes: [],
   });
 
-  useEffect(() => {
+  const findAndSetCurrentParticipant = () => {
     const participant = participants.find(
       (participant) => participant._id === params.participant
     );
@@ -21,14 +21,24 @@ const Page = ({ params }: { params: { participant: string } }) => {
     if (participant) {
       setCurrentParticipant(participant);
     }
+  };
+
+  useEffect(() => {
+    findAndSetCurrentParticipant();
   }, []);
+
+  useEffect(() => {
+    findAndSetCurrentParticipant();
+  }, [participants]);
+
   return (
     <>
       <h1>Editing participant: {currentParticipant.name}</h1>
+      <h4>participant id: {currentParticipant._id?.toString()}</h4>
 
       <EditParticipant
         participant={currentParticipant}
-        onSave={createParticipant}
+        onSave={editParticipant}
       ></EditParticipant>
     </>
   );

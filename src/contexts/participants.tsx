@@ -1,5 +1,6 @@
 import {
   createParticipantAction,
+  editParticipantAction,
   getAllParticipantsAction,
   removeAllParticipantsAction,
 } from "@/actions/participants";
@@ -22,7 +23,8 @@ interface ParticipantsContextProps {
   refresh: number;
   setRefresh: React.Dispatch<React.SetStateAction<number>>;
   refreshParticipants: () => void;
-  createParticipant: (household: Participant) => void;
+  createParticipant: (participant: Participant) => void;
+  editParticipant: (participant: Participant) => void;
   getAllParticipants: () => void;
   removeAllParticipants: () => void;
 }
@@ -49,7 +51,10 @@ export const ParticipantsProvider: React.FC<{ children: ReactNode }> = ({
     await getAllParticipants();
   };
 
-  const editParticipant = async (participant: Participant) => {};
+  const editParticipant = async (participant: Participant) => {
+    await editParticipantAction(JSON.parse(JSON.stringify(participant)));
+    await getAllParticipants();
+  };
 
   const getAllParticipants = async () => {
     try {
@@ -103,6 +108,7 @@ export const ParticipantsProvider: React.FC<{ children: ReactNode }> = ({
         setRefresh,
         refreshParticipants,
         createParticipant,
+        editParticipant,
         getAllParticipants,
         removeAllParticipants,
       }}

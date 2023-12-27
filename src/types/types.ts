@@ -1,5 +1,11 @@
 import mongoose from "mongoose";
 
+
+export enum TransactionType {
+    EXPENSE = 'expense',
+    INCOME = 'income'
+}
+
 export interface Participant {
     name: string;
     incomes: Income[]
@@ -28,7 +34,7 @@ export interface Analysis {
 
 
 export type Income = Transaction & {
-    type: 'income';
+    type: TransactionType.INCOME;
 };
 
 export interface Paycheck extends Income {
@@ -42,7 +48,7 @@ export interface Paycheck extends Income {
 }
 
 export type Expense = Transaction & {
-    type: 'expense';
+    type: TransactionType.EXPENSE;
 };
 
 export interface Bill extends Expense {

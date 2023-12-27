@@ -1,6 +1,6 @@
 import { ExpenseModel } from "@/models/models";
-import connectDB from "./connect-db";
-import { stringToObjectId } from "./utils";
+import connectDB from "../lib/connect-db";
+import { stringToObjectId } from "../lib/utils";
 import { Expense as IExpense } from '@/types/types'
 interface ExpensesFilter {
   page?: number;

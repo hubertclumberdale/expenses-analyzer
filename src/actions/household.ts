@@ -12,5 +12,6 @@ export async function createHouseholdAction(household: Household) {
 
 export async function getAllHouseholdsAction() {
     const households = await getAllHouseholds()
-    return households
+    console.log(households)
+    return JSON.parse(JSON.stringify(households))
 }

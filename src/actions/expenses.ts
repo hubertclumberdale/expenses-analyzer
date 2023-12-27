@@ -1,7 +1,7 @@
 "use server";
 
 import chatGPTClient from "@/lib/chatgpt-client";
-import { createExpense, deleteExpense, getExpenses, updateExpense } from "@/lib/expenses-db";
+import { createExpense, deleteExpense, getExpenses, updateExpense } from "@/mutations/expenses";
 import { extractContentFromFile } from "@/lib/utils";
 import { Expense } from "@/types/types";
 import { revalidatePath } from "next/cache";
@@ -9,7 +9,7 @@ const pdf = require('pdf-parse');
 
 export async function getExpensesAction() {
   const expenses = await getExpenses()
-  return expenses
+  return JSON.parse(JSON.stringify(expenses))
 }
 
 export async function createExpenseAction({

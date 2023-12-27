@@ -7,6 +7,7 @@ import {
   getAllHouseholdsAction,
 } from "@/actions/household";
 import { Household } from "@/types/types";
+import RecapHousehold from "@/components/layout/recap-household";
 
 const Dashboard = () => {
   const { expenses } = useExpensesContext();
@@ -39,7 +40,7 @@ const Dashboard = () => {
     });
   }, [expenses]);
 
-  const createHousehold = () => {
+  const createHousehold = async () => {
     const household: Household = {
       name: "fugoini",
       expenses: [
@@ -71,7 +72,8 @@ const Dashboard = () => {
       ],
     };
 
-    createHouseholdAction(household);
+    await createHouseholdAction(JSON.parse(JSON.stringify(household)));
+    await getAllHouseholds();
   };
 
   const getAllHouseholds = async () => {
@@ -80,7 +82,7 @@ const Dashboard = () => {
       setErrorHouseholds(null);
 
       const allHouseholds = await getAllHouseholdsAction();
-      console.log(allHouseholds);
+      setHouseholds(allHouseholds as Household[]);
     } catch (error) {
       console.error("Error fetching households:", error);
       setErrorHouseholds("Error fetching households. Please try again.");
@@ -96,12 +98,22 @@ const Dashboard = () => {
             <Button onClick={createHousehold}>Create new Household</Button>
           </Col>
           <Col>
-            <Button onClick={getAllHouseholds}>Get all Household</Button>
+            <Button onClick={getAllHouseholds}>Get all Households</Button>
           </Col>
           <Col></Col>
         </Row>
-        {loadingHouseholds && <p>Loading households...</p>}
-        {errorHouseholds && <p>Error: {errorHouseholds}</p>}
+        <Row>
+          <Col>
+            {loadingHouseholds && <p>Loading households...</p>}
+            {errorHouseholds && <p>Error: {errorHouseholds}</p>}
+            {households.map((household, index) => (
+              <RecapHousehold
+                key={index}
+                household={household}
+              ></RecapHousehold>
+            ))}
+          </Col>
+        </Row>
         <Row>
           <RecapMeter
             title="EARNINGS (MONTHLY)"

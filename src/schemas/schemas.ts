@@ -17,7 +17,7 @@ export class Transaction {
     amount!: number;
 
     @typegoose.prop({ ref: () => Participant })
-    participantId?: typegoose.Ref<Participant>;
+    owner?: typegoose.Ref<Participant>;
 
     @typegoose.prop()
     paid!: boolean;

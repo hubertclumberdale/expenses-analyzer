@@ -1,4 +1,4 @@
-import { useExpensesContext } from "@/contexts/expenses-context";
+import { useExpensesContext } from "@/contexts/expenses";
 import { Expense } from "@/types/types";
 import React, { useEffect, useState } from "react";
 import { BarChart, Tooltip, XAxis, YAxis, Bar } from "recharts";

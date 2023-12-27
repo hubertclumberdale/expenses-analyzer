@@ -6,7 +6,8 @@ import Sidebar from "@/components/layout/sidebar";
 import Footer from "@/components/layout/footer";
 import ScrollToTop from "@/components/layout/scroll-to-top";
 import Header from "@/components/layout/header";
-import { ExpensesProvider } from "@/contexts/expenses-context";
+import { HouseholdsProvider } from "@/contexts/households";
+import { ExpensesProvider } from "@/contexts/expenses";
 
 export default function RootLayout({
   children,
@@ -16,21 +17,21 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body id="page-top">
-        <ExpensesProvider>
-          <div id="wrapper">
-            <Sidebar></Sidebar>
+        <div id="wrapper">
+          <Sidebar></Sidebar>
 
-            <div id="content-wrapper" className="d-flex flex-column">
-              <div id="content">
-                <Header></Header>
+          <div id="content-wrapper" className="d-flex flex-column">
+            <div id="content">
+              <Header></Header>
+              <ExpensesProvider>
                 <Container fluid>{children}</Container>
-              </div>
-              <Footer></Footer>
+              </ExpensesProvider>
             </div>
+            <Footer></Footer>
           </div>
+        </div>
 
-          <ScrollToTop></ScrollToTop>
-        </ExpensesProvider>
+        <ScrollToTop></ScrollToTop>
       </body>
     </html>
   );

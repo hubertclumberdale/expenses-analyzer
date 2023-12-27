@@ -17,7 +17,7 @@ interface ExpensesContextProps {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   refresh: number;
   setRefresh: React.Dispatch<React.SetStateAction<number>>;
-  incrementRefresh: () => void;
+  refreshExpenses: () => void;
 }
 
 const ExpensesContext = createContext<ExpensesContextProps | undefined>(
@@ -32,7 +32,7 @@ export const ExpensesProvider: React.FC<{ children: ReactNode }> = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [refresh, setRefresh] = useState<number>(0);
 
-  const incrementRefresh = () => {
+  const refreshExpenses = () => {
     const newRefresh = refresh + 1;
     setRefresh(newRefresh);
   };
@@ -66,7 +66,7 @@ export const ExpensesProvider: React.FC<{ children: ReactNode }> = ({
         setLoading,
         refresh,
         setRefresh,
-        incrementRefresh,
+        refreshExpenses,
       }}
     >
       {children}

@@ -1,6 +1,6 @@
 "use server"
 
-import { createHousehold, getAllHouseholds } from "@/mutations/household";
+import { createHousehold, getAllHouseholds, removeAllHouseholds } from "@/mutations/household";
 import { Household } from "@/types/types";
 import { revalidatePath } from "next/cache";
 
@@ -13,4 +13,8 @@ export async function createHouseholdAction(household: Household) {
 export async function getAllHouseholdsAction() {
     const households = await getAllHouseholds()
     return JSON.parse(JSON.stringify(households))
+}
+
+export async function removeAllHouseholdsAction() {
+    await removeAllHouseholds()
 }

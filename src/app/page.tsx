@@ -1,35 +1,44 @@
 "use client";
-import { createAnalysisAction } from "@/actions/analysis";
-import { Analysis } from "@/types/types";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import Link from "next/link";
+import { Button, Card, Col, Container, Row } from "react-bootstrap";
 
 const Page = () => {
-  const createAnalysis = () => {
-    const analysis: Analysis = {
-      households: [],
-      name: "Umbertos Analysis",
-      owner: {
-        name: "Umberto",
-        incomes: [
-          {
-            amount: 1234,
-            date: new Date(),
-            paid: true,
-            type: "income",
-            transactionId: 123456,
-          },
-        ],
-      },
-    };
-    createAnalysisAction({ analysis: JSON.parse(JSON.stringify(analysis)) });
-  };
+  const sections = [
+    {
+      title: "Participants",
+      link: "/participants",
+    },
+    {
+      title: "Households",
+      link: "/households",
+    },
+    {
+      title: "Expenses",
+      link: "/expenses",
+    },
+  ];
+
   return (
     <>
       <Container>
+        <h1>Expenses Analyzer</h1>
         <Row>
-          <Col>
-            <Button onClick={createAnalysis}>Create new analysis</Button>
-          </Col>
+          {sections.map((section, index) => {
+            return (
+              <Col className="my-4" key={index} xs={6}>
+                <Card>
+                  <Card.Body>
+                    <Card.Title>{section.title}</Card.Title>
+                  </Card.Body>
+                  <Card.Footer>
+                    <Link href={section.link}>
+                      <Button>Explore {section.title}</Button>
+                    </Link>
+                  </Card.Footer>
+                </Card>
+              </Col>
+            );
+          })}
         </Row>
       </Container>
     </>

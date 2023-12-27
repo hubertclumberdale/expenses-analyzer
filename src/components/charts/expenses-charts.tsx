@@ -8,7 +8,7 @@ import RadialBarChartTotalCostType from "@/components/charts/RadialBarChartTotal
 import ScatterPlotDueDateTotalCost from "@/components/charts/ScatterPlotDueDateTotalCost";
 import StackedBarChartCostActivation from "@/components/charts/StackedBarChartCostActivation";
 import TreemapExpenseDistribution from "@/components/charts/TreemapExpenseDistribution";
-import { useExpensesContext } from "@/contexts/expenses-context";
+import { useExpensesContext } from "@/contexts/expenses";
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 

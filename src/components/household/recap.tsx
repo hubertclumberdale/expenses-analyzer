@@ -1,4 +1,5 @@
 import { Household } from "@/types/types";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Button, Card, ListGroup } from "react-bootstrap";
 
@@ -24,9 +25,10 @@ const RecapHousehold = ({ household }: { household: Household }) => {
       numberOfParticipants,
     });
   }, [household]);
+
   return (
     <>
-      <Card style={{ width: "18rem" }}>
+      <Card>
         <Card.Body>
           <Card.Title>{household.name}</Card.Title>
         </Card.Body>
@@ -39,7 +41,9 @@ const RecapHousehold = ({ household }: { household: Household }) => {
           </ListGroup.Item>
         </ListGroup>
         <Card.Body>
-          <Button variant="primary">View Household</Button>
+          <Link href={`/${household._id}/`}>
+            <Button variant="primary">View Household</Button>
+          </Link>
         </Card.Body>
       </Card>
     </>

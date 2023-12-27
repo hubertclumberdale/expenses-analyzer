@@ -1,8 +1,7 @@
 import connectDB from "@/lib/connect-db";
 import { generateParticipant } from "@/lib/participant";
 import { IncomeModel, ParticipantModel, } from "@/models/models";
-import { Participant as IParticipant, Income } from "@/types/types";
-import { Ref } from "@typegoose/typegoose";
+import { Participant as IParticipant } from "@/types/types";
 import { Types } from "mongoose";
 
 export async function createParticipant(participant: IParticipant) {

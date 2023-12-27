@@ -1,4 +1,4 @@
-import { useExpensesContext } from "@/contexts/expenses-context";
+import { useExpensesContext } from "@/contexts/expenses";
 import { Expense } from "@/types/types";
 import { data } from "autoprefixer";
 import { useEffect, useState } from "react";

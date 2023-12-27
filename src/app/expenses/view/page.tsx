@@ -1,12 +1,12 @@
 "use client";
 import { updateExpenseAction } from "@/actions/expenses";
 import ExpensesTable from "@/components/expenses-table";
-import { useExpensesContext } from "@/contexts/expenses-context";
+import { useExpensesContext } from "@/contexts/expenses";
 import { Expense } from "@/types/types";
 import { startTransition } from "react";
 
 const Page = () => {
-  const { expenses, results, incrementRefresh } = useExpensesContext();
+  const { expenses, results, refreshExpenses } = useExpensesContext();
 
   const updateExpense = async (expense: Expense) => {
     await updateExpenseAction({
@@ -15,7 +15,7 @@ const Page = () => {
       },
       path: "/with-server-actions",
     });
-    incrementRefresh();
+    refreshExpenses();
   };
   return (
     <>

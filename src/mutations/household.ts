@@ -24,3 +24,12 @@ export async function getAllHouseholds() {
         return []
     }
 }
+
+export async function removeAllHouseholds() {
+    try {
+        await connectDB();
+        await HouseholdModel.deleteMany()
+    } catch (error) {
+        console.error(error)
+    }
+}

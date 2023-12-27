@@ -22,7 +22,29 @@ const Sidebar = () => {
         <li className="nav-item active">
           <Link href="/" className="nav-link">
             <i className="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span>
+            <span>Home</span>
+          </Link>
+        </li>
+
+        <hr className="sidebar-divider" />
+
+        <div className="sidebar-heading">Participants</div>
+
+        <li className="nav-item">
+          <Link href="/participants" className="nav-link">
+            <i className="fas fa-fw fa-chart-area"></i>
+            <span>Manage Participants</span>
+          </Link>
+        </li>
+
+        <hr className="sidebar-divider" />
+
+        <div className="sidebar-heading">Households</div>
+
+        <li className="nav-item">
+          <Link href="/households" className="nav-link">
+            <i className="fas fa-fw fa-chart-area"></i>
+            <span>Manage Households</span>
           </Link>
         </li>
 
@@ -31,34 +53,9 @@ const Sidebar = () => {
         <div className="sidebar-heading">Expenses</div>
 
         <li className="nav-item">
-          <Link href="/dashboard/expenses/add" className="nav-link">
+          <Link href="/expenses" className="nav-link">
             <i className="fas fa-fw fa-chart-area"></i>
-            <span>Add new Expenses</span>
-          </Link>
-        </li>
-
-        <li className="nav-item">
-          <Link href="/dashboard/expenses/view" className="nav-link">
-            <i className="fas fa-fw fa-chart-area"></i>
-            <span>View all Expenses</span>
-          </Link>
-        </li>
-
-        <hr className="sidebar-divider" />
-
-        <div className="sidebar-heading">Visualize Charts</div>
-
-        <li className="nav-item">
-          <Link href="/dashboard/charts" className="nav-link">
-            <i className="fas fa-fw fa-chart-area"></i>
-            <span>Based on data</span>
-          </Link>
-        </li>
-
-        <li className="nav-item">
-          <Link href="/dashboard/charts" className="nav-link">
-            <i className="fas fa-fw fa-chart-area"></i>
-            <span>Forecast</span>
+            <span>Manage Expenses</span>
           </Link>
         </li>
 

@@ -18,7 +18,7 @@ export interface Transaction {
     date: Date
     amount: number;
     paid: boolean
-    owner: mongoose.Schema.Types.ObjectId | string; // Updated type
+    owner?: mongoose.Schema.Types.ObjectId | string; // Updated type
 }
 
 export interface Household {

@@ -1,6 +1,6 @@
 "use client";
 
-import EditParticipant from "@/components/participants/edit-participant";
+import ParticipantForm from "@/components/participants/participant-form";
 import { useParticipantsContext } from "@/contexts/participants";
 import { Participant } from "@/types/types";
 import { useEffect, useState } from "react";
@@ -36,10 +36,10 @@ const Page = ({ params }: { params: { participant: string } }) => {
       <h1>Editing participant: {currentParticipant.name}</h1>
       <h4>participant id: {currentParticipant._id?.toString()}</h4>
 
-      <EditParticipant
+      <ParticipantForm
         participant={currentParticipant}
         onSave={editParticipant}
-      ></EditParticipant>
+      ></ParticipantForm>
     </>
   );
 };

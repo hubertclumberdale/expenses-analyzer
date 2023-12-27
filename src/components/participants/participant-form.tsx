@@ -1,54 +1,137 @@
+import React, { useEffect, useState } from "react";
+import { Button, Form, ListGroup, Row, Col } from "react-bootstrap";
 import { Participant, TransactionType } from "@/types/types";
-import { Types } from "mongoose";
-import React, { useState } from "react";
-import { Button, Col, Form, ListGroup, Row } from "react-bootstrap";
 
 interface ParticipantFormProps {
-  onSubmit: (participant: Participant) => void;
+  participant: Participant;
+  onSave: (editedParticipant: Participant) => void;
 }
 
-const ParticipantForm: React.FC<ParticipantFormProps> = ({ onSubmit }) => {
-  const [participantData, setParticipantData] = useState<Participant>({
-    name: "",
-    incomes: [],
-  });
+const ParticipantForm: React.FC<ParticipantFormProps> = ({
+  participant,
+  onSave,
+}) => {
+  const [editedParticipant, setEditedParticipant] =
+    useState<Participant>(participant);
+
+  useEffect(() => {
+    setEditedParticipant(participant);
+  }, [participant]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setParticipantData((prevData) => ({
+    setEditedParticipant((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSubmit(participantData);
+  const handleIncomeChange = (index: number, field: string, value: string) => {
+    const newIncomes = [...editedParticipant.incomes];
+    newIncomes[index] = { ...newIncomes[index], [field]: value };
+    setEditedParticipant((prevData) => ({
+      ...prevData,
+      incomes: newIncomes,
+    }));
+  };
+
+  const handleAddIncome = () => {
+    setEditedParticipant((prevData) => ({
+      ...prevData,
+      incomes: [
+        ...prevData.incomes,
+        {
+          transactionId: 0,
+          date: new Date(),
+          amount: 0,
+          paid: true,
+          owner: participant._id ?? "",
+
+          type: TransactionType.INCOME,
+        },
+      ],
+    }));
   };
 
   const handleRemoveIncome = (index: number) => {
-    setParticipantData((prevData) => {
-      const newIncomes = [...prevData.incomes];
-      newIncomes.splice(index, 1);
-      return { ...prevData, incomes: newIncomes };
-    });
+    const newIncomes = [...editedParticipant.incomes];
+    newIncomes.splice(index, 1);
+    setEditedParticipant((prevData) => ({
+      ...prevData,
+      incomes: newIncomes,
+    }));
+  };
+
+  const handleSave = () => {
+    onSave(editedParticipant);
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form>
       <Form.Group controlId="formParticipantName">
         <Form.Label>Participant Name:</Form.Label>
         <Form.Control
           type="text"
           name="name"
-          value={participantData.name}
+          value={editedParticipant.name}
           onChange={handleInputChange}
         />
       </Form.Group>
-      <Button variant="primary" type="submit">
-        Submit
-      </Button>
+      <Form.Group controlId="formIncomes">
+        {!!editedParticipant.incomes.length && (
+          <Form.Label>Incomes:</Form.Label>
+        )}
+        <ListGroup>
+          {editedParticipant.incomes.map((income, index) => (
+            <ListGroup.Item key={index}>
+              <Row>
+                <Col>
+                  <Form.Label>Date:</Form.Label>
+                  <Form.Control
+                    type="date"
+                    value={income.date?.toISOString?.()?.split("T")[0]}
+                    onChange={(e) =>
+                      handleIncomeChange(index, "date", e.target.value)
+                    }
+                  />
+                </Col>
+                <Col>
+                  <Form.Label>Amount:</Form.Label>
+                  <Form.Control
+                    type="number"
+                    value={income.amount}
+                    onChange={(e) =>
+                      handleIncomeChange(index, "amount", e.target.value)
+                    }
+                  />
+                </Col>
+                <Col>
+                  <Button
+                    variant="danger"
+                    onClick={() => handleRemoveIncome(index)}
+                  >
+                    Remove Income
+                  </Button>
+                </Col>
+              </Row>
+            </ListGroup.Item>
+          ))}
+        </ListGroup>
+        <Row className="mt-2">
+          <Col>
+            <Button variant="secondary" onClick={handleAddIncome}>
+              Add Income
+            </Button>
+          </Col>
+          <Col>
+            <Button variant="primary" onClick={handleSave}>
+              Save Changes
+            </Button>
+          </Col>
+        </Row>
+      </Form.Group>
     </Form>
   );
 };
+
 export default ParticipantForm;

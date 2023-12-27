@@ -1,11 +1,17 @@
 import ParticipantForm from "@/components/participants/participant-form";
 import { useParticipantsContext } from "@/contexts/participants";
-import { Income } from "@/types/types";
+import { Income, Participant } from "@/types/types";
 import Link from "next/link";
+import { useState } from "react";
 import { Button, Card, Col, Container, ListGroup, Row } from "react-bootstrap";
 
 const Dashboard = () => {
   const { participants, loading, createParticipant } = useParticipantsContext();
+
+  const [participant, setParticipant] = useState<Participant>({
+    name: "",
+    incomes: [],
+  });
 
   const getTotalIncome = (incomes: Income[]) => {
     return incomes.reduce((total, income) => total + income.amount, 0);
@@ -42,7 +48,10 @@ const Dashboard = () => {
         <hr></hr>
         <h3>Add a new Participant</h3>
         <Row>
-          <ParticipantForm onSubmit={createParticipant}></ParticipantForm>
+          <ParticipantForm
+            participant={participant}
+            onSave={createParticipant}
+          ></ParticipantForm>
         </Row>
       </Container>
     </>

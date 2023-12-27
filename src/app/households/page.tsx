@@ -1,8 +1,7 @@
 "use client";
-import HouseholdForm from "@/components/household/create";
+import HouseholdForm from "@/components/household/household-form";
 import RecapHousehold from "@/components/household/recap";
-import { HouseholdsProvider, useHouseholdContext } from "@/contexts/households";
-import { useEffect } from "react";
+import { useHouseholdContext } from "@/contexts/households";
 import { Button, Col, Container, Row } from "react-bootstrap";
 
 const Page = () => {
@@ -26,11 +25,12 @@ const Page = () => {
           <Col>
             <HouseholdForm onSubmit={createHousehold}></HouseholdForm>
           </Col>
-          <Col>
-            <Button onClick={removeAllHouseholds} variant="danger">
-              Remove all Households
-            </Button>
-          </Col>
+        </Row>
+        <hr></hr>
+        <Row className="mt-5">
+          <Button onClick={removeAllHouseholds} variant="danger">
+            Remove all Households
+          </Button>
         </Row>
       </Container>
     </>

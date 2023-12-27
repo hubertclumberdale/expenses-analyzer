@@ -10,6 +10,7 @@ export async function createParticipant(participant: IParticipant) {
         const participantInstance = await generateParticipant(participant)
         await participantInstance.save();
     } catch (error) {
+        console.error(error)
         return { error };
     }
 }

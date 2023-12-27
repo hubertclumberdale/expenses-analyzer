@@ -5,7 +5,10 @@ import { Types } from "mongoose";
 
 export const generateParticipant = async (participant: Participant) => {
     const savedIncomes = await Promise.all(
-        participant.incomes.map(generateIncome)
+        participant.incomes.map(async (income) => {
+            income.owner = participant._id
+            return await generateIncome(income)
+        })
     );
     const participantWithReferences = {
         ...participant,

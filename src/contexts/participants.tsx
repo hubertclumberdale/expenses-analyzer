@@ -47,7 +47,7 @@ export const ParticipantsProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const createParticipant = async (participant: Participant) => {
-    await createParticipantAction(JSON.parse(JSON.stringify(participant)));
+    await createParticipantAction(participant);
     await getAllParticipants();
   };
 

@@ -1,4 +1,5 @@
 import ExpensesForm from "@/components/expenses/expenses-form";
+import ExpensesUploader from "@/components/expenses/expenses-uploader";
 import ParticipantForm from "@/components/participants/participant-form";
 import { useParticipantsContext } from "@/contexts/participants";
 import { Expense, Household, Participant } from "@/types/types";
@@ -222,7 +223,11 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({
               </Accordion.Item>
               <Accordion.Item eventKey="1">
                 <Accordion.Header>...or do it automatically</Accordion.Header>
-                <Accordion.Body></Accordion.Body>
+                <Accordion.Body>
+                  <ExpensesUploader
+                    onSuccess={handleExpensesSubmit}
+                  ></ExpensesUploader>
+                </Accordion.Body>
               </Accordion.Item>
             </Accordion>
           </Card.Body>

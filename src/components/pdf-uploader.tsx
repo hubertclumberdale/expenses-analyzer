@@ -1,29 +1,14 @@
-import { uploadExpenseAction } from "@/actions/expenses";
-import { Expense } from "@/types/types";
-import React, { startTransition, useCallback } from "react";
+import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 
 const PdfUploader = ({
   onSuccess,
 }: {
-  onSuccess: (expenses: Expense[]) => void;
+  onSuccess: (droppedFiles: File[]) => void;
 }) => {
-  const uploadAndGetExpense = async (files: File[]) => {
-    let formData = new FormData();
-    files.forEach((file) => {
-      formData.append(`files`, file);
-    });
-    const { expenses } = await uploadExpenseAction(formData);
-    if (expenses) {
-      onSuccess(expenses);
-    }
-  };
-
-  const onDrop = useCallback(async (droppedFiles: any) => {
+  const onDrop = useCallback(async (droppedFiles: File[]) => {
     try {
-      startTransition(() => {
-        uploadAndGetExpense(droppedFiles);
-      });
+      onSuccess(droppedFiles);
     } catch (error) {
       console.error("Error uploading files:", error);
     }

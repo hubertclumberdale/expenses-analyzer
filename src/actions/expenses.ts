@@ -49,11 +49,13 @@ export async function deleteExpenseAction({
   revalidatePath(path);
 }
 
-export async function uploadExpenseAction(data: FormData) {
+export async function extractExpenseAction(data: FormData) {
   const files: File[] | null = data.getAll('files') as unknown as File[]
   if (!files) {
     throw new Error('No files uploaded')
   }
+
+  const expenseType: string = data.get('expenseType') as string
 
   let parentMessageId: string | undefined = undefined
   try {
@@ -67,7 +69,7 @@ export async function uploadExpenseAction(data: FormData) {
 
           const extractedInterface = extractContentFromFile('src/types/types.ts')
 
-          const prompt = `I need you to extract the following information in a JSON with this schema:
+          const prompt = `You must extract a JSON of type ${expenseType} following this schema:
         
                         ${extractedInterface}
     

@@ -26,17 +26,9 @@ const Page = () => {
           </Breadcrumb.Item>
           <Breadcrumb.Item active>Households</Breadcrumb.Item>
         </Breadcrumb>
-
-        <Row className="my-3">
-          {loading && <p>Loading households...</p>}
-          {households.map((household, index) => (
-            <Col key={index} xs={6} className="mt-3">
-              <RecapHousehold household={household}></RecapHousehold>
-            </Col>
-          ))}
-        </Row>
         <Row>
           <Col>
+            <h4>Add a new Household</h4>
             <HouseholdForm
               household={household}
               onSubmit={createHousehold}
@@ -44,6 +36,17 @@ const Page = () => {
           </Col>
         </Row>
         <hr></hr>
+        <Row className="my-3">
+          <h4>Existing Households</h4>
+          {loading && <p>Loading households...</p>}
+          {households.map((household, index) => (
+            <Col key={index} xs={6} className="mt-3">
+              <RecapHousehold household={household}></RecapHousehold>
+            </Col>
+          ))}
+        </Row>
+        <hr></hr>
+
         <Row className="mt-5">
           <Button onClick={removeAllHouseholds} variant="danger">
             Remove all Households

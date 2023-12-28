@@ -137,12 +137,12 @@ const ParticipantForm: React.FC<ParticipantFormProps> = ({
             <Row className="mt-2">
               <Col>
                 <Button variant="secondary" onClick={handleAddIncome}>
-                  Add Income
+                  Add an Income
                 </Button>
               </Col>
               <Col>
                 <Button variant="primary" onClick={handleSave}>
-                  Save Changes
+                  Save Participant
                 </Button>
               </Col>
             </Row>

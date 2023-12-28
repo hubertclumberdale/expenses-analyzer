@@ -1,8 +1,17 @@
+import ExpensesForm from "@/components/expenses/expenses-form";
 import ParticipantForm from "@/components/participants/participant-form";
 import { useParticipantsContext } from "@/contexts/participants";
-import { Household, Participant } from "@/types/types";
+import { Expense, Household, Participant } from "@/types/types";
 import React, { useEffect, useState } from "react";
-import { Accordion, Button, Col, Form, ListGroup, Row } from "react-bootstrap";
+import {
+  Accordion,
+  Button,
+  Card,
+  Col,
+  Form,
+  ListGroup,
+  Row,
+} from "react-bootstrap";
 
 interface HouseholdFormProps {
   household: Household;
@@ -76,74 +85,154 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({
     }));
   };
 
+  const handleExpensesSubmit = (submittedExpenses: Expense[]) => {
+    submittedExpenses.forEach((expense) => addExpense(expense));
+  };
+
+  const addExpense = (newExpense: Expense) => {
+    setEditedHousehold((prevData) => {
+      return {
+        ...prevData,
+        expenses: [...(prevData?.expenses ?? []), newExpense],
+      };
+    });
+  };
+
+  const handleRemoveExpense = (index: number) => {
+    const newExpenses = [...editedHousehold.expenses];
+    newExpenses.splice(index, 1);
+    setEditedHousehold((prevData) => ({
+      ...prevData,
+      expenses: newExpenses,
+    }));
+  };
+
   return (
     <>
       <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="formHouseholdName">
-          <Form.Label>Household Name:</Form.Label>
-          <Form.Control
-            type="text"
-            name="name"
-            value={editedHousehold?.name}
-            onChange={handleInputChange}
-          />
-        </Form.Group>
-        <ListGroup>
-          {editedHousehold?.participants?.map((participant, index) => (
-            <ListGroup.Item key={index}>
-              <Row>
-                <Col>
-                  <Form.Label>
-                    Participant Name: {participant?.name}{" "}
-                  </Form.Label>
-                </Col>
-                <Col>
-                  <Button
-                    variant="danger"
-                    onClick={() => handleRemoveParticipant(index)}
-                  >
-                    Remove Income
-                  </Button>
-                </Col>
-              </Row>
-            </ListGroup.Item>
-          ))}
-        </ListGroup>
-
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
-      <Accordion defaultActiveKey={"0"}>
-        <Accordion.Item eventKey="0">
-          <Accordion.Header>Add a new participant manually</Accordion.Header>
-          <Accordion.Body>
-            <ParticipantForm
-              participant={editedParticipant}
-              onSave={handleParticipantSubmit}
-            ></ParticipantForm>
-          </Accordion.Body>
-        </Accordion.Item>
-        <Accordion.Item eventKey="1">
-          <Accordion.Header>...or select an existing one</Accordion.Header>
-          <Accordion.Body>
-            <Form.Select
-              onChange={handleParticipantSelect}
-              aria-label="Default select example"
-            >
-              <option>Open this select menu</option>
-              {participants.map((participant) => (
-                <option
-                  key={participant._id?.toString()}
-                  value={participant._id?.toString()}
-                >
-                  {participant.name}
-                </option>
+        <Card>
+          <Card.Header>Household</Card.Header>
+          <Card.Body>
+            <Form.Group controlId="formHouseholdName">
+              <h5>Household Name:</h5>
+              <Form.Control
+                type="text"
+                name="name"
+                value={editedHousehold?.name}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+            <hr></hr>
+            <h5>Participants:</h5>
+            <ListGroup>
+              {editedHousehold?.participants.length === 0 && (
+                <span>No selected participants</span>
+              )}
+              {editedHousehold?.participants?.map((participant, index) => (
+                <ListGroup.Item key={index}>
+                  <Row>
+                    <Col>
+                      <Form.Label>
+                        Participant Name: {participant?.name}{" "}
+                      </Form.Label>
+                    </Col>
+                    <Col>
+                      <Button
+                        variant="danger"
+                        onClick={() => handleRemoveParticipant(index)}
+                      >
+                        Remove Income
+                      </Button>
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
               ))}
-            </Form.Select>
-          </Accordion.Body>
-        </Accordion.Item>
-      </Accordion>
+            </ListGroup>
+            <hr></hr>
+            <h5>Expenses:</h5>
+            <ListGroup>
+              {editedHousehold?.expenses.length === 0 && (
+                <span>No selected expenses</span>
+              )}
+              {editedHousehold?.expenses?.map((expense, index) => (
+                <ListGroup.Item key={index}>
+                  <Row>
+                    <Col>
+                      <Form.Label>Expense: {expense?.amount} </Form.Label>
+                    </Col>
+                    <Col>
+                      <Button
+                        variant="danger"
+                        onClick={() => handleRemoveExpense(index)}
+                      >
+                        Remove Expense
+                      </Button>
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
+            <hr></hr>
+            <h5>Add participants</h5>
+            <Accordion>
+              <Accordion.Item eventKey="0">
+                <Accordion.Header>
+                  Add a new participant manually
+                </Accordion.Header>
+                <Accordion.Body>
+                  <ParticipantForm
+                    participant={editedParticipant}
+                    onSave={handleParticipantSubmit}
+                  ></ParticipantForm>
+                </Accordion.Body>
+              </Accordion.Item>
+              <Accordion.Item eventKey="1">
+                <Accordion.Header>
+                  ...or select an existing one
+                </Accordion.Header>
+                <Accordion.Body>
+                  <Form.Select
+                    onChange={handleParticipantSelect}
+                    aria-label="Default select example"
+                  >
+                    <option>Select an existing participant</option>
+                    {participants.map((participant) => (
+                      <option
+                        key={participant._id?.toString()}
+                        value={participant._id?.toString()}
+                      >
+                        {participant.name}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
+            <hr></hr>
+            <h5>Add expenses</h5>
+            <Accordion>
+              <Accordion.Item eventKey="0">
+                <Accordion.Header>Add a new expense manually</Accordion.Header>
+                <Accordion.Body>
+                  <ExpensesForm
+                    expenses={[]}
+                    onSave={handleExpensesSubmit}
+                  ></ExpensesForm>
+                </Accordion.Body>
+              </Accordion.Item>
+              <Accordion.Item eventKey="1">
+                <Accordion.Header>...or do it automatically</Accordion.Header>
+                <Accordion.Body></Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
+          </Card.Body>
+          <Card.Footer>
+            <Button variant="primary" type="submit">
+              Submit
+            </Button>
+          </Card.Footer>
+        </Card>
+      </Form>
     </>
   );
 };

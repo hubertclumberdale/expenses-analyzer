@@ -43,8 +43,8 @@ export async function deleteExpenseAction({
   expense: Expense;
   path: string;
 }) {
-  if (expense.id) {
-    await deleteExpense(expense.id);
+  if (expense._id) {
+    await deleteExpense(expense._id.toString());
   }
   revalidatePath(path);
 }

@@ -1,4 +1,4 @@
-import { generateExpense } from "@/lib/expense";
+import { addOrUpdateExpenses } from "@/lib/expense";
 import { addOrUpdateParticipants } from "@/lib/participant";
 import { HouseholdModel } from "@/models/models";
 import { Household } from "@/types/types";
@@ -8,9 +8,8 @@ export const generateHousehold = async (household: Household) => {
     console.log(household)
     let savedExpenses: any[] = []
     if (household?.expenses) {
-        savedExpenses = await Promise.all(
-            household?.expenses?.map(generateExpense)
-        );
+        savedExpenses = [...await addOrUpdateExpenses(household.expenses)]
+
     }
 
     let savedParticipants: any[] = []

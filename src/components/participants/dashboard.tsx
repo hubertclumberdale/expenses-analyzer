@@ -33,8 +33,20 @@ const Dashboard = () => {
           </Breadcrumb.Item>
           <Breadcrumb.Item active>Participants</Breadcrumb.Item>
         </Breadcrumb>
-        <Row className="my-3">{loading && <p>Loading participants...</p>}</Row>
         <Row>
+          <ParticipantForm
+            participant={participant}
+            onSave={createParticipant}
+          ></ParticipantForm>
+        </Row>
+        <hr></hr>
+        <Row>
+          <h4>Existing participants:</h4>
+          {loading && (
+            <Col className="my-3">
+              <p>Loading participants...</p>
+            </Col>
+          )}
           {participants.map((participant, index) => (
             <Col key={index} xs={6} className="mt-4">
               <Card>
@@ -57,13 +69,6 @@ const Dashboard = () => {
               </Card>
             </Col>
           ))}
-        </Row>
-        <hr></hr>
-        <Row>
-          <ParticipantForm
-            participant={participant}
-            onSave={createParticipant}
-          ></ParticipantForm>
         </Row>
       </Container>
     </>

@@ -47,7 +47,7 @@ const Page = ({ params }: { params: { household: string } }) => {
       </Breadcrumb>
       <h1>Editing Household: {currentHousehold.name}</h1>
       <h4>participant id: {currentHousehold._id?.toString()}</h4>
-
+      <hr></hr>
       <HouseholdForm
         household={currentHousehold}
         onSubmit={editHousehold}

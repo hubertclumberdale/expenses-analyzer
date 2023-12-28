@@ -3,7 +3,9 @@
 import ParticipantForm from "@/components/participants/participant-form";
 import { useParticipantsContext } from "@/contexts/participants";
 import { Participant } from "@/types/types";
+import Link from "next/link";
 import { useEffect, useState } from "react";
+import { Breadcrumb } from "react-bootstrap";
 
 const Page = ({ params }: { params: { participant: string } }) => {
   const { participants, editParticipant } = useParticipantsContext();
@@ -33,6 +35,15 @@ const Page = ({ params }: { params: { participant: string } }) => {
 
   return (
     <>
+      <Breadcrumb>
+        <Breadcrumb.Item>
+          <Link href="/">Home</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <Link href="/participants">Participants</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item active>Edit</Breadcrumb.Item>
+      </Breadcrumb>
       <h1>Editing participant: {currentParticipant.name}</h1>
       <h4>participant id: {currentParticipant._id?.toString()}</h4>
 

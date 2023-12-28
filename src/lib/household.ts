@@ -1,24 +1,30 @@
 import { generateExpense } from "@/lib/expense";
-import { generateParticipant } from "@/lib/participant";
+import { addOrUpdateParticipants } from "@/lib/participant";
 import { HouseholdModel } from "@/models/models";
 import { Household } from "@/types/types";
 import { Types } from "mongoose";
 
 export const generateHousehold = async (household: Household) => {
+    console.log(household)
+    let savedExpenses: any[] = []
+    if (household?.expenses) {
+        savedExpenses = await Promise.all(
+            household?.expenses?.map(generateExpense)
+        );
+    }
 
-    const savedExpenses = await Promise.all(
-        household.expenses.map(generateExpense)
-    );
-
-    const savedParticipants = await Promise.all(
-        household.participants.map(generateParticipant)
-    );
+    let savedParticipants: any[] = []
+    if (household?.participants) {
+        savedParticipants = [...await addOrUpdateParticipants(household.participants)]
+    }
 
     const householdWithReferences = {
         ...household,
-        participants: savedParticipants.map((participant) => participant._id),
-        expenses: savedExpenses.map((expense) => expense._id)
+        participants: savedParticipants,
+        expenses: savedExpenses
     };
+
+
 
     const householdInstance = new HouseholdModel({ _id: new Types.ObjectId(), ...householdWithReferences });
     return householdInstance

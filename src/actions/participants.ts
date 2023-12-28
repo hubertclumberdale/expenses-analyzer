@@ -5,7 +5,6 @@ import { Participant } from "@/types/types";
 import { revalidatePath } from "next/cache";
 
 export async function createParticipantAction(participant: Participant) {
-    console.log(participant)
     await createParticipant(participant)
     revalidatePath('/participants');
 }

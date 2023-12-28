@@ -41,7 +41,7 @@ const RecapHousehold = ({ household }: { household: Household }) => {
           </ListGroup.Item>
         </ListGroup>
         <Card.Body>
-          <Link href={`/${household._id}/`}>
+          <Link href={`/households/${household._id}/`}>
             <Button variant="primary">View Household</Button>
           </Link>
         </Card.Body>

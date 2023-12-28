@@ -1,6 +1,7 @@
 import { getExpensesAction } from "@/actions/expenses";
 import {
   createHouseholdAction,
+  editHouseholdAction,
   getAllHouseholdsAction,
   removeAllHouseholdsAction,
 } from "@/actions/household";
@@ -29,6 +30,7 @@ interface HouseholdsContextProps {
   setRefresh: React.Dispatch<React.SetStateAction<number>>;
   refreshHouseholds: () => void;
   createHousehold: (household: Household) => void;
+  editHousehold: (household: Household) => void;
   getAllHouseholds: () => void;
   removeAllHouseholds: () => void;
 }
@@ -65,7 +67,12 @@ export const HouseholdsProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const createHousehold = async (household: Household) => {
-    await createHouseholdAction(JSON.parse(JSON.stringify(household)));
+    await createHouseholdAction(household);
+    await getAllHouseholds();
+  };
+
+  const editHousehold = async (household: Household) => {
+    await editHouseholdAction(household);
     await getAllHouseholds();
   };
 
@@ -121,6 +128,7 @@ export const HouseholdsProvider: React.FC<{ children: ReactNode }> = ({
         setRefresh,
         refreshHouseholds,
         createHousehold,
+        editHousehold,
         getAllHouseholds,
         removeAllHouseholds,
       }}

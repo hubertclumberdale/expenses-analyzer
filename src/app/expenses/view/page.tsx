@@ -1,6 +1,6 @@
 "use client";
 import { updateExpenseAction } from "@/actions/expenses";
-import ExpensesTable from "@/components/expenses-table";
+import ExpensesTable from "@/components/expenses/expenses-table";
 import { useExpensesContext } from "@/contexts/expenses";
 import { Expense } from "@/types/types";
 import { startTransition } from "react";
@@ -31,8 +31,6 @@ const Page = () => {
                 updateExpense(expense);
               });
             }}
-            /* loading={loading > 0}
-              deleteExpenses={deleteExpenses} */
           ></ExpensesTable>
         )
       )}

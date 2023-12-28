@@ -3,7 +3,15 @@ import { useParticipantsContext } from "@/contexts/participants";
 import { Income, Participant } from "@/types/types";
 import Link from "next/link";
 import { useState } from "react";
-import { Button, Card, Col, Container, ListGroup, Row } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Button,
+  Card,
+  Col,
+  Container,
+  ListGroup,
+  Row,
+} from "react-bootstrap";
 
 const Dashboard = () => {
   const { participants, loading, createParticipant } = useParticipantsContext();
@@ -19,7 +27,12 @@ const Dashboard = () => {
   return (
     <>
       <Container>
-        <h1>Participants</h1>
+        <Breadcrumb>
+          <Breadcrumb.Item>
+            <Link href="/">Home</Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item active>Participants</Breadcrumb.Item>
+        </Breadcrumb>
         <Row className="my-3">{loading && <p>Loading participants...</p>}</Row>
         <Row>
           {participants.map((participant, index) => (
@@ -46,7 +59,6 @@ const Dashboard = () => {
           ))}
         </Row>
         <hr></hr>
-        <h3>Add a new Participant</h3>
         <Row>
           <ParticipantForm
             participant={participant}

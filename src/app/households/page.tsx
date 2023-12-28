@@ -2,16 +2,30 @@
 import HouseholdForm from "@/components/household/household-form";
 import RecapHousehold from "@/components/household/recap";
 import { useHouseholdContext } from "@/contexts/households";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Household } from "@/types/types";
+import Link from "next/link";
+import { useState } from "react";
+import { Breadcrumb, Button, Col, Container, Row } from "react-bootstrap";
 
 const Page = () => {
   const { loading, households, createHousehold, removeAllHouseholds } =
     useHouseholdContext();
 
+  const [household] = useState<Household>({
+    name: "",
+    participants: [],
+    expenses: [],
+  });
+
   return (
     <>
       <Container>
-        <h1>Households</h1>
+        <Breadcrumb>
+          <Breadcrumb.Item>
+            <Link href="/">Home</Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item active>Households</Breadcrumb.Item>
+        </Breadcrumb>
 
         <Row className="my-3">
           {loading && <p>Loading households...</p>}
@@ -23,7 +37,10 @@ const Page = () => {
         </Row>
         <Row>
           <Col>
-            <HouseholdForm onSubmit={createHousehold}></HouseholdForm>
+            <HouseholdForm
+              household={household}
+              onSubmit={createHousehold}
+            ></HouseholdForm>
           </Col>
         </Row>
         <hr></hr>

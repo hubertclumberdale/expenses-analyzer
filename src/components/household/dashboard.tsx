@@ -35,7 +35,6 @@ const HouseholdDashboard = ({ householdId }: { householdId: string }) => {
 
   useEffect(() => {
     if (households.length) {
-      console.log("households are set");
       const currentHousehold = households.find(
         (household) => household._id === householdId
       );

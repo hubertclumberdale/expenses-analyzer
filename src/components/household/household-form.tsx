@@ -1,49 +1,46 @@
 import ParticipantForm from "@/components/participants/participant-form";
 import { useParticipantsContext } from "@/contexts/participants";
 import { Household, Participant } from "@/types/types";
-import React, { useState } from "react";
-import {
-  Accordion,
-  Button,
-  Col,
-  Form,
-  InputGroup,
-  ListGroup,
-  Row,
-} from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Accordion, Button, Col, Form, ListGroup, Row } from "react-bootstrap";
 
 interface HouseholdFormProps {
+  household: Household;
   onSubmit: (household: Household) => void;
 }
 
-const HouseholdForm: React.FC<HouseholdFormProps> = ({ onSubmit }) => {
+const HouseholdForm: React.FC<HouseholdFormProps> = ({
+  household,
+  onSubmit,
+}) => {
   const { participants } = useParticipantsContext();
 
-  const [householdData, setHouseholdData] = useState<Household>({
+  const [editedHousehold, setEditedHousehold] = useState<Household>({
     name: "",
     participants: [],
     expenses: [],
   });
 
-  const [participant, setParticipant] = useState<Participant>({
+  const [editedParticipant, setEditedParticipant] = useState<Participant>({
     name: "",
     incomes: [],
   });
 
+  useEffect(() => {
+    setEditedHousehold(household);
+  }, [household]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleInputChange fired");
     const { name, value } = e.target;
-    setHouseholdData((prevData) => ({
+    setEditedHousehold((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    console.log("handleSubmit fired");
-
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(householdData);
+    await onSubmit(editedHousehold);
   };
 
   const handleParticipantSelect = ($event: any) => {
@@ -58,10 +55,10 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({ onSubmit }) => {
   };
 
   const addParticipant = (newParticipant: Participant) => {
-    setHouseholdData((prevData) => {
+    setEditedHousehold((prevData) => {
       return {
         ...prevData,
-        participants: [...prevData.participants, newParticipant],
+        participants: [...(prevData?.participants ?? []), newParticipant],
       };
     });
   };
@@ -71,9 +68,9 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({ onSubmit }) => {
   };
 
   const handleRemoveParticipant = (index: number) => {
-    const newParticipants = [...householdData.participants];
+    const newParticipants = [...editedHousehold.participants];
     newParticipants.splice(index, 1);
-    setHouseholdData((prevData) => ({
+    setEditedHousehold((prevData) => ({
       ...prevData,
       participants: newParticipants,
     }));
@@ -87,12 +84,12 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({ onSubmit }) => {
           <Form.Control
             type="text"
             name="name"
-            value={householdData.name}
+            value={editedHousehold?.name}
             onChange={handleInputChange}
           />
         </Form.Group>
         <ListGroup>
-          {householdData.participants.map((participant, index) => (
+          {editedHousehold?.participants?.map((participant, index) => (
             <ListGroup.Item key={index}>
               <Row>
                 <Col>
@@ -122,7 +119,7 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({ onSubmit }) => {
           <Accordion.Header>Add a new participant manually</Accordion.Header>
           <Accordion.Body>
             <ParticipantForm
-              participant={participant}
+              participant={editedParticipant}
               onSave={handleParticipantSubmit}
             ></ParticipantForm>
           </Accordion.Body>

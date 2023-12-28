@@ -1,4 +1,5 @@
 import connectDB from "@/lib/connect-db";
+import { addOrUpdateExpenses } from "@/lib/expense";
 import { generateHousehold } from "@/lib/household";
 import { addOrUpdateParticipants } from "@/lib/participant";
 import { HouseholdModel } from "@/models/models";
@@ -18,10 +19,9 @@ export async function createHousehold(household: IHousehold) {
 export async function editHousehold(household: IHousehold) {
 
     try {
-        console.log(household.participants.map(participant => participant.incomes))
 
         const participants = await addOrUpdateParticipants(household.participants)
-        const expenses = []
+        const expenses = await addOrUpdateExpenses(household.expenses)
 
         await HouseholdModel.findOneAndUpdate(
             { _id: household._id },

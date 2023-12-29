@@ -1,7 +1,7 @@
 import { Household } from "@/types/types";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Button, Card, ListGroup } from "react-bootstrap";
+import { Button, Card, Col, Container, ListGroup, Row } from "react-bootstrap";
 
 const RecapHousehold = ({ household }: { household: Household }) => {
   const [householdData, setHouseholdData] = useState({
@@ -41,9 +41,20 @@ const RecapHousehold = ({ household }: { household: Household }) => {
           </ListGroup.Item>
         </ListGroup>
         <Card.Body>
-          <Link href={`/households/${household._id}/`}>
-            <Button variant="primary">View Household</Button>
-          </Link>
+          <Container>
+            <Row>
+              <Col>
+                <Link href={`/households/${household._id}/edit`}>
+                  <Button variant="warning">Edit Household</Button>
+                </Link>
+              </Col>
+              <Col>
+                <Link href={`/households/${household._id}/`}>
+                  <Button variant="primary">View Household</Button>
+                </Link>
+              </Col>
+            </Row>
+          </Container>
         </Card.Body>
       </Card>
     </>

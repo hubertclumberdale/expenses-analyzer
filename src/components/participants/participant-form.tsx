@@ -78,7 +78,7 @@ const ParticipantForm: React.FC<ParticipantFormProps> = ({
     <Form>
       <Card>
         <Card.Header>
-          <Card.Title>Add a new Participant</Card.Title>
+          <Card.Title>Participant</Card.Title>
         </Card.Header>
         <Card.Body>
           <Form.Group controlId="formParticipantName">

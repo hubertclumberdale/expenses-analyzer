@@ -37,13 +37,13 @@ const Page = ({ params }: { params: { household: string } }) => {
   return (
     <>
       <Breadcrumb>
-        <Breadcrumb.Item>
+        <Breadcrumb.Item active>
           <Link href="/">Home</Link>
         </Breadcrumb.Item>
-        <Breadcrumb.Item>
+        <Breadcrumb.Item active>
           <Link href="/households">Households</Link>
         </Breadcrumb.Item>
-        <Breadcrumb.Item>
+        <Breadcrumb.Item active>
           <Link href={`/households/${currentHousehold._id}`}>
             {<>{currentHousehold._id}</>}
           </Link>

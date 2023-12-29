@@ -19,7 +19,6 @@ const ExpensesForm: React.FC<ExpensesFormProps> = ({ expenses, onSave }) => {
   const [editedExpenses, setEditedExpenses] = useState<Expense[]>(expenses);
 
   useEffect(() => {
-    console.log(expenses);
     setEditedExpenses(expenses);
   }, [expenses]);
 
@@ -64,7 +63,7 @@ const ExpensesForm: React.FC<ExpensesFormProps> = ({ expenses, onSave }) => {
     <Form>
       <Card>
         <Card.Header>
-          <Card.Title>Add a new Expense</Card.Title>
+          <Card.Title>Expense</Card.Title>
         </Card.Header>
         <Card.Body>
           <Form.Group controlId="formIncomes">

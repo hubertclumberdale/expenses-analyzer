@@ -21,7 +21,7 @@ const Page = () => {
     <>
       <Container>
         <Breadcrumb>
-          <Breadcrumb.Item>
+          <Breadcrumb.Item active>
             <Link href="/">Home</Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item active>Households</Breadcrumb.Item>

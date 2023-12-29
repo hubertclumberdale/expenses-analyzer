@@ -17,11 +17,13 @@ import {
 interface HouseholdFormProps {
   household: Household;
   onSubmit: (household: Household) => void;
+  reloadHousehold: () => void;
 }
 
 const HouseholdForm: React.FC<HouseholdFormProps> = ({
   household,
   onSubmit,
+  reloadHousehold,
 }) => {
   const { participants } = useParticipantsContext();
 
@@ -108,6 +110,43 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({
     }));
   };
 
+  const editExistingParticipant = (
+    index: number,
+    participantToEdit: Participant
+  ) => {
+    setEditedHousehold((prevData) => {
+      const newParticipants = [...prevData.participants];
+      newParticipants[index] = participantToEdit;
+      return {
+        ...prevData,
+        participants: newParticipants,
+      };
+    });
+  };
+
+  const editExistingExpense = (index: number, expensesToEdit: Expense[]) => {
+    expensesToEdit.forEach((expense) => {
+      setEditedHousehold((prevData) => {
+        const newExpenses = [...prevData.expenses];
+        newExpenses[index] = expense;
+        return {
+          ...prevData,
+          expenses: newExpenses,
+        };
+      });
+    });
+    reloadHousehold();
+  };
+
+  const resetExistingExpenses = () => {
+    setEditedHousehold((prevData) => {
+      return {
+        ...prevData,
+        expenses: [...prevData.expenses],
+      };
+    });
+  };
+
   return (
     <>
       <Form onSubmit={handleSubmit}>
@@ -130,23 +169,31 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({
                 <span>No selected participants</span>
               )}
               {editedHousehold?.participants?.map((participant, index) => (
-                <ListGroup.Item key={index}>
-                  <Row>
-                    <Col>
-                      <Form.Label>
-                        Participant Name: {participant?.name}{" "}
-                      </Form.Label>
-                    </Col>
-                    <Col>
-                      <Button
-                        variant="danger"
-                        onClick={() => handleRemoveParticipant(index)}
-                      >
-                        Remove Participant
-                      </Button>
-                    </Col>
-                  </Row>
-                </ListGroup.Item>
+                <>
+                  <ListGroup.Item key={index}>
+                    <Row>
+                      <Col>
+                        <ParticipantForm
+                          participant={participant}
+                          onSave={(editedParticipant) =>
+                            editExistingParticipant(index, editedParticipant)
+                          }
+                        ></ParticipantForm>
+                      </Col>
+                    </Row>
+                    <Row className="mt-2">
+                      <Col>
+                        <Button
+                          variant="danger"
+                          onClick={() => handleRemoveParticipant(index)}
+                        >
+                          Remove Participant
+                        </Button>
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+                  <hr></hr>
+                </>
               ))}
             </ListGroup>
             <hr></hr>
@@ -159,8 +206,17 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({
                 <ListGroup.Item key={index}>
                   <Row>
                     <Col>
-                      <Form.Label>Expense: {expense?.amount} </Form.Label>
+                      <Form.Label>
+                        <ExpensesForm
+                          expenses={[expense]}
+                          onSave={(editedExpenses) =>
+                            editExistingExpense(index, editedExpenses)
+                          }
+                        ></ExpensesForm>
+                      </Form.Label>
                     </Col>
+                  </Row>
+                  <Row>
                     <Col>
                       <Button
                         variant="danger"

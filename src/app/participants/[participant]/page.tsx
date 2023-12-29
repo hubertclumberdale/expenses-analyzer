@@ -36,10 +36,10 @@ const Page = ({ params }: { params: { participant: string } }) => {
   return (
     <>
       <Breadcrumb>
-        <Breadcrumb.Item>
+        <Breadcrumb.Item active>
           <Link href="/">Home</Link>
         </Breadcrumb.Item>
-        <Breadcrumb.Item>
+        <Breadcrumb.Item active>
           <Link href="/participants">Participants</Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item active>Edit</Breadcrumb.Item>

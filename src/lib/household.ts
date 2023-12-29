@@ -5,7 +5,6 @@ import { Household } from "@/types/types";
 import { Types } from "mongoose";
 
 export const generateHousehold = async (household: Household) => {
-    console.log(household)
     let savedExpenses: any[] = []
     if (household?.expenses) {
         savedExpenses = [...await addOrUpdateExpenses(household.expenses)]

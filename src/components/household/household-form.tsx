@@ -142,7 +142,7 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({
                         variant="danger"
                         onClick={() => handleRemoveParticipant(index)}
                       >
-                        Remove Income
+                        Remove Participant
                       </Button>
                     </Col>
                   </Row>

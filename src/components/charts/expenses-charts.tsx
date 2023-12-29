@@ -1,7 +1,7 @@
 import AreaChartMonthlyCost from "@/components/charts/AreaChartMonthlyCost";
-import BarChartTotalCost from "@/components/charts/BarChartTotalCost";
+import BarChart from "@/components/charts/BarChart";
 import FunnelChartPaymentStatus from "@/components/charts/FunnelChartPaymentStatus";
-import LineChartConsumption from "@/components/charts/LineChartConsumption";
+import LineChart from "@/components/charts/LineChart";
 import PieChartExpenseDistribution from "@/components/charts/PieChartExpenseDistribution";
 import RadarChartExpenseBreakdown from "@/components/charts/RadarChartExpenseBreakdown";
 import RadialBarChartTotalCostType from "@/components/charts/RadialBarChartTotalCostType";
@@ -13,17 +13,18 @@ import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 
 const ExpensesCharts = () => {
+  const { expenses } = useExpensesContext();
   return (
     <>
       <Container>
         <Row>
           <Col>
             Bar Chart - Total Cost vs. Reference
-            <BarChartTotalCost></BarChartTotalCost>
+            <BarChart expenses={expenses} dataKey="totalCost"></BarChart>
           </Col>
           <Col>
             Line Chart - Consumption Over Time
-            <LineChartConsumption></LineChartConsumption>
+            <LineChart expenses={expenses} dataKey="consumption"></LineChart>
           </Col>
           <Col>
             Pie Chart - Expense Distribution by Type

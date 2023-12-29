@@ -1,11 +1,20 @@
 "use client";
 
+import BarChart from "@/components/charts/BarChart";
+import LineChart from "@/components/charts/LineChart";
 import HouseholdForm from "@/components/household/household-form";
 import { useHouseholdContext } from "@/contexts/households";
 import { Household } from "@/types/types";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Breadcrumb } from "react-bootstrap";
+import {
+  Accordion,
+  Breadcrumb,
+  Card,
+  Col,
+  Container,
+  Row,
+} from "react-bootstrap";
 
 const Page = ({ params }: { params: { household: string } }) => {
   const { households, editHousehold } = useHouseholdContext();
@@ -43,15 +52,42 @@ const Page = ({ params }: { params: { household: string } }) => {
         <Breadcrumb.Item>
           <Link href="/households">Households</Link>
         </Breadcrumb.Item>
-        <Breadcrumb.Item active>Edit</Breadcrumb.Item>
+        <Breadcrumb.Item active>{<>{currentHousehold._id}</>}</Breadcrumb.Item>
       </Breadcrumb>
-      <h1>Editing Household: {currentHousehold.name}</h1>
-      <h4>participant id: {currentHousehold._id?.toString()}</h4>
-      <hr></hr>
-      <HouseholdForm
-        household={currentHousehold}
-        onSubmit={editHousehold}
-      ></HouseholdForm>
+
+      <Card>
+        <Card.Header>
+          <Card.Title>
+            <h1>Household: {currentHousehold.name}</h1>
+            <h4>Household id: {currentHousehold._id?.toString()}</h4>
+          </Card.Title>
+        </Card.Header>
+        <Card.Body>
+          <Accordion activeKey="0">
+            <Accordion.Item eventKey="0">
+              <Accordion.Header>Expenses</Accordion.Header>
+              <Accordion.Body>
+                <Container>
+                  <Row>
+                    <Col>
+                      <BarChart
+                        expenses={currentHousehold.expenses}
+                        dataKey="amount"
+                      ></BarChart>
+                    </Col>
+                    <Col>
+                      <LineChart
+                        expenses={currentHousehold.expenses}
+                        dataKey="amount"
+                      ></LineChart>
+                    </Col>
+                  </Row>
+                </Container>
+              </Accordion.Body>
+            </Accordion.Item>
+          </Accordion>
+        </Card.Body>
+      </Card>
     </>
   );
 };

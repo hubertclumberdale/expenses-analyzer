@@ -8,6 +8,10 @@ import ScrollToTop from "@/components/layout/scroll-to-top";
 import Header from "@/components/layout/header";
 import { HouseholdsProvider } from "@/contexts/households";
 import { ExpensesProvider } from "@/contexts/expenses";
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-alpine.css";
+import { ParticipantsProvider } from "@/contexts/participants";
+import { IncomesProvider } from "@/contexts/incomes";
 
 export default function RootLayout({
   children,
@@ -23,9 +27,16 @@ export default function RootLayout({
           <div id="content-wrapper" className="d-flex flex-column">
             <div id="content">
               <Header></Header>
-              <ExpensesProvider>
-                <Container fluid>{children}</Container>
-              </ExpensesProvider>
+
+              <HouseholdsProvider>
+                <ParticipantsProvider>
+                  <IncomesProvider>
+                    <ExpensesProvider>
+                      <Container fluid>{children}</Container>
+                    </ExpensesProvider>
+                  </IncomesProvider>
+                </ParticipantsProvider>
+              </HouseholdsProvider>
             </div>
             <Footer></Footer>
           </div>

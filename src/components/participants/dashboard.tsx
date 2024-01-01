@@ -1,29 +1,25 @@
-import ParticipantForm from "@/components/participants/participant-form";
+import ParticipantList from "@/components/participants/participant-list";
 import { useParticipantsContext } from "@/contexts/participants";
-import { Income, Participant } from "@/types/types";
 import Link from "next/link";
-import { useState } from "react";
-import {
-  Breadcrumb,
-  Button,
-  Card,
-  Col,
-  Container,
-  ListGroup,
-  Row,
-} from "react-bootstrap";
+import { Breadcrumb, Button, Col, Container, Row } from "react-bootstrap";
+import { debounce } from "lodash";
 
 const Dashboard = () => {
-  const { participants, loading, createParticipant } = useParticipantsContext();
+  const {
+    participants,
+    loading,
+    createParticipant,
+    refreshParticipants,
+    deleteParticipant,
+  } = useParticipantsContext();
 
-  const [participant, setParticipant] = useState<Participant>({
-    name: "",
-    incomes: [],
-  });
+  const createEmptyParticipant = debounce(() => {
+    createParticipant({
+      name: "",
+      incomes: [],
+    });
+  }, 500);
 
-  const getTotalIncome = (incomes: Income[]) => {
-    return incomes.reduce((total, income) => total + income.amount, 0);
-  };
   return (
     <>
       <Container>
@@ -33,12 +29,7 @@ const Dashboard = () => {
           </Breadcrumb.Item>
           <Breadcrumb.Item active>Participants</Breadcrumb.Item>
         </Breadcrumb>
-        <Row>
-          <ParticipantForm
-            participant={participant}
-            onSave={createParticipant}
-          ></ParticipantForm>
-        </Row>
+        <Button onClick={createEmptyParticipant}>Add a new Participant</Button>
         <hr></hr>
         <Row>
           <h4>Existing participants:</h4>
@@ -47,28 +38,13 @@ const Dashboard = () => {
               <p>Loading participants...</p>
             </Col>
           )}
-          {participants.map((participant, index) => (
-            <Col key={index} xs={6} className="mt-4">
-              <Card>
-                <Card.Body>
-                  <Card.Title>{participant.name}</Card.Title>
-                </Card.Body>
-                <ListGroup variant="flush">
-                  <ListGroup.Item>
-                    Total income: € {getTotalIncome(participant.incomes)}
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    Number of incomes: {participant.incomes.length}
-                  </ListGroup.Item>
-                </ListGroup>
-                <Card.Body>
-                  <Link href={`/participants/${participant._id}`}>
-                    <Button>Explore participant</Button>
-                  </Link>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
+          <ParticipantList
+            participants={participants}
+            onDelete={({ participant }) => {
+              deleteParticipant(participant);
+              refreshParticipants();
+            }}
+          ></ParticipantList>
         </Row>
       </Container>
     </>

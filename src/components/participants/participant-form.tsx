@@ -1,155 +1,140 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Form,
-  ListGroup,
-  Row,
-  Col,
-  Card,
-  Container,
-} from "react-bootstrap";
-import { Participant, TransactionType } from "@/types/types";
+import { Form, ListGroup, Card, Row, Col } from "react-bootstrap";
+import { Income, Participant } from "@/types/types";
+import IncomeList from "@/components/incomes/income-list";
+import { useParticipantsContext } from "@/contexts/participants";
+import IncomesSelection from "@/components/incomes/incomes-selection";
+import { useIncomesContext } from "@/contexts/incomes";
 
 interface ParticipantFormProps {
-  participant: Participant;
-  onSave: (editedParticipant: Participant) => void;
+  participantId?: string;
+  onSave: (participant: Participant) => void;
 }
 
 const ParticipantForm: React.FC<ParticipantFormProps> = ({
-  participant,
+  participantId,
   onSave,
 }) => {
-  const [editedParticipant, setEditedParticipant] =
-    useState<Participant>(participant);
+  const {
+    participants,
+    createParticipant,
+    editParticipant,
+    refreshParticipants,
+  } = useParticipantsContext();
+
+  const { createIncome } = useIncomesContext();
+
+  const [participant, setParticipant] = useState<Participant>({
+    incomes: [],
+    name: "",
+  });
+
+  const findAndSetCurrentParticipant = () => {
+    const participant = participants.find(
+      (participant) => participant._id === participantId
+    );
+
+    if (participant) {
+      setParticipant(participant);
+    }
+  };
 
   useEffect(() => {
-    setEditedParticipant(participant);
-  }, [participant]);
+    if (participantId) {
+      findAndSetCurrentParticipant();
+    }
+  }, [participantId, participants]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setEditedParticipant((prevData) => ({
+    await setParticipant((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
 
-  const handleIncomeChange = (index: number, field: string, value: string) => {
-    const newIncomes = [...editedParticipant.incomes];
-    newIncomes[index] = { ...newIncomes[index], [field]: value };
-    setEditedParticipant((prevData) => ({
+  const saveParticipant = async () => {
+    if (participant._id) {
+      await editParticipant(participant);
+    } else {
+      await createParticipant(participant);
+    }
+    onSave(participant);
+  };
+
+  const addIncomeToParticipant = async (incomes: Income[]) => {
+    const updatedIncomes: Income[] = [];
+    for (const income of incomes) {
+      const newIncome = await createIncome(income);
+      if (newIncome?._id) {
+        updatedIncomes.push(newIncome);
+      }
+    }
+
+    setParticipant((prevData) => ({
       ...prevData,
-      incomes: newIncomes,
+      incomes: [...prevData.incomes, ...updatedIncomes],
     }));
   };
 
-  const handleAddIncome = () => {
-    setEditedParticipant((prevData) => ({
+  const removeIncomeFromParticipant = async (id: string) => {
+    await setParticipant((prevData) => ({
       ...prevData,
-      incomes: [
-        ...prevData.incomes,
-        {
-          transactionId: 0,
-          date: new Date(),
-          amount: 0,
-          paid: true,
-          owner: participant._id ?? "",
-
-          type: TransactionType.INCOME,
-        },
-      ],
+      incomes: prevData.incomes.filter((income) => income._id !== id),
     }));
   };
 
-  const handleRemoveIncome = (index: number) => {
-    const newIncomes = [...editedParticipant.incomes];
-    newIncomes.splice(index, 1);
-    setEditedParticipant((prevData) => ({
-      ...prevData,
-      incomes: newIncomes,
-    }));
-  };
-
-  const handleSave = () => {
-    onSave(editedParticipant);
-  };
+  useEffect(() => {
+    saveParticipant();
+  }, [participant.incomes.length]);
 
   return (
-    <Form>
-      <Card>
-        <Card.Header>
-          <Card.Title>Participant</Card.Title>
-        </Card.Header>
-        <Card.Body>
-          <Form.Group controlId="formParticipantName">
-            <Form.Label>Participant Name:</Form.Label>
-            <Form.Control
-              type="text"
-              name="name"
-              value={editedParticipant.name}
-              onChange={handleInputChange}
-            />
-          </Form.Group>
-          <Form.Group controlId="formIncomes">
-            {!!editedParticipant.incomes.length && (
-              <Form.Label>Incomes:</Form.Label>
-            )}
-            <ListGroup>
-              {editedParticipant.incomes.map((income, index) => (
-                <ListGroup.Item key={index}>
-                  <Row>
-                    <Col>
-                      <Form.Label>Date:</Form.Label>
-                      <Form.Control
-                        type="date"
-                        value={income.date?.toISOString?.()?.split("T")[0]}
-                        onChange={(e) =>
-                          handleIncomeChange(index, "date", e.target.value)
-                        }
-                      />
-                    </Col>
-                    <Col>
-                      <Form.Label>Amount:</Form.Label>
-                      <Form.Control
-                        type="number"
-                        value={income.amount}
-                        onChange={(e) =>
-                          handleIncomeChange(index, "amount", e.target.value)
-                        }
-                      />
-                    </Col>
-                    <Col>
-                      <Button
-                        variant="danger"
-                        onClick={() => handleRemoveIncome(index)}
-                      >
-                        Remove Income
-                      </Button>
-                    </Col>
-                  </Row>
-                </ListGroup.Item>
-              ))}
-            </ListGroup>
-          </Form.Group>
-        </Card.Body>
-        <Card.Footer>
-          <Container>
-            <Row className="mt-2">
-              <Col>
-                <Button variant="secondary" onClick={handleAddIncome}>
-                  Add an Income
-                </Button>
-              </Col>
-              <Col>
-                <Button variant="primary" onClick={handleSave}>
-                  Save Participant
-                </Button>
-              </Col>
-            </Row>
-          </Container>
-        </Card.Footer>
-      </Card>
-    </Form>
+    <>
+      {participant?._id && (
+        <>
+          <h1>Editing participant: {participant.name}</h1>
+          <h4>participant id: {participant._id?.toString()}</h4>
+        </>
+      )}
+      <Form>
+        <Card>
+          <Card.Header>
+            <Card.Title>Participant</Card.Title>
+          </Card.Header>
+          <Card.Body>
+            <Form.Group controlId="formParticipantName">
+              <Form.Label>Participant Name:</Form.Label>
+              <Form.Control
+                type="text"
+                name="name"
+                value={participant.name}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+            <hr></hr>
+            <Form.Group controlId="formIncomes">
+              <ListGroup>
+                <Row className="mb-4">
+                  <Col>
+                    <h4>Incomes:</h4>
+                  </Col>
+                  <Col>
+                    <IncomesSelection
+                      handleIncomesSubmit={addIncomeToParticipant}
+                    ></IncomesSelection>
+                  </Col>
+                </Row>
+                <IncomeList
+                  incomes={participant.incomes}
+                  onRemoveIncome={removeIncomeFromParticipant}
+                  onUpdateIncome={() => ({})}
+                ></IncomeList>
+              </ListGroup>
+            </Form.Group>
+          </Card.Body>
+        </Card>
+      </Form>
+    </>
   );
 };
 

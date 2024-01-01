@@ -21,6 +21,7 @@ export async function createExpenseAction({
 }) {
   await createExpense(expense);
   revalidatePath(path);
+  return JSON.parse(JSON.stringify(expense))
 }
 
 export async function updateExpenseAction(

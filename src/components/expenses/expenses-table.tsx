@@ -1,10 +1,9 @@
 import React from "react";
 import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css";
 import { Expense } from "@/types/types";
+import { ColDef } from "ag-grid-community";
 
-const columns = [
+const columns: ColDef<any>[] = [
   {
     field: "reference",
     headerName: "Reference",
@@ -54,7 +53,7 @@ const ExpensesTable = ({
   updateExpense: (expense: Expense) => void;
 }) => {
   return (
-    <div className="ag-theme-alpine" style={{ height: 400, width: "100%" }}>
+    <div className="ag-theme-alpine" style={{ width: "100%" }}>
       <AgGridReact
         rowData={expenses.map((expense) => ({
           ...expense,

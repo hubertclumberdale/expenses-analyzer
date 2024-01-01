@@ -1,21 +1,21 @@
 "use client";
-import HouseholdForm from "@/components/household/household-form";
-import RecapHousehold from "@/components/household/recap";
+import HouseholdList from "@/components/household/household-list";
 import { useHouseholdContext } from "@/contexts/households";
-import { Household } from "@/types/types";
 import Link from "next/link";
-import { useState } from "react";
-import { Breadcrumb, Button, Col, Container, Row } from "react-bootstrap";
+import { Breadcrumb, Button, Container, Row } from "react-bootstrap";
 
 const Page = () => {
-  const { loading, households, createHousehold, removeAllHouseholds } =
+  const { households, removeAllHouseholds, createHousehold } =
     useHouseholdContext();
 
-  const [household] = useState<Household>({
-    name: "",
-    participants: [],
-    expenses: [],
-  });
+  const createEmptyHousehold = () => {
+    const household = {
+      name: "",
+      participants: [],
+      expenses: [],
+    };
+    createHousehold(household);
+  };
 
   return (
     <>
@@ -26,24 +26,10 @@ const Page = () => {
           </Breadcrumb.Item>
           <Breadcrumb.Item active>Households</Breadcrumb.Item>
         </Breadcrumb>
-        <Row>
-          <Col>
-            <h4>Add a new Household</h4>
-            <HouseholdForm
-              household={household}
-              onSubmit={createHousehold}
-            ></HouseholdForm>
-          </Col>
-        </Row>
-        <hr></hr>
         <Row className="my-3">
           <h4>Existing Households</h4>
-          {loading && <p>Loading households...</p>}
-          {households.map((household, index) => (
-            <Col key={index} xs={6} className="mt-3">
-              <RecapHousehold household={household}></RecapHousehold>
-            </Col>
-          ))}
+          <Button onClick={createEmptyHousehold}>Add a new Household</Button>
+          <HouseholdList households={households}></HouseholdList>
         </Row>
         <hr></hr>
 

@@ -1,4 +1,9 @@
-import { getExpensesAction } from "@/actions/expenses";
+import {
+  createExpenseAction,
+  deleteExpenseAction,
+  getExpensesAction,
+  updateExpenseAction,
+} from "@/actions/expenses";
 import { Expense } from "@/types/types";
 import React, {
   createContext,
@@ -18,6 +23,9 @@ interface ExpensesContextProps {
   refresh: number;
   setRefresh: React.Dispatch<React.SetStateAction<number>>;
   refreshExpenses: () => void;
+  createExpense: (expense: Expense) => Promise<Expense>;
+  deleteExpense: (expense: Expense) => Promise<void>;
+  updateExpense: (expense: Expense) => Promise<void>;
 }
 
 const ExpensesContext = createContext<ExpensesContextProps | undefined>(
@@ -51,6 +59,22 @@ export const ExpensesProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
+  const createExpense = async (expense: Expense) => {
+    const newExpense = await createExpenseAction({
+      expense,
+      path: "/expenses",
+    });
+    return newExpense;
+  };
+
+  const deleteExpense = async (expense: Expense) => {
+    await deleteExpenseAction({ expense, path: "/expenses" });
+  };
+
+  const updateExpense = async (expense: Expense) => {
+    await updateExpenseAction({ path: `/expenses`, expense });
+  };
+
   useEffect(() => {
     fetchExpenses();
   }, [refresh]);
@@ -58,8 +82,8 @@ export const ExpensesProvider: React.FC<{ children: ReactNode }> = ({
   return (
     <ExpensesContext.Provider
       value={{
-        expenses,
-        setExpenses,
+        expenses: expenses,
+        setExpenses: setExpenses,
         results,
         setResults,
         loading,
@@ -67,6 +91,9 @@ export const ExpensesProvider: React.FC<{ children: ReactNode }> = ({
         refresh,
         setRefresh,
         refreshExpenses,
+        createExpense,
+        deleteExpense,
+        updateExpense,
       }}
     >
       {children}
@@ -77,9 +104,7 @@ export const ExpensesProvider: React.FC<{ children: ReactNode }> = ({
 export const useExpensesContext = () => {
   const context = useContext(ExpensesContext);
   if (!context) {
-    throw new Error(
-      "useExpensesContext must be used within a ExpensesProvider"
-    );
+    throw new Error("useIncomesContext must be used within a ExpensesProvider");
   }
   return context;
 };

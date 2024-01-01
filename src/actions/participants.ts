@@ -1,6 +1,6 @@
 "use server"
 
-import { createParticipant, editParticipant, getAllParticipants, removeAllParticipants } from "@/mutations/participants";
+import { createParticipant, deleteParticipant, editParticipant, getAllParticipants, removeAllParticipants } from "@/mutations/participants";
 import { Participant } from "@/types/types";
 import { revalidatePath } from "next/cache";
 
@@ -17,6 +17,11 @@ export async function editParticipantAction(participant: Participant) {
 export async function getAllParticipantsAction() {
     const households = await getAllParticipants()
     return JSON.parse(JSON.stringify(households))
+}
+
+export async function deleteParticipantAction(participant: Participant) {
+    await deleteParticipant(participant)
+    revalidatePath('/participants');
 }
 
 export async function removeAllParticipantsAction() {

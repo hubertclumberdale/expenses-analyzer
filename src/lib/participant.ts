@@ -7,12 +7,12 @@ export const addOrUpdateParticipants = async (participants: Participant[]) => {
 
     const allParticipants: any = []
     const promises = participants.map(async (participant) => {
-
+        (participant)
         if (participant._id) {
-            const updatedIncomes = await updateIncomes(participant.incomes)
+            const incomes = participant.incomes.map(income => income._id)
             await ParticipantModel.findOneAndUpdate(
                 { _id: participant._id },
-                { $set: { ...participant, incomes: updatedIncomes } },
+                { $set: { ...participant, incomes } },
             );
 
 

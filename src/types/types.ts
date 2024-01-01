@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { Types } from "mongoose";
 
 
 export enum TransactionType {
@@ -7,22 +8,22 @@ export enum TransactionType {
 }
 
 export interface Participant {
-    _id?: mongoose.Schema.Types.ObjectId | string // id used by mongoose
+    _id?: Types.ObjectId | string // id used by mongoose
     name: string;
     incomes: Income[]
 }
 
 export interface Transaction {
-    _id?: mongoose.Schema.Types.ObjectId | string // id used by mongoose
+    _id?: Types.ObjectId | string // id used by mongoose
     transactionId: number, // generally the number that identifies the transaction such as rif.bolletta
     date: Date
     amount: number;
     paid: boolean
-    owner?: mongoose.Schema.Types.ObjectId | string; // Updated type
+    owner?: Types.ObjectId | string; // Updated type
 }
 
 export interface Household {
-    _id?: mongoose.Schema.Types.ObjectId | string // id used by mongoose
+    _id?: Types.ObjectId | string // id used by mongoose
     name: string
     participants: Participant[]
     expenses: (Expense | Bill)[]

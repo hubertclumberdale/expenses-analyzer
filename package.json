@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@typegoose/typegoose": "^11.3.0",
+    "@types/lodash": "^4.14.202",
     "@types/node": "20.4.1",
     "ag-grid-community": "^31.0.1",
     "ag-grid-react": "^31.0.1",
@@ -20,6 +21,7 @@
     "chatgpt": "^5.2.5",
     "eslint": "8.44.0",
     "eslint-config-next": "^14.0.4",
+    "lodash": "^4.17.21",
     "mongoose": "^7.3.3",
     "mongoose-autopopulate": "^1.1.0",
     "next": "^14.0.4",

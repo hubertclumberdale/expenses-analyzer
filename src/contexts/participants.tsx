@@ -1,5 +1,7 @@
+import { deleteIncomeAction } from "@/actions/incomes";
 import {
   createParticipantAction,
+  deleteParticipantAction,
   editParticipantAction,
   getAllParticipantsAction,
   removeAllParticipantsAction,
@@ -26,6 +28,7 @@ interface ParticipantsContextProps {
   createParticipant: (participant: Participant) => void;
   editParticipant: (participant: Participant) => void;
   getAllParticipants: () => void;
+  deleteParticipant: (participant: Participant) => void;
   removeAllParticipants: () => void;
 }
 
@@ -87,6 +90,20 @@ export const ParticipantsProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
+  const deleteParticipant = async (participant: Participant) => {
+    try {
+      setLoading(true);
+      participant.incomes.forEach(async (income) => {
+        await deleteIncomeAction({ income });
+      });
+      await deleteParticipantAction(participant);
+    } catch (error) {
+      console.error("Error fetching households:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     getAllParticipants();
   }, [refresh]);
@@ -110,6 +127,7 @@ export const ParticipantsProvider: React.FC<{ children: ReactNode }> = ({
         createParticipant,
         editParticipant,
         getAllParticipants,
+        deleteParticipant,
         removeAllParticipants,
       }}
     >

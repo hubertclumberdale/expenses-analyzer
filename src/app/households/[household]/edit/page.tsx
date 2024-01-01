@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { Breadcrumb } from "react-bootstrap";
 
 const Page = ({ params }: { params: { household: string } }) => {
-  const { households, editHousehold } = useHouseholdContext();
+  const { households } = useHouseholdContext();
 
   const [currentHousehold, setCurrentHousehold] = useState<Household>({
     name: "",
@@ -53,10 +53,7 @@ const Page = ({ params }: { params: { household: string } }) => {
       <h1>Editing Household: {currentHousehold.name}</h1>
       <h4>Household id: {currentHousehold._id?.toString()}</h4>
       <hr></hr>
-      <HouseholdForm
-        household={currentHousehold}
-        onSubmit={editHousehold}
-      ></HouseholdForm>
+      <HouseholdForm household={currentHousehold}></HouseholdForm>
     </>
   );
 };

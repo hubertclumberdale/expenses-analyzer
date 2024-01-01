@@ -26,6 +26,15 @@ export async function editParticipant(participant: IParticipant) {
     }
 }
 
+export async function deleteParticipant(participant: IParticipant) {
+    try {
+        await connectDB();
+        await ParticipantModel.deleteOne({ _id: participant._id })
+    } catch (error) {
+        console.error(error)
+    }
+}
+
 export async function getAllParticipants() {
     try {
         await connectDB();

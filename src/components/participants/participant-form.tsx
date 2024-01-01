@@ -55,8 +55,10 @@ const ParticipantForm: React.FC<ParticipantFormProps> = ({
 
   const saveParticipant = async () => {
     if (participant._id) {
+      console.log("edit participant");
       await editParticipant(participant);
     } else {
+      console.log("create participant");
       await createParticipant(participant);
     }
     onSave(participant);
@@ -85,7 +87,9 @@ const ParticipantForm: React.FC<ParticipantFormProps> = ({
   };
 
   useEffect(() => {
-    saveParticipant();
+    if (participant.incomes.length) {
+      saveParticipant();
+    }
   }, [participant.incomes.length]);
 
   return (
@@ -127,7 +131,7 @@ const ParticipantForm: React.FC<ParticipantFormProps> = ({
                 <IncomeList
                   incomes={participant.incomes}
                   onRemoveIncome={removeIncomeFromParticipant}
-                  onUpdateIncome={() => ({})}
+                  onUpdateIncome={refreshParticipants}
                 ></IncomeList>
               </ListGroup>
             </Form.Group>

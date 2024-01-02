@@ -19,9 +19,9 @@ export async function createExpenseAction({
   expense: Expense;
   path: string;
 }) {
-  await createExpense(expense);
+  const { expense: newExpense } = await createExpense(expense);
   revalidatePath(path);
-  return JSON.parse(JSON.stringify(expense))
+  return JSON.parse(JSON.stringify(newExpense))
 }
 
 export async function updateExpenseAction(

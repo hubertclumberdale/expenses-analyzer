@@ -55,10 +55,8 @@ const ParticipantForm: React.FC<ParticipantFormProps> = ({
 
   const saveParticipant = async () => {
     if (participant._id) {
-      console.log("edit participant");
       await editParticipant(participant);
     } else {
-      console.log("create participant");
       await createParticipant(participant);
     }
     onSave(participant);

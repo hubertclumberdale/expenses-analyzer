@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import {
   Accordion,
   Breadcrumb,
+  Button,
   Card,
   Col,
   Container,
@@ -60,6 +61,9 @@ const Page = ({ params }: { params: { household: string } }) => {
           <Card.Title>
             <h1>Household: {currentHousehold.name}</h1>
             <h4>Household id: {currentHousehold._id?.toString()}</h4>
+            <Link href={`/households/${currentHousehold._id}/edit`}>
+              <Button variant="warning">Edit Household</Button>
+            </Link>
           </Card.Title>
         </Card.Header>
         <Card.Body>

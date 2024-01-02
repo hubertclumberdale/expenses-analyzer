@@ -1,16 +1,10 @@
-import { getExpensesAction } from "@/actions/expenses";
 import {
   createHouseholdAction,
   editHouseholdAction,
   getAllHouseholdsAction,
   removeAllHouseholdsAction,
 } from "@/actions/household";
-import {
-  Expense,
-  Household,
-  Participant,
-  TransactionType,
-} from "@/types/types";
+import { Household } from "@/types/types";
 import React, {
   createContext,
   useContext,
@@ -59,7 +53,7 @@ export const HouseholdsProvider: React.FC<{ children: ReactNode }> = ({
       return;
     }
     if (households) {
-      setHouseholds(households);
+      setHouseholds([...households]);
     }
     if (results) {
       setResults(results);

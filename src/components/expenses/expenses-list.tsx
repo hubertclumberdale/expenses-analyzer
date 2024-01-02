@@ -1,26 +1,22 @@
 import { Expense, Income } from "@/types/types";
 import React from "react";
 import { AgGridReact } from "ag-grid-react";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Button, Container, Row } from "react-bootstrap";
 import { CellValueChangedEvent, ColDef } from "ag-grid-community";
 import { useExpensesContext } from "@/contexts/expenses";
-import ExpensesSelection from "@/components/expenses/expenses-selection";
 
 interface ExpenseListProps {
   expenses: Expense[];
-  onAddExpenses: (expenses: Expense[]) => void;
   onRemoveExpense: (id: string) => void;
-  onUpdateExpense: () => void;
+  onUpdateExpense: (expense: Expense) => void;
 }
 
 const IncomeList: React.FC<ExpenseListProps> = ({
   expenses,
-  onAddExpenses,
   onRemoveExpense,
   onUpdateExpense,
 }) => {
-  const { createExpense, deleteExpense, updateExpense, refreshExpenses } =
-    useExpensesContext();
+  const { deleteExpense, updateExpense } = useExpensesContext();
 
   const columnDefs: ColDef<any>[] = [
     { headerName: "Date", field: "datetime", editable: true },
@@ -51,7 +47,7 @@ const IncomeList: React.FC<ExpenseListProps> = ({
     }
   };
 
-  const handleGridCellValueChanged = async (
+  const handleCellValueChanged = async (
     event: CellValueChangedEvent<Income>
   ) => {
     const index = event?.rowIndex ?? -1;
@@ -61,12 +57,12 @@ const IncomeList: React.FC<ExpenseListProps> = ({
     const expense = expenses[index];
     if (expense._id) {
       const field = event.colDef.field as string;
-      await updateExpense({
+      const updatedExpense = {
         ...expense,
         [field]: event.newValue,
-      });
-      await refreshExpenses();
-      onUpdateExpense();
+      };
+      await updateExpense(updatedExpense);
+      onUpdateExpense(updatedExpense);
     }
   };
 
@@ -81,7 +77,7 @@ const IncomeList: React.FC<ExpenseListProps> = ({
             <AgGridReact
               columnDefs={columnDefs}
               rowData={rowData}
-              onCellValueChanged={handleGridCellValueChanged}
+              onCellValueChanged={handleCellValueChanged}
             ></AgGridReact>
           </div>
         </Row>

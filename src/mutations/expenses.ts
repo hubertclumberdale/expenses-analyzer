@@ -1,7 +1,8 @@
 import { ExpenseModel } from "@/models/models";
 import connectDB from "../lib/connect-db";
 import { stringToObjectId } from "../lib/utils";
-import { Expense as IExpense } from '@/types/types'
+import { Expense } from '@/types/types'
+import { Types } from "mongoose";
 interface ExpensesFilter {
   page?: number;
   limit?: number;
@@ -30,11 +31,11 @@ export async function getExpenses(filter: ExpensesFilter = {}) {
   }
 }
 
-export async function createExpense(expense: IExpense) {
+export async function createExpense(expense: Expense) {
   try {
     await connectDB();
 
-    const created = await ExpenseModel.create(expense);
+    const created = await ExpenseModel.create({ _id: new Types.ObjectId(), expense });
 
     return {
       expense: created,
@@ -68,19 +69,14 @@ export async function getExpense(id: string) {
 }
 
 export async function updateExpense(
-  expense: IExpense
+  expense: Expense
 ) {
   try {
     await connectDB();
 
-    const parsedId = stringToObjectId(expense?.id ?? '');
-
-    if (!parsedId) {
-      return { error: "Expense not found" };
-    }
 
     const found = await ExpenseModel.findByIdAndUpdate(
-      parsedId,
+      expense._id,
       expense,
       { new: true }
     )

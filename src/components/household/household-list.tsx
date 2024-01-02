@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Button } from "react-bootstrap";
 
 const HouseholdList = ({ households }: { households: Household[] }) => {
-  const { editHousehold } = useHouseholdContext();
+  const { editHousehold, refreshHouseholds } = useHouseholdContext();
 
   const columnDefs: ColDef<Household>[] = [
     { flex: 1, headerName: "Name", field: "name", editable: true },
@@ -62,7 +62,9 @@ const HouseholdList = ({ households }: { households: Household[] }) => {
     },
   ];
 
-  const handleCellValueChanged = (event: CellValueChangedEvent<Household>) => {
+  const handleCellValueChanged = async (
+    event: CellValueChangedEvent<Household>
+  ) => {
     const { data } = event;
     editHousehold(data);
   };

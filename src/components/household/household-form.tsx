@@ -17,7 +17,7 @@ interface HouseholdFormProps {
 const HouseholdForm: React.FC<HouseholdFormProps> = ({ household }) => {
   const { editHousehold, refreshHouseholds } = useHouseholdContext();
 
-  const { participants, refreshParticipants } = useParticipantsContext();
+  const { participants } = useParticipantsContext();
 
   const { createExpense } = useExpensesContext();
 
@@ -88,7 +88,6 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({ household }) => {
     expenses.forEach(async (expense) => {
       const newExpense = await createExpense(expense);
       if (newExpense?._id) {
-        console.log(newExpense);
         expenses.forEach((expense) => addExpense(expense));
       }
     });
@@ -110,19 +109,6 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({ household }) => {
     }));
   };
 
-  const editExistingExpense = (index: number, expensesToEdit: Expense[]) => {
-    expensesToEdit.forEach((expense) => {
-      setEditedHousehold((prevData) => {
-        const newExpenses = [...prevData.expenses];
-        newExpenses[index] = expense;
-        return {
-          ...prevData,
-          expenses: newExpenses,
-        };
-      });
-    });
-  };
-
   const debouncedDeleteParticipant = debounce((index: number) => {
     const newParticipants = [...editedHousehold.participants];
     newParticipants.splice(index, 1);
@@ -134,6 +120,20 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({ household }) => {
 
   const handleDeleteParticipant = ({ index }: { index: number }) => {
     debouncedDeleteParticipant(index);
+  };
+
+  const handleUpdateExpense = (expense: Expense) => {
+    setEditedHousehold((prevData) => {
+      const newExpenses = [...prevData.expenses];
+      const index = newExpenses.findIndex(
+        (prevExpense) => prevExpense._id === expense._id
+      );
+      newExpenses[index] = expense;
+      return {
+        ...prevData,
+        expenses: newExpenses,
+      };
+    });
   };
   return (
     <>
@@ -176,9 +176,8 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({ household }) => {
                 <Accordion.Body>
                   <h5>Exisiting Expenses:</h5>
                   <ExpensesList
-                    onAddExpenses={handleExpensesSubmit}
                     onRemoveExpense={handleRemoveExpense}
-                    onUpdateExpense={refreshHouseholds}
+                    onUpdateExpense={handleUpdateExpense}
                     expenses={editedHousehold?.expenses}
                   ></ExpensesList>
                   <hr></hr>

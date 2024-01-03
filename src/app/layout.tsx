@@ -12,6 +12,7 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { ParticipantsProvider } from "@/contexts/participants";
 import { IncomesProvider } from "@/contexts/incomes";
+import { BillsProvider } from "@/contexts/bills";
 
 export default function RootLayout({
   children,
@@ -32,7 +33,9 @@ export default function RootLayout({
                 <ParticipantsProvider>
                   <IncomesProvider>
                     <ExpensesProvider>
-                      <Container fluid>{children}</Container>
+                      <BillsProvider>
+                        <Container fluid>{children}</Container>
+                      </BillsProvider>
                     </ExpensesProvider>
                   </IncomesProvider>
                 </ParticipantsProvider>

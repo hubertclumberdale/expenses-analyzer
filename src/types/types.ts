@@ -4,7 +4,8 @@ import { Types } from "mongoose";
 
 export enum TransactionType {
     EXPENSE = 'expense',
-    INCOME = 'income'
+    INCOME = 'income',
+    BILL = 'bill'
 }
 
 export interface Participant {
@@ -54,8 +55,8 @@ export type Expense = Transaction & {
     type: TransactionType.EXPENSE;
 };
 
-export interface Bill extends Expense {
-
+export interface Bill extends Transaction {
+    type: TransactionType.BILL;
     fromDate: Date;
 
     toDate: Date;

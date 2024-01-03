@@ -3,12 +3,15 @@ import ExpensesSelection from "@/components/expenses/expenses-selection";
 import ParticipantSelection from "@/components/participants/participant-selection";
 import ParticipantList from "@/components/participants/participant-list";
 import { useParticipantsContext } from "@/contexts/participants";
-import { Expense, Household, Participant } from "@/types/types";
-import React, { use, useEffect, useState } from "react";
+import { Bill, Expense, Household, Participant } from "@/types/types";
+import React, { useEffect, useState } from "react";
 import { Accordion, Card, Form } from "react-bootstrap";
 import { useHouseholdContext } from "@/contexts/households";
 import { debounce } from "lodash";
 import { useExpensesContext } from "@/contexts/expenses";
+import BillList from "@/components/bills/bills-list";
+import BillsSelection from "@/components/bills/bills-selection";
+import { useBillsContext } from "@/contexts/bills";
 
 interface HouseholdFormProps {
   household: Household;
@@ -20,6 +23,8 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({ household }) => {
   const { participants } = useParticipantsContext();
 
   const { createExpense } = useExpensesContext();
+
+  const { createBill } = useBillsContext();
 
   const [editedHousehold, setEditedHousehold] = useState<Household>({
     name: "",
@@ -93,6 +98,24 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({ household }) => {
     });
   };
 
+  const handleBillsSubmit = (bills: Bill[]) => {
+    bills.forEach(async (bill) => {
+      const newBill = await createBill(bill);
+      if (newBill?._id) {
+        bills.forEach((bill) => addBill(bill));
+      }
+    });
+  };
+
+  const addBill = (newBill: Bill) => {
+    setEditedHousehold((prevData) => {
+      return {
+        ...prevData,
+        expenses: [...(prevData?.expenses ?? []), newBill],
+      };
+    });
+  };
+
   const addExpense = (newExpense: Expense) => {
     setEditedHousehold((prevData) => {
       return {
@@ -107,6 +130,27 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({ household }) => {
       ...prevData,
       expenses: prevData.expenses.filter((expense) => expense._id !== id),
     }));
+  };
+
+  const handleRemoveBill = (id: string) => {
+    setEditedHousehold((prevData) => ({
+      ...prevData,
+      expenses: prevData.expenses.filter((expense) => expense._id !== id),
+    }));
+  };
+
+  const handleUpdateBill = (bill: Bill) => {
+    setEditedHousehold((prevData) => {
+      const newExpenses = [...prevData.expenses];
+      const index = newExpenses.findIndex(
+        (prevExpense) => prevExpense._id === bill._id
+      );
+      newExpenses[index] = bill;
+      return {
+        ...prevData,
+        expenses: newExpenses,
+      };
+    });
   };
 
   const debouncedDeleteParticipant = debounce((index: number) => {
@@ -135,6 +179,7 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({ household }) => {
       };
     });
   };
+
   return (
     <>
       <Form>
@@ -172,20 +217,43 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({ household }) => {
                 </Accordion.Body>
               </Accordion.Item>
               <Accordion.Item eventKey="1">
-                <Accordion.Header>Expenses</Accordion.Header>
+                <Accordion.Header>Bills</Accordion.Header>
                 <Accordion.Body>
-                  <h5>Exisiting Expenses:</h5>
-                  <ExpensesList
-                    onRemoveExpense={handleRemoveExpense}
-                    onUpdateExpense={handleUpdateExpense}
-                    expenses={editedHousehold?.expenses}
-                  ></ExpensesList>
+                  <h5>Exisiting Bills:</h5>
+                  <BillList
+                    onRemoveBill={handleRemoveBill}
+                    onUpdateBill={handleUpdateBill}
+                    bills={
+                      editedHousehold?.expenses.filter(
+                        (expense) => expense.type === "bill"
+                      ) as Bill[]
+                    }
+                  ></BillList>
                   <hr></hr>
 
                   <h5>Add expenses</h5>
                   <ExpensesSelection
                     handleExpensesSubmit={handleExpensesSubmit}
                   />
+                </Accordion.Body>
+              </Accordion.Item>
+              <Accordion.Item eventKey="2">
+                <Accordion.Header>Expenses</Accordion.Header>
+                <Accordion.Body>
+                  <h5>Exisiting Expenses:</h5>
+                  <ExpensesList
+                    onRemoveExpense={handleRemoveExpense}
+                    onUpdateExpense={handleUpdateExpense}
+                    expenses={
+                      editedHousehold?.expenses.filter(
+                        (expense) => expense.type === "expense"
+                      ) as Expense[]
+                    }
+                  ></ExpensesList>
+                  <hr></hr>
+
+                  <h5>Add bills</h5>
+                  <BillsSelection handleBillsSubmit={handleBillsSubmit} />
                 </Accordion.Body>
               </Accordion.Item>
             </Accordion>

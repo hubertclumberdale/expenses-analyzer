@@ -1,7 +1,7 @@
 import { IncomeModel } from "@/models/models";
 import connectDB from "../lib/connect-db";
 import { stringToObjectId } from "../lib/utils";
-import { Income } from '@/types/types'
+import { Income, Transaction } from '@/types/types'
 import { Types } from "mongoose";
 interface IncomesFilters {
     page?: number;
@@ -31,13 +31,13 @@ export async function getIncomes(filter: IncomesFilters = {}) {
     }
 }
 
-export async function createIncome(income: Income) {
+export async function createIncome(transaction: Transaction) {
     try {
         await connectDB();
 
-        const created = await IncomeModel.create({ _id: new Types.ObjectId(), income });
+        const created = await IncomeModel.create({ _id: new Types.ObjectId(), income: transaction });
         return {
-            income: created,
+            created,
         };
     } catch (error) {
         console.error(error)
@@ -69,14 +69,14 @@ export async function getIncome(id: string) {
 }
 
 export async function updateIncome(
-    income: Income
+    transaction: Transaction
 ) {
     try {
         await connectDB();
 
         const found = await IncomeModel.findByIdAndUpdate(
-            income._id,
-            income,
+            transaction._id,
+            transaction,
             { new: true }
         )
             .lean()

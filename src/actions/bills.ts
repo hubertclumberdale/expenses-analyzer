@@ -3,7 +3,6 @@
 import chatGPTClient from "@/lib/chatgpt-client";
 import { extractContentFromFile } from "@/lib/utils";
 import { Bill, Expense } from "@/types/types";
-import { revalidatePath } from "next/cache";
 import { createBill, deleteBill, getBills, updateBill } from "@/mutations/bills";
 const pdf = require('pdf-parse');
 
@@ -19,9 +18,8 @@ export async function createBillAction({
     bill: Bill;
     path: string;
 }) {
-    const { bill: newBill } = await createBill(bill);
-    revalidatePath(path);
-    return JSON.parse(JSON.stringify(newBill))
+    const { created } = await createBill(bill);
+    return JSON.parse(JSON.stringify(created))
 }
 
 export async function updateBillAction(
@@ -34,7 +32,6 @@ export async function updateBillAction(
     }
 ) {
     await updateBill(bill);
-    revalidatePath(path);
 }
 
 export async function deleteBillAction({
@@ -47,7 +44,6 @@ export async function deleteBillAction({
     if (bill._id) {
         await deleteBill(bill._id.toString());
     }
-    revalidatePath(path);
 }
 
 export async function extractBillAction(data: FormData) {

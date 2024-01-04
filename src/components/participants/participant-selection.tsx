@@ -1,11 +1,11 @@
 import ParticipantForm from "@/components/participants/participant-form";
+import { useParticipantsContext } from "@/contexts/participants";
 import { Participant } from "@/types/types";
 import React from "react";
 import { Accordion, Button, Form } from "react-bootstrap";
 
 interface ParticipantSelectionProps {
   participants: Participant[];
-  editedParticipant: Participant;
   handleParticipantSubmit: (participant: Participant) => void;
   handleParticipantSelect: (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -17,12 +17,16 @@ const ParticipantSelection: React.FC<ParticipantSelectionProps> = ({
   handleParticipantSubmit,
   handleParticipantSelect,
 }) => {
-  const createEmptyParticipant = () => {
-    handleParticipantSubmit({
+  const { createParticipant } = useParticipantsContext();
+
+  const createEmptyParticipant = async () => {
+    const newParticipant = await createParticipant({
       name: "",
       incomes: [],
     });
+    handleParticipantSubmit(newParticipant);
   };
+
   return (
     <Accordion>
       <Accordion.Item eventKey="0">

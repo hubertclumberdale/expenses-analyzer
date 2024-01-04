@@ -2,7 +2,6 @@
 
 import BarChart from "@/components/charts/BarChart";
 import LineChart from "@/components/charts/LineChart";
-import HouseholdForm from "@/components/household/household-form";
 import { useHouseholdContext } from "@/contexts/households";
 import { Household } from "@/types/types";
 import Link from "next/link";
@@ -75,13 +74,13 @@ const Page = ({ params }: { params: { household: string } }) => {
                   <Row>
                     <Col>
                       <BarChart
-                        expenses={currentHousehold.expenses}
+                        transactions={currentHousehold.expenses}
                         dataKey="amount"
                       ></BarChart>
                     </Col>
                     <Col>
                       <LineChart
-                        expenses={currentHousehold.expenses}
+                        transactions={currentHousehold.expenses}
                         dataKey="amount"
                       ></LineChart>
                     </Col>

@@ -6,14 +6,14 @@ import { startTransition } from "react";
 const ExpensesUploader = ({
   onSuccess,
 }: {
-  onSuccess: (expenses: (Expense | Bill)[]) => void;
+  onSuccess: (expenses: Expense[]) => void;
 }) => {
   const uploadAndGetExpense = async (files: File[]) => {
     let formData = new FormData();
     files.forEach((file) => {
       formData.append(`files`, file);
     });
-    formData.append("expenseType", "Bill");
+    formData.append("expenseType", "Expense");
     const { expenses } = await extractExpenseAction(formData);
     if (expenses) {
       onSuccess(expenses);

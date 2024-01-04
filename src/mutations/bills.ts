@@ -1,7 +1,6 @@
-import { BillModel, ExpenseModel } from "@/models/models";
+import { BillModel } from "@/models/models";
 import connectDB from "../lib/connect-db";
-import { stringToObjectId } from "../lib/utils";
-import { Bill, Expense } from '@/types/types'
+import { Transaction } from '@/types/types'
 import { Types } from "mongoose";
 interface BillsFilter {
     page?: number;
@@ -31,14 +30,14 @@ export async function getBills(filter: BillsFilter = {}) {
     }
 }
 
-export async function createBill(bill: Bill) {
+export async function createBill(transaction: Transaction) {
     try {
         await connectDB();
 
-        const created = await BillModel.create({ _id: new Types.ObjectId(), bill });
+        const created = await BillModel.create({ _id: new Types.ObjectId(), bill: transaction });
 
         return {
-            bill: created,
+            created,
         };
     } catch (error) {
         return { error };
@@ -63,15 +62,15 @@ export async function getBill(id: string) {
 }
 
 export async function updateBill(
-    bill: Bill
+    transaction: Transaction
 ) {
     try {
         await connectDB();
 
 
         const found = await BillModel.findByIdAndUpdate(
-            bill._id,
-            bill,
+            transaction._id,
+            transaction,
             { new: true }
         )
             .lean()

@@ -1,4 +1,4 @@
-import { Expense } from "@/types/types";
+import { Expense, Transaction } from "@/types/types";
 import React, { useEffect, useState } from "react";
 import {
   BarChart as RechartBarChart,
@@ -9,19 +9,19 @@ import {
 } from "recharts";
 
 const BarChart = ({
-  expenses,
+  transactions,
   dataKey,
 }: {
-  expenses: Expense[];
+  transactions: Transaction[];
   dataKey: string;
 }) => {
-  const [localExpenses, setLocalExpenses] = useState<Expense[]>([]);
+  const [localTransactions, setLocalTransactions] = useState<Transaction[]>([]);
 
   useEffect(() => {
-    setLocalExpenses(expenses);
-  }, [expenses]);
+    setLocalTransactions(transactions);
+  }, [transactions]);
   return (
-    <RechartBarChart width={400} height={300} data={localExpenses}>
+    <RechartBarChart width={400} height={300} data={localTransactions}>
       <XAxis dataKey="date" />
       <YAxis />
       <Bar dataKey={dataKey} fill="#8884d8" />

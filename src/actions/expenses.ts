@@ -4,7 +4,7 @@ import chatGPTClient from "@/lib/chatgpt-client";
 import { createExpense, deleteExpense, getExpenses, updateExpense } from "@/mutations/expenses";
 import { extractContentFromFile } from "@/lib/utils";
 import { Expense } from "@/types/types";
-import { revalidatePath } from "next/cache";
+import { createTransaction } from "@/mutations/transactions";
 const pdf = require('pdf-parse');
 
 export async function getExpensesAction() {
@@ -19,8 +19,7 @@ export async function createExpenseAction({
   expense: Expense;
   path: string;
 }) {
-  const { expense: newExpense } = await createExpense(expense);
-  revalidatePath(path);
+  const { created: newExpense } = await createTransaction(expense);
   return JSON.parse(JSON.stringify(newExpense))
 }
 
@@ -34,7 +33,6 @@ export async function updateExpenseAction(
   }
 ) {
   await updateExpense(expense);
-  revalidatePath(path);
 }
 
 export async function deleteExpenseAction({
@@ -47,7 +45,6 @@ export async function deleteExpenseAction({
   if (expense._id) {
     await deleteExpense(expense._id.toString());
   }
-  revalidatePath(path);
 }
 
 export async function extractExpenseAction(data: FormData) {

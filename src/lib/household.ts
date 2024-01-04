@@ -1,10 +1,10 @@
-import { addOrUpdateExpenses } from "@/lib/expense";
 import { addOrUpdateParticipants } from "@/lib/participant";
 import { HouseholdModel } from "@/models/models";
-import { Household } from "@/types/types";
+import { createTransaction, updateTransaction } from "@/mutations/transactions";
+import { Household, Transaction } from "@/types/types";
 import { Types } from "mongoose";
 
-export const generateHousehold = async (household: Household) => {
+export const persistHousehold = async (household: Household) => {
     let savedExpenses: any[] = []
     if (household?.expenses) {
         savedExpenses = [...await addOrUpdateExpenses(household.expenses)]
@@ -26,4 +26,24 @@ export const generateHousehold = async (household: Household) => {
 
     const householdInstance = new HouseholdModel({ _id: new Types.ObjectId(), ...householdWithReferences });
     return householdInstance
+}
+
+
+export const addOrUpdateExpenses = async (transactions: Transaction[]) => {
+
+    const allTransactions: any = []
+    const promises = transactions.map(async (transaction) => {
+
+        if (transaction._id) {
+            await updateTransaction(transaction)
+            allTransactions.push(transaction._id)
+        } else {
+            const { created } = await createTransaction(transaction)
+            allTransactions.push(created?._id)
+        }
+    });
+
+    await Promise.all(promises);
+
+    return allTransactions
 }

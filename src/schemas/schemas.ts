@@ -48,7 +48,7 @@ export class Expense extends Transaction {
 }
 
 @typegoose.modelOptions({ options: { allowMixed: typegoose.Severity.ALLOW } })
-export class Bill extends Expense {
+export class Bill extends Transaction {
     @typegoose.prop({ type: Date })
     fromDate!: Date;
 
@@ -78,6 +78,9 @@ export class Bill extends Expense {
 
     @typegoose.prop({ enum: ['gas', 'electricity'] })
     provider!: 'gas' | 'electricity';
+
+    @typegoose.prop({ enum: ['bill'], default: 'bill' })
+    type!: 'bill';
 }
 
 @typegoose.modelOptions({ options: { allowMixed: typegoose.Severity.ALLOW } })

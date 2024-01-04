@@ -21,6 +21,7 @@ export interface Transaction {
     amount: number;
     paid: boolean
     owner?: Types.ObjectId | string; // Updated type
+    type: TransactionType;
 }
 
 export interface Household {

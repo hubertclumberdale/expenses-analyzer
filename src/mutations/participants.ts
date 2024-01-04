@@ -1,13 +1,13 @@
 import connectDB from "@/lib/connect-db";
-import { addOrUpdateParticipants } from "@/lib/participant";
+import { addOrUpdateParticipants, persistParticipant } from "@/lib/participant";
 import { ParticipantModel, } from "@/models/models";
 import { Participant as IParticipant } from "@/types/types";
 
 export async function createParticipant(participant: IParticipant) {
     try {
         await connectDB();
-        await addOrUpdateParticipants([participant])
-
+        const newParticipant = await persistParticipant(participant)
+        return newParticipant
     } catch (error) {
         console.error(error)
         return { error };

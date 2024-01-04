@@ -1,15 +1,11 @@
 import {
+  createBillAction,
   deleteBillAction,
   getBillsAction,
   updateBillAction,
 } from "@/actions/bills";
-import {
-  createExpenseAction as createBillAction,
-  deleteExpenseAction,
-  getExpensesAction,
-  updateExpenseAction,
-} from "@/actions/expenses";
-import { Bill, Expense } from "@/types/types";
+
+import { Bill } from "@/types/types";
 import React, {
   createContext,
   useContext,
@@ -64,7 +60,7 @@ export const BillsProvider: React.FC<{ children: ReactNode }> = ({
 
   const createBill = async (bill: Bill) => {
     const newBill = await createBillAction({
-      expense: bill,
+      bill,
       path: "/bills",
     });
     return newBill;

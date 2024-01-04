@@ -5,6 +5,8 @@ import IncomeList from "@/components/incomes/income-list";
 import { useParticipantsContext } from "@/contexts/participants";
 import IncomesSelection from "@/components/incomes/incomes-selection";
 import { useIncomesContext } from "@/contexts/incomes";
+import { useTransactionsContext } from "@/contexts/transactions";
+import { debounce } from "lodash";
 
 interface ParticipantFormProps {
   participantId?: string;
@@ -22,7 +24,7 @@ const ParticipantForm: React.FC<ParticipantFormProps> = ({
     refreshParticipants,
   } = useParticipantsContext();
 
-  const { createIncome } = useIncomesContext();
+  const { createTransaction } = useTransactionsContext();
 
   const [participant, setParticipant] = useState<Participant>({
     incomes: [],
@@ -65,9 +67,9 @@ const ParticipantForm: React.FC<ParticipantFormProps> = ({
   const addIncomeToParticipant = async (incomes: Income[]) => {
     const updatedIncomes: Income[] = [];
     for (const income of incomes) {
-      const newIncome = await createIncome(income);
+      const newIncome = await createTransaction(income);
       if (newIncome?._id) {
-        updatedIncomes.push(newIncome);
+        updatedIncomes.push(newIncome as Income);
       }
     }
 
@@ -85,10 +87,16 @@ const ParticipantForm: React.FC<ParticipantFormProps> = ({
   };
 
   useEffect(() => {
-    if (participant.incomes.length) {
+    const debouncedSaveParticipant = debounce(() => {
       saveParticipant();
-    }
-  }, [participant.incomes.length]);
+    }, 300);
+
+    debouncedSaveParticipant();
+
+    return () => {
+      debouncedSaveParticipant.cancel();
+    };
+  }, [participant.name, participant.incomes.length]);
 
   return (
     <>

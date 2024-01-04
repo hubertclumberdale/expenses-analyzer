@@ -1,6 +1,5 @@
 import connectDB from "@/lib/connect-db";
-import { addOrUpdateExpenses } from "@/lib/expense";
-import { generateHousehold } from "@/lib/household";
+import { addOrUpdateExpenses, persistHousehold } from "@/lib/household";
 import { addOrUpdateParticipants } from "@/lib/participant";
 import { HouseholdModel } from "@/models/models";
 import { Household as IHousehold } from "@/types/types";
@@ -8,7 +7,7 @@ import { Household as IHousehold } from "@/types/types";
 export async function createHousehold(household: IHousehold) {
     try {
         await connectDB();
-        const householdInstance = await generateHousehold(household)
+        const householdInstance = await persistHousehold(household)
         await householdInstance.save();
     } catch (error) {
         console.error(error)
@@ -17,17 +16,18 @@ export async function createHousehold(household: IHousehold) {
 }
 
 export async function editHousehold(household: IHousehold) {
-
     try {
+
+        console.log("household", household)
 
         const participants = await addOrUpdateParticipants(household.participants)
         const expenses = await addOrUpdateExpenses(household.expenses)
-
-        await HouseholdModel.findOneAndUpdate(
+        const newHousehold = await HouseholdModel.findOneAndUpdate(
             { _id: household._id },
             { $set: { ...household, participants: [...participants], expenses: [...expenses] } },
             { new: true }
         );
+        console.log("newHousehold", newHousehold)
     } catch (error) {
         console.error(error)
         return { error };
@@ -36,10 +36,27 @@ export async function editHousehold(household: IHousehold) {
 
 }
 
+export async function getHousehold(id: string) {
+    try {
+        await connectDB();
+        const household = await HouseholdModel.findOne({ _id: id }).populate('participants').populate({
+            path: 'participants',
+            populate: {
+                path: 'incomes'
+            }
+        }).populate('expenses').lean();
+        return household
+    } catch (error) {
+        console.error(error)
+
+        return {}
+    }
+}
+
 export async function getAllHouseholds() {
     try {
         await connectDB();
-        const households = await HouseholdModel.find().populate({
+        const households = await HouseholdModel.find().populate('participants').populate({
             path: 'participants',
             populate: {
                 path: 'incomes'

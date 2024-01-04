@@ -19,6 +19,7 @@ const IncomeList: React.FC<ExpenseListProps> = ({
   const { deleteExpense, updateExpense } = useExpensesContext();
 
   const columnDefs: ColDef<Expense>[] = [
+    { headerName: "Id", flex: 1, field: "_id" },
     { headerName: "Transaction ID", field: "transactionId", editable: true },
     { headerName: "Date", field: "date", editable: true },
     {

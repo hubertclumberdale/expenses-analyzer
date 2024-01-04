@@ -19,6 +19,7 @@ const BillList: React.FC<BillListProps> = ({
   const { deleteBill, updateBill } = useBillsContext();
 
   const columnDefs: ColDef<Bill>[] = [
+    { headerName: "Id", flex: 1, field: "_id" },
     { headerName: "Transaction ID", field: "transactionId", editable: true },
     { headerName: "Date", field: "date", editable: true },
     {

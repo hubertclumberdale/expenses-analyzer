@@ -2,6 +2,7 @@ import {
   createHouseholdAction,
   editHouseholdAction,
   getAllHouseholdsAction,
+  getHouseholdAction,
   removeAllHouseholdsAction,
 } from "@/actions/household";
 import { Household } from "@/types/types";
@@ -26,6 +27,7 @@ interface HouseholdsContextProps {
   createHousehold: (household: Household) => void;
   editHousehold: (household: Household) => void;
   getAllHouseholds: () => void;
+  fetchSingleHousehold: (id: string) => Promise<Household>;
   removeAllHouseholds: () => void;
 }
 
@@ -42,6 +44,7 @@ export const HouseholdsProvider: React.FC<{ children: ReactNode }> = ({
   const [refresh, setRefresh] = useState<number>(0);
 
   const refreshHouseholds = () => {
+    console.log("refreshing households");
     const newRefresh = refresh + 1;
     setRefresh(newRefresh);
   };
@@ -60,6 +63,13 @@ export const HouseholdsProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
+  const fetchSingleHousehold = async (id: string) => {
+    const household = await getHouseholdAction(id);
+    if (household) {
+      return household;
+    }
+  };
+
   const createHousehold = async (household: Household) => {
     await createHouseholdAction(household);
     await getAllHouseholds();
@@ -73,7 +83,6 @@ export const HouseholdsProvider: React.FC<{ children: ReactNode }> = ({
   const getAllHouseholds = async () => {
     try {
       setLoading(true);
-
       const allHouseholds = await getAllHouseholdsAction();
       if (allHouseholds?.length === 0) {
         setResults(0);
@@ -102,7 +111,10 @@ export const HouseholdsProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   useEffect(() => {
-    fetchHouseholds();
+    if (refresh > 0) {
+      console.log("fetching households");
+      fetchHouseholds();
+    }
   }, [refresh]);
 
   useEffect(() => {
@@ -124,6 +136,7 @@ export const HouseholdsProvider: React.FC<{ children: ReactNode }> = ({
         createHousehold,
         editHousehold,
         getAllHouseholds,
+        fetchSingleHousehold,
         removeAllHouseholds,
       }}
     >

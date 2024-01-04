@@ -25,7 +25,7 @@ interface ParticipantsContextProps {
   refresh: number;
   setRefresh: React.Dispatch<React.SetStateAction<number>>;
   refreshParticipants: () => void;
-  createParticipant: (participant: Participant) => void;
+  createParticipant: (participant: Participant) => Promise<Participant>;
   editParticipant: (participant: Participant) => void;
   getAllParticipants: () => void;
   deleteParticipant: (participant: Participant) => void;
@@ -50,8 +50,8 @@ export const ParticipantsProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const createParticipant = async (participant: Participant) => {
-    await createParticipantAction(participant);
-    await getAllParticipants();
+    const newParticipant = await createParticipantAction(participant);
+    return newParticipant as Participant;
   };
 
   const editParticipant = async (participant: Participant) => {

@@ -1,7 +1,6 @@
 "use server";
 
 import { Income } from "@/types/types";
-import { revalidatePath } from "next/cache";
 import { createIncome, deleteIncome, getIncomes, updateIncome } from "@/mutations/incomes";
 import { extractContentFromFile } from "@/lib/utils";
 import chatGPTClient from "@/lib/chatgpt-client";
@@ -19,9 +18,8 @@ export async function createIncomeAction({
     income: Income;
     path: string;
 }) {
-    const { income: newIncome } = await createIncome(income);
-    revalidatePath(path);
-    return JSON.parse(JSON.stringify(newIncome))
+    const { created } = await createIncome(income);
+    return JSON.parse(JSON.stringify(created))
 }
 
 export async function updateIncomeAction(
@@ -34,7 +32,6 @@ export async function updateIncomeAction(
     }
 ) {
     await updateIncome(income);
-    revalidatePath(path);
 }
 
 export async function deleteIncomeAction({
@@ -45,7 +42,6 @@ export async function deleteIncomeAction({
     if (income._id) {
         await deleteIncome(income._id.toString());
     }
-    revalidatePath('/incomes');
 }
 
 

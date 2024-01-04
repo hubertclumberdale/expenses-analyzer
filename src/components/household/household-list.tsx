@@ -56,7 +56,7 @@ const HouseholdList = ({ households }: { households: Household[] }) => {
           variant="danger"
           onClick={() => console.log(params.node.rowIndex)}
         >
-          Remove Income
+          Remove Household
         </Button>
       ),
     },

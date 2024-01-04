@@ -36,11 +36,11 @@ const BillsSelection: React.FC<BillsSelectionProps> = ({
       <Accordion.Item eventKey="1">
         <Accordion.Header>...or do it automatically</Accordion.Header>
         <Accordion.Body>
-          <ExpensesUploader
+          {/* <ExpensesUploader
             onSuccess={(expenses) => {
               handleBillsSubmit(expenses as Bill[]);
             }}
-          ></ExpensesUploader>
+          ></ExpensesUploader> */}
         </Accordion.Body>
       </Accordion.Item>
     </Accordion>

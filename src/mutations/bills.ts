@@ -34,7 +34,7 @@ export async function createBill(transaction: Transaction) {
     try {
         await connectDB();
 
-        const created = await BillModel.create({ _id: new Types.ObjectId(), bill: transaction });
+        const created = await BillModel.create({ _id: new Types.ObjectId(), ...transaction });
 
         return {
             created,

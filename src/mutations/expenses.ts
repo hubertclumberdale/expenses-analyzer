@@ -35,7 +35,7 @@ export async function createExpense(transaction: Transaction) {
   try {
     await connectDB();
 
-    const created = await ExpenseModel.create({ _id: new Types.ObjectId(), expense: transaction });
+    const created = await ExpenseModel.create({ _id: new Types.ObjectId(), ...transaction });
     return {
       created,
     };

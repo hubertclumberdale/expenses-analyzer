@@ -5,11 +5,11 @@ import ParticipantList from "@/components/participants/participant-list";
 import { useParticipantsContext } from "@/contexts/participants";
 import { Bill, Expense, Household, Participant } from "@/types/types";
 import React, { useEffect, useState } from "react";
-import { Accordion, Card, Form } from "react-bootstrap";
+import { Accordion, Button, Card, Form } from "react-bootstrap";
 import BillList from "@/components/bills/bills-list";
 import BillsSelection from "@/components/bills/bills-selection";
 import { useHouseholdContext } from "@/contexts/households";
-import { debounce, set } from "lodash";
+import { debounce } from "lodash";
 import { useTransactionsContext } from "@/contexts/transactions";
 
 interface HouseholdFormProps {
@@ -19,9 +19,9 @@ interface HouseholdFormProps {
 const HouseholdForm: React.FC<HouseholdFormProps> = ({ household }) => {
   const [initialized, setInitialized] = useState<boolean>(false);
   const { participants } = useParticipantsContext();
-  const { editHousehold } = useHouseholdContext();
+  const { editHousehold, getAllHouseholdsTest } = useHouseholdContext();
 
-  const { updateTransaction } = useTransactionsContext();
+  const { updateTransaction, createTransaction } = useTransactionsContext();
   const [editedHousehold, setEditedHousehold] = useState<Household>({
     name: "",
     participants: [],
@@ -115,11 +115,18 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({ household }) => {
     }));
   };
 
-  const handleBillsSubmit = (bills: Bill[]) => {
+  const handleBillsSubmit = async (bills: Bill[]) => {
     console.log("handleBillsSubmit");
+    const createdBills: Bill[] = [];
+    for (const bill of bills) {
+      const createdBill = await createTransaction(bill);
+      if (createdBill?._id) {
+        createdBills.push(createdBill as Bill);
+      }
+    }
     setEditedHousehold((prev) => ({
       ...prev,
-      expenses: [...prev.expenses, ...bills],
+      expenses: [...prev.expenses, ...createdBills],
     }));
   };
 
@@ -144,6 +151,11 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({ household }) => {
     }));
   };
 
+  const logAllHouseholds = async () => {
+    const allHouseholds = await getAllHouseholdsTest();
+    console.log("allHouseholds", allHouseholds);
+  };
+
   return (
     <>
       <div>
@@ -158,6 +170,7 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({ household }) => {
                 value={editedHousehold?.name}
                 onChange={handleInputChange}
               />
+              <Button onClick={logAllHouseholds}>test</Button>
             </Form.Group>
             <hr></hr>
             <Accordion>

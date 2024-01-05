@@ -14,7 +14,6 @@ export async function editHouseholdAction(household: Household) {
 
 export async function getAllHouseholdsAction() {
     const households = await getAllHouseholds()
-    console.log("All households", households.map(household => household.expenses))
     return JSON.parse(JSON.stringify(households))
 }
 

@@ -4,7 +4,6 @@ import { Income, Participant } from "@/types/types";
 import IncomeList from "@/components/incomes/income-list";
 import { useParticipantsContext } from "@/contexts/participants";
 import IncomesSelection from "@/components/incomes/incomes-selection";
-import { useIncomesContext } from "@/contexts/incomes";
 import { useTransactionsContext } from "@/contexts/transactions";
 import { debounce } from "lodash";
 

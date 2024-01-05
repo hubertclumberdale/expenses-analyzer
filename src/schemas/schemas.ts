@@ -1,8 +1,10 @@
 import * as typegoose from '@typegoose/typegoose';
 import mongoose from 'mongoose';
+import { setLogLevel, LogLevels } from '@typegoose/typegoose';
 
+setLogLevel(LogLevels.DEBUG);
 
-@typegoose.modelOptions({ options: { allowMixed: typegoose.Severity.ALLOW } })
+@typegoose.modelOptions({ options: { allowMixed: typegoose.Severity.ERROR } })
 export class Transaction {
     @typegoose.prop({ type: () => mongoose.Types.ObjectId })
     _id?: mongoose.Types.ObjectId;
@@ -21,15 +23,18 @@ export class Transaction {
 
     @typegoose.prop()
     paid!: boolean;
+
+    @typegoose.prop({ enum: ['bill', 'paycheck', 'expense', 'income'] })
+    type!: 'bill' | 'paycheck' | 'expense' | 'income';
 }
 
-@typegoose.modelOptions({ options: { allowMixed: typegoose.Severity.ALLOW } })
+@typegoose.modelOptions({ options: { allowMixed: typegoose.Severity.ERROR } })
 export class Income extends Transaction {
     @typegoose.prop({ enum: ['income'], default: 'income' })
     type!: 'income';
 }
 
-@typegoose.modelOptions({ options: { allowMixed: typegoose.Severity.ALLOW } })
+@typegoose.modelOptions({ options: { allowMixed: typegoose.Severity.ERROR } })
 export class Paycheck extends Income {
     @typegoose.prop({ type: Number })
     totalNetMonth!: number;
@@ -41,13 +46,13 @@ export class Paycheck extends Income {
     permissions!: { balance: number };
 }
 
-@typegoose.modelOptions({ options: { allowMixed: typegoose.Severity.ALLOW } })
+@typegoose.modelOptions({ options: { allowMixed: typegoose.Severity.ERROR } })
 export class Expense extends Transaction {
     @typegoose.prop({ enum: ['expense'], default: 'expense' })
     type!: 'expense';
 }
 
-@typegoose.modelOptions({ options: { allowMixed: typegoose.Severity.ALLOW } })
+@typegoose.modelOptions({ options: { allowMixed: typegoose.Severity.ERROR } })
 export class Bill extends Transaction {
     @typegoose.prop({ type: Date })
     fromDate!: Date;
@@ -83,7 +88,7 @@ export class Bill extends Transaction {
     type!: 'bill';
 }
 
-@typegoose.modelOptions({ options: { allowMixed: typegoose.Severity.ALLOW } })
+@typegoose.modelOptions({ options: { allowMixed: typegoose.Severity.ERROR } })
 export class Participant {
 
     @typegoose.prop()
@@ -92,7 +97,7 @@ export class Participant {
     @typegoose.prop({ ref: () => Income })
     incomes!: typegoose.Ref<Income>[];
 }
-@typegoose.modelOptions({ options: { allowMixed: typegoose.Severity.ALLOW } })
+@typegoose.modelOptions({ options: { allowMixed: typegoose.Severity.ERROR } })
 export class Household {
 
     @typegoose.prop()
@@ -101,11 +106,11 @@ export class Household {
     @typegoose.prop({ ref: () => Participant })
     participants!: typegoose.Ref<Participant>[];
 
-    @typegoose.prop({ ref: () => Expense })
-    expenses!: (typegoose.Ref<Expense | Bill>)[];
+    @typegoose.prop({ ref: () => Transaction, discriminate: () => 'type' })
+    expenses!: typegoose.Ref<Transaction>[];
 }
 
-@typegoose.modelOptions({ options: { allowMixed: typegoose.Severity.ALLOW } })
+@typegoose.modelOptions({ options: { allowMixed: typegoose.Severity.ERROR } })
 export class Analysis {
     @typegoose.prop()
     name!: string;
@@ -113,6 +118,6 @@ export class Analysis {
     @typegoose.prop({ ref: () => Participant })
     owner!: typegoose.Ref<Participant>;
 
-    @typegoose.prop({ items: [Household] })
+    @typegoose.prop({ ref: () => Household })
     households!: typegoose.Ref<Household>[];
 }

@@ -33,7 +33,6 @@ export async function editHousehold(household: IHousehold) {
         return { error };
     }
 
-
 }
 
 export async function getHousehold(id: string) {
@@ -56,7 +55,7 @@ export async function getHousehold(id: string) {
 export async function getAllHouseholds() {
     try {
         await connectDB();
-        const households = await HouseholdModel.find().populate('participants').populate({
+        const households = await HouseholdModel.find().populate({
             path: 'participants',
             populate: {
                 path: 'incomes'

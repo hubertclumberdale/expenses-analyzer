@@ -1,4 +1,4 @@
-import { BillModel, ExpenseModel, IncomeModel, TransactionModel } from "@/models/models";
+import { IncomeModel, TransactionModel } from "@/models/models";
 import connectDB from "../lib/connect-db";
 import { Transaction } from '@/types/types'
 import { Types } from "mongoose";
@@ -25,6 +25,7 @@ export async function getTransactions(filter: TransactionsFilters = {}) {
             results: (expensesResult?.results ?? 0) + (incomesResult?.results ?? 0) + (billsResult?.results ?? 0),
         };
     } catch (error) {
+        console.error(error)
         return { error };
     }
 }
@@ -52,7 +53,7 @@ export async function createTransaction(transaction: Transaction) {
                 created,
             };
         }
-        const created = await TransactionModel.create({ _id: new Types.ObjectId(), transaction });
+        const created = await TransactionModel.create({ _id: new Types.ObjectId(), ...transaction });
         return {
             created,
         };
@@ -107,6 +108,7 @@ export async function updateTransaction(
             return { error: "Income not found" };
         }
     } catch (error) {
+        console.error(error)
         return { error };
     }
 }
@@ -123,6 +125,7 @@ export async function deleteTransaction(id: string) {
             return { error: "Income not found" };
         }
     } catch (error) {
+        console.error(error)
         return { error };
     }
 }

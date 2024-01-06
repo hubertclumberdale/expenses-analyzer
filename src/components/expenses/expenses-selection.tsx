@@ -13,6 +13,7 @@ const ExpensesSelection: React.FC<ExpensesSelectionProps> = ({
   const addEmptyExpense = () => {
     handleExpensesSubmit([
       {
+        name: "",
         amount: 0,
         date: new Date(),
         paid: false,

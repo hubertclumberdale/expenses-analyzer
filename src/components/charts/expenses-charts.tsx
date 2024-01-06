@@ -2,33 +2,38 @@ import AreaChartMonthlyCost from "@/components/charts/AreaChartMonthlyCost";
 import BarChart from "@/components/charts/BarChart";
 import FunnelChartPaymentStatus from "@/components/charts/FunnelChartPaymentStatus";
 import LineChart from "@/components/charts/LineChart";
-import PieChartExpenseDistribution from "@/components/charts/PieChartExpenseDistribution";
+import PieChart from "@/components/charts/PieChart";
 import RadarChartExpenseBreakdown from "@/components/charts/RadarChartExpenseBreakdown";
 import RadialBarChartTotalCostType from "@/components/charts/RadialBarChartTotalCostType";
 import ScatterPlotDueDateTotalCost from "@/components/charts/ScatterPlotDueDateTotalCost";
 import StackedBarChartCostActivation from "@/components/charts/StackedBarChartCostActivation";
 import TreemapExpenseDistribution from "@/components/charts/TreemapExpenseDistribution";
-import { useExpensesContext } from "@/contexts/expenses";
+import { Household } from "@/types/types";
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 
-const ExpensesCharts = () => {
-  const { expenses } = useExpensesContext();
+const ExpensesCharts = ({ household }: { household: Household }) => {
   return (
     <>
       <Container>
         <Row>
           <Col>
             Bar Chart - Total Cost vs. Reference
-            <BarChart expenses={expenses} dataKey="totalCost"></BarChart>
+            <BarChart
+              transactions={household?.expenses}
+              dataKey="totalCost"
+            ></BarChart>
           </Col>
           <Col>
             Line Chart - Consumption Over Time
-            <LineChart expenses={expenses} dataKey="consumption"></LineChart>
+            <LineChart
+              transactions={household?.expenses}
+              dataKey="consumption"
+            ></LineChart>
           </Col>
           <Col>
-            Pie Chart - Expense Distribution by Type
-            <PieChartExpenseDistribution></PieChartExpenseDistribution>
+            Pie Chart - Expense Distribution by Typeeee
+            <PieChart transactions={household?.expenses}></PieChart>
           </Col>
 
           <Col>

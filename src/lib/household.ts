@@ -11,6 +11,11 @@ export const persistHousehold = async (household: Household) => {
 
     }
 
+    let savedRefunds: any[] = []
+    if (household?.refunds) {
+        savedRefunds = [...await addOrUpdateExpenses(household.refunds)]
+    }
+
     let savedParticipants: any[] = []
     if (household?.participants) {
         savedParticipants = [...await addOrUpdateParticipants(household.participants)]
@@ -19,7 +24,8 @@ export const persistHousehold = async (household: Household) => {
     const householdWithReferences = {
         ...household,
         participants: savedParticipants,
-        expenses: savedExpenses
+        expenses: savedExpenses,
+        refunds: savedRefunds
     };
 
 

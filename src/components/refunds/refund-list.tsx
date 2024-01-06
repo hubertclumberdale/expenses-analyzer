@@ -1,25 +1,25 @@
-import { Expense, Participant } from "@/types/types";
+import { Participant, Transaction } from "@/types/types";
 import React from "react";
 import { AgGridReact } from "ag-grid-react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { CellValueChangedEvent, ColDef } from "ag-grid-community";
-import { useExpensesContext } from "@/contexts/expenses";
+import { useTransactionsContext } from "@/contexts/transactions";
 import ParticipantDropdown from "@/components/participants/participant-dropdown";
 
-interface ExpenseListProps {
-  expenses: Expense[];
-  onRemoveExpense: (id: string) => void;
-  onUpdateExpense: (expense: Expense) => void;
+interface RefundListProps {
+  refunds: Transaction[];
+  onRemoveRefund: (id: string) => void;
+  onUpdateRefund: (refund: Transaction) => void;
 }
 
-const IncomeList: React.FC<ExpenseListProps> = ({
-  expenses,
-  onRemoveExpense,
-  onUpdateExpense,
+const RefundList: React.FC<RefundListProps> = ({
+  refunds,
+  onRemoveRefund,
+  onUpdateRefund,
 }) => {
-  const { deleteExpense, updateExpense } = useExpensesContext();
+  const { deleteTransaction, updateTransaction } = useTransactionsContext();
 
-  const columnDefs: ColDef<Expense>[] = [
+  const columnDefs: ColDef<Transaction>[] = [
     { headerName: "Id", flex: 1, field: "_id" },
     { headerName: "Name", field: "name", editable: true },
     { headerName: "Transaction ID", field: "transactionId", editable: true },
@@ -48,7 +48,7 @@ const IncomeList: React.FC<ExpenseListProps> = ({
                 selectedParticipantId={params.data.owner?._id?.toString()}
                 onParticipantSelect={(participant: Participant) => {
                   handleParticipantSelect({
-                    expense: params.data,
+                    bill: params.data,
                     participant,
                   });
                 }}
@@ -63,7 +63,7 @@ const IncomeList: React.FC<ExpenseListProps> = ({
       cellRenderer: (params: any) => (
         <Button
           variant="danger"
-          onClick={() => handleDeleteExpense(params.node.rowIndex)}
+          onClick={() => handleDeleteRefund(params.node.rowIndex)}
         >
           Remove Expense
         </Button>
@@ -71,48 +71,48 @@ const IncomeList: React.FC<ExpenseListProps> = ({
     },
   ];
 
-  const handleParticipantSelect = async ({
-    expense,
-    participant,
-  }: {
-    expense: Expense;
-    participant: Participant;
-  }) => {
-    if (!participant) {
-      return;
-    }
-    const updatedExpense = {
-      ...expense,
-      owner: participant,
-    };
-    onUpdateExpense(updatedExpense);
-  };
-
-  const handleDeleteExpense = async (index: number) => {
-    const expense = expenses[index];
+  const handleDeleteRefund = async (index: number) => {
+    const expense = refunds[index];
     if (expense._id) {
-      await deleteExpense(expense);
-      onRemoveExpense(expense._id?.toString());
+      await deleteTransaction(expense);
+      onRemoveRefund(expense._id?.toString());
     }
   };
 
   const handleCellValueChanged = async (
-    event: CellValueChangedEvent<Expense>
+    event: CellValueChangedEvent<Transaction>
   ) => {
     const index = event?.rowIndex ?? -1;
     if (index < 0) {
       return;
     }
-    const expense = expenses[index];
+    const expense = refunds[index];
     if (expense._id) {
       const field = event.colDef.field as string;
       const updatedExpense = {
         ...expense,
         [field]: event.newValue,
       };
-      await updateExpense(updatedExpense);
-      onUpdateExpense(updatedExpense);
+      await updateTransaction(updatedExpense);
+      onUpdateRefund(updatedExpense);
     }
+  };
+
+  const handleParticipantSelect = async ({
+    bill,
+    participant,
+  }: {
+    bill: Transaction;
+    participant: Participant;
+  }) => {
+    if (!participant) {
+      return;
+    }
+    const updatedBill = {
+      ...bill,
+      owner: participant,
+    };
+    onUpdateRefund(updatedBill);
   };
 
   return (
@@ -125,7 +125,7 @@ const IncomeList: React.FC<ExpenseListProps> = ({
           >
             <AgGridReact
               columnDefs={columnDefs}
-              rowData={expenses}
+              rowData={refunds}
               onCellValueChanged={handleCellValueChanged}
             ></AgGridReact>
           </div>
@@ -135,4 +135,4 @@ const IncomeList: React.FC<ExpenseListProps> = ({
   );
 };
 
-export default IncomeList;
+export default RefundList;

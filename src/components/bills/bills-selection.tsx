@@ -1,3 +1,4 @@
+import BillsUploader from "@/components/bills/bills-uploader";
 import ExpensesUploader from "@/components/expenses/expenses-uploader";
 import { Bill, TransactionType } from "@/types/types";
 import React from "react";
@@ -13,6 +14,7 @@ const BillsSelection: React.FC<BillsSelectionProps> = ({
   const addEmptyBill = () => {
     handleBillsSubmit([
       {
+        name: "",
         amount: 0,
         date: new Date(),
         paid: false,
@@ -36,11 +38,11 @@ const BillsSelection: React.FC<BillsSelectionProps> = ({
       <Accordion.Item eventKey="1">
         <Accordion.Header>...or do it automatically</Accordion.Header>
         <Accordion.Body>
-          {/* <ExpensesUploader
-            onSuccess={(expenses) => {
-              handleBillsSubmit(expenses as Bill[]);
+          <BillsUploader
+            onSuccess={(bills) => {
+              handleBillsSubmit(bills);
             }}
-          ></ExpensesUploader> */}
+          ></BillsUploader>
         </Accordion.Body>
       </Accordion.Item>
     </Accordion>

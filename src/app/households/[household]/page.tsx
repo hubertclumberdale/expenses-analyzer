@@ -2,8 +2,9 @@
 
 import BarChart from "@/components/charts/BarChart";
 import LineChart from "@/components/charts/LineChart";
+import PieChart from "@/components/charts/PieChart";
 import { useHouseholdContext } from "@/contexts/households";
-import { Household } from "@/types/types";
+import { Household, Transaction } from "@/types/types";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
@@ -17,13 +18,16 @@ import {
 } from "react-bootstrap";
 
 const Page = ({ params }: { params: { household: string } }) => {
-  const { households, editHousehold } = useHouseholdContext();
+  const { households } = useHouseholdContext();
 
   const [currentHousehold, setCurrentHousehold] = useState<Household>({
     name: "",
     participants: [],
     expenses: [],
+    refunds: [],
   });
+
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
 
   const findAndSetCurrentParticipant = () => {
     const household = households.find(
@@ -43,13 +47,30 @@ const Page = ({ params }: { params: { household: string } }) => {
     findAndSetCurrentParticipant();
   }, [households]);
 
+  useEffect(() => {
+    if (!currentHousehold._id) {
+      return;
+    }
+
+    const transactions = [
+      ...currentHousehold.expenses,
+      ...currentHousehold.refunds,
+    ];
+    console.log(transactions);
+    setTransactions(transactions);
+  }, [
+    currentHousehold,
+    currentHousehold.expenses.length,
+    currentHousehold.refunds.length,
+  ]);
+
   return (
     <>
       <Breadcrumb>
         <Breadcrumb.Item active>
           <Link href="/">Home</Link>
         </Breadcrumb.Item>
-        <Breadcrumb.Item>
+        <Breadcrumb.Item active>
           <Link href="/households">Households</Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item active>{<>{currentHousehold._id}</>}</Breadcrumb.Item>
@@ -83,6 +104,9 @@ const Page = ({ params }: { params: { household: string } }) => {
                         transactions={currentHousehold.expenses}
                         dataKey="amount"
                       ></LineChart>
+                    </Col>
+                    <Col>
+                      <PieChart transactions={transactions}></PieChart>
                     </Col>
                   </Row>
                 </Container>

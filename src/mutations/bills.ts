@@ -68,6 +68,7 @@ export async function updateBill(
         await connectDB();
 
 
+        console.log(transaction)
         const found = await BillModel.findByIdAndUpdate(
             transaction._id,
             transaction,

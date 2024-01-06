@@ -1,3 +1,4 @@
+import ParticipantDropdown from "@/components/participants/participant-dropdown";
 import ParticipantForm from "@/components/participants/participant-form";
 import { useParticipantsContext } from "@/contexts/participants";
 import { Participant } from "@/types/types";
@@ -5,26 +6,22 @@ import React from "react";
 import { Accordion, Button, Form } from "react-bootstrap";
 
 interface ParticipantSelectionProps {
-  participants: Participant[];
-  handleParticipantSubmit: (participant: Participant) => void;
-  handleParticipantSelect: (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => void;
+  onParticipantCreation: (participant: Participant) => void;
+  onParticipantSelect: (participant: Participant) => void;
 }
 
 const ParticipantSelection: React.FC<ParticipantSelectionProps> = ({
-  participants,
-  handleParticipantSubmit,
-  handleParticipantSelect,
+  onParticipantCreation,
+  onParticipantSelect,
 }) => {
-  const { createParticipant } = useParticipantsContext();
+  const { createParticipant, participants } = useParticipantsContext();
 
   const createEmptyParticipant = async () => {
     const newParticipant = await createParticipant({
       name: "",
       incomes: [],
     });
-    handleParticipantSubmit(newParticipant);
+    onParticipantCreation(newParticipant);
   };
 
   return (
@@ -38,20 +35,9 @@ const ParticipantSelection: React.FC<ParticipantSelectionProps> = ({
       <Accordion.Item eventKey="1">
         <Accordion.Header>...or select an existing one</Accordion.Header>
         <Accordion.Body>
-          <Form.Select
-            onChange={handleParticipantSelect}
-            aria-label="Default select example"
-          >
-            <option>Select an existing participant</option>
-            {participants.map((participant) => (
-              <option
-                key={participant._id?.toString()}
-                value={participant._id?.toString()}
-              >
-                {participant.name}
-              </option>
-            ))}
-          </Form.Select>
+          <ParticipantDropdown
+            onParticipantSelect={onParticipantSelect}
+          ></ParticipantDropdown>
         </Accordion.Body>
       </Accordion.Item>
     </Accordion>

@@ -1,12 +1,12 @@
-import { extractExpenseAction } from "@/actions/expenses";
+import { extractBillAction } from "@/actions/bills";
 import PdfUploader from "@/components/pdf-uploader";
-import { Bill, Expense } from "@/types/types";
+import { Bill } from "@/types/types";
 import { startTransition } from "react";
 
-const ExpensesUploader = ({
+const BillsUploader = ({
   onSuccess,
 }: {
-  onSuccess: (expenses: (Expense | Bill)[]) => void;
+  onSuccess: (expenses: Bill[]) => void;
 }) => {
   const uploadAndGetExpense = async (files: File[]) => {
     let formData = new FormData();
@@ -14,9 +14,9 @@ const ExpensesUploader = ({
       formData.append(`files`, file);
     });
     formData.append("expenseType", "Bill");
-    const { expenses } = await extractExpenseAction(formData);
-    if (expenses) {
-      onSuccess(expenses);
+    const { bills } = await extractBillAction(formData);
+    if (bills) {
+      onSuccess(bills);
     }
   };
 
@@ -33,4 +33,4 @@ const ExpensesUploader = ({
   );
 };
 
-export default ExpensesUploader;
+export default BillsUploader;

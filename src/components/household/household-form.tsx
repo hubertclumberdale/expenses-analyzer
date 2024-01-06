@@ -3,7 +3,13 @@ import ExpensesSelection from "@/components/expenses/expenses-selection";
 import ParticipantSelection from "@/components/participants/participant-selection";
 import ParticipantList from "@/components/participants/participant-list";
 import { useParticipantsContext } from "@/contexts/participants";
-import { Bill, Expense, Household, Participant } from "@/types/types";
+import {
+  Bill,
+  Expense,
+  Household,
+  Participant,
+  Transaction,
+} from "@/types/types";
 import React, { useEffect, useState } from "react";
 import { Accordion, Button, Card, Form } from "react-bootstrap";
 import BillList from "@/components/bills/bills-list";
@@ -11,6 +17,8 @@ import BillsSelection from "@/components/bills/bills-selection";
 import { useHouseholdContext } from "@/contexts/households";
 import { debounce } from "lodash";
 import { useTransactionsContext } from "@/contexts/transactions";
+import RefundList from "@/components/refunds/refund-list";
+import RefundSelection from "@/components/refunds/refund-selection";
 
 interface HouseholdFormProps {
   household: Household;
@@ -18,14 +26,14 @@ interface HouseholdFormProps {
 
 const HouseholdForm: React.FC<HouseholdFormProps> = ({ household }) => {
   const [initialized, setInitialized] = useState<boolean>(false);
-  const { participants } = useParticipantsContext();
-  const { editHousehold, getAllHouseholdsTest } = useHouseholdContext();
+  const { editHousehold } = useHouseholdContext();
 
   const { updateTransaction, createTransaction } = useTransactionsContext();
   const [editedHousehold, setEditedHousehold] = useState<Household>({
     name: "",
     participants: [],
     expenses: [],
+    refunds: [],
   });
 
   useEffect(() => {
@@ -48,6 +56,7 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({ household }) => {
     editedHousehold.name,
     editedHousehold.participants.length,
     editedHousehold.expenses.length,
+    editedHousehold.refunds.length,
   ]);
 
   const debouncedEditHousehold = debounce(() => {
@@ -81,11 +90,8 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({ household }) => {
     }));
   };
 
-  const handleParticipantSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleParticipantSelect = (participant: Participant) => {
     console.log("handleParticipantSelect");
-    const participant = participants.find(
-      (participant) => participant._id?.toString() === e.target.value
-    );
     if (participant) {
       setEditedHousehold((prev) => ({
         ...prev,
@@ -151,9 +157,25 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({ household }) => {
     }));
   };
 
-  const logAllHouseholds = async () => {
-    const allHouseholds = await getAllHouseholdsTest();
-    console.log("allHouseholds", allHouseholds);
+  const handleRemoveRefund = (id: string) => {
+    console.log("handleRemoveRefund");
+    setEditedHousehold((prev) => ({
+      ...prev,
+      expenses: prev.expenses.filter((expense) => expense._id !== id),
+    }));
+  };
+
+  const handleUpdateRefund = (expense: Transaction) => {
+    console.log("handleUpdateRefund");
+    updateTransaction(expense);
+  };
+
+  const handleRefundsSubmit = (refunds: Transaction[]) => {
+    console.log("handleRefundsSubmit");
+    setEditedHousehold((prev) => ({
+      ...prev,
+      refunds: [...prev.refunds, ...refunds],
+    }));
   };
 
   return (
@@ -170,7 +192,6 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({ household }) => {
                 value={editedHousehold?.name}
                 onChange={handleInputChange}
               />
-              <Button onClick={logAllHouseholds}>test</Button>
             </Form.Group>
             <hr></hr>
             <Accordion>
@@ -185,9 +206,8 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({ household }) => {
                   <hr></hr>
                   <h5>Add participants</h5>
                   <ParticipantSelection
-                    participants={participants}
-                    handleParticipantSelect={handleParticipantSelect}
-                    handleParticipantSubmit={handleParticipantSubmit}
+                    onParticipantSelect={handleParticipantSelect}
+                    onParticipantCreation={handleParticipantSubmit}
                   ></ParticipantSelection>
                   <hr></hr>
                 </Accordion.Body>
@@ -230,6 +250,21 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({ household }) => {
                   <ExpensesSelection
                     handleExpensesSubmit={handleExpensesSubmit}
                   />
+                </Accordion.Body>
+              </Accordion.Item>
+              <Accordion.Item eventKey="3">
+                <Accordion.Header>Refunds</Accordion.Header>
+                <Accordion.Body>
+                  <h5>Exisiting Refunds:</h5>
+                  <RefundList
+                    onRemoveRefund={handleRemoveRefund}
+                    onUpdateRefund={handleUpdateRefund}
+                    refunds={editedHousehold?.refunds ?? []}
+                  ></RefundList>
+                  <hr></hr>
+
+                  <h5>Add expenses</h5>
+                  <RefundSelection handleRefundsSubmit={handleRefundsSubmit} />
                 </Accordion.Body>
               </Accordion.Item>
             </Accordion>

@@ -14,6 +14,7 @@ const Page = ({ params }: { params: { household: string } }) => {
     name: "",
     participants: [],
     expenses: [],
+    refunds: [],
   });
 
   const findAndSetCurrentParticipant = () => {

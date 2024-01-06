@@ -13,6 +13,7 @@ const Page = () => {
       name: "",
       participants: [],
       expenses: [],
+      refunds: [],
     };
     createHousehold(household);
   };

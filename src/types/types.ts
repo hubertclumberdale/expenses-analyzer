@@ -11,16 +11,17 @@ export enum TransactionType {
 export interface Participant {
     _id?: Types.ObjectId | string // id used by mongoose
     name: string;
-    incomes: Income[]
+    incomes: Transaction[]
 }
 
 export interface Transaction {
     _id?: Types.ObjectId | string // id used by mongoose
+    name: string
     transactionId: number, // generally the number that identifies the transaction such as rif.bolletta
     date: Date
     amount: number;
     paid: boolean
-    owner?: Types.ObjectId | string; // Updated type
+    owner?: Participant; // Updated type
     type: TransactionType;
 }
 
@@ -28,7 +29,8 @@ export interface Household {
     _id?: Types.ObjectId | string // id used by mongoose
     name: string
     participants: Participant[]
-    expenses: (Expense | Bill)[]
+    expenses: Transaction[]
+    refunds: Transaction[]
 }
 
 export interface Analysis {

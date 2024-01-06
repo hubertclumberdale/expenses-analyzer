@@ -1,9 +1,10 @@
-import { Bill } from "@/types/types";
+import { Bill, Participant } from "@/types/types";
 import React from "react";
 import { AgGridReact } from "ag-grid-react";
-import { Button, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import { CellValueChangedEvent, ColDef } from "ag-grid-community";
 import { useBillsContext } from "@/contexts/bills";
+import ParticipantDropdown from "@/components/participants/participant-dropdown";
 
 interface BillListProps {
   bills: Bill[];
@@ -16,24 +17,72 @@ const BillList: React.FC<BillListProps> = ({
   onRemoveBill,
   onUpdateBill,
 }) => {
-  const { deleteBill, updateBill } = useBillsContext();
+  const dateFormatter = (data: any) => {
+    return data.value ? new Date(data.value).toLocaleDateString() : "";
+  };
 
   const columnDefs: ColDef<Bill>[] = [
-    { headerName: "Id", flex: 1, field: "_id" },
+    { headerName: "Id", field: "_id", flex: 1 },
+    { headerName: "Name", field: "name", editable: true },
     { headerName: "Transaction ID", field: "transactionId", editable: true },
-    { headerName: "Date", field: "date", editable: true },
     {
-      headerName: "Amount",
-      field: "amount",
-      cellDataType: "number",
+      headerName: "Date",
+      field: "date",
       editable: true,
+      cellRenderer: dateFormatter,
+    },
+    { headerName: "Amount", field: "amount", editable: true },
+    { headerName: "Paid", field: "paid", editable: true },
+    {
+      headerName: "Owner",
+      field: "owner",
+      editable: true,
+      cellRenderer: (params: any) => (
+        <Container>
+          <Row>
+            <Col>
+              <ParticipantDropdown
+                selectedParticipantId={params.data.owner?._id?.toString()}
+                onParticipantSelect={(participant: Participant) => {
+                  handleParticipantSelect({
+                    bill: params.data,
+                    participant,
+                  });
+                }}
+              ></ParticipantDropdown>
+            </Col>
+          </Row>
+        </Container>
+      ),
+    },
+    { headerName: "Type", field: "type", editable: true },
+    {
+      headerName: "From Date",
+      field: "fromDate",
+      editable: true,
+      cellRenderer: dateFormatter,
     },
     {
-      headerName: "Paid",
-      field: "paid",
-      cellDataType: "boolean",
+      headerName: "To Date",
+      field: "toDate",
+      editable: true,
+      cellRenderer: dateFormatter,
+    },
+    {
+      headerName: "Due Date",
+      field: "dueDate",
+      editable: true,
+      cellRenderer: dateFormatter,
+    },
+    { headerName: "Consumption", field: "consumption", editable: true },
+    { headerName: "Activation Cost", field: "activationCost", editable: true },
+    {
+      headerName: "Monthly Installments",
+      field: "monthlyInstallments",
       editable: true,
     },
+    { headerName: "Notes", field: "notes", editable: true },
+    { headerName: "Provider", field: "provider", editable: true },
     {
       headerName: "Actions",
       cellRenderer: (params: any) => (
@@ -50,7 +99,6 @@ const BillList: React.FC<BillListProps> = ({
   const handleDeleteBill = async (index: number) => {
     const bill = bills[index];
     if (bill._id) {
-      await deleteBill(bill);
       onRemoveBill(bill._id?.toString());
     }
   };
@@ -67,9 +115,25 @@ const BillList: React.FC<BillListProps> = ({
         ...bill,
         [field]: event.newValue,
       };
-      await updateBill(updatedBill);
       onUpdateBill(updatedBill);
     }
+  };
+
+  const handleParticipantSelect = async ({
+    bill,
+    participant,
+  }: {
+    bill: Bill;
+    participant: Participant;
+  }) => {
+    if (!participant) {
+      return;
+    }
+    const updatedBill = {
+      ...bill,
+      owner: participant,
+    };
+    onUpdateBill(updatedBill);
   };
 
   return (

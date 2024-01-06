@@ -57,7 +57,7 @@ export async function extractBillAction(data: FormData) {
     let parentMessageId: string | undefined = undefined
     try {
         const billsPromises = files.map(async (file: File) => {
-            return new Promise<Expense>(async (resolve) => {
+            return new Promise<Bill>(async (resolve) => {
                 try {
                     const bytes = await file.arrayBuffer();
                     const buffer = Buffer.from(bytes);
@@ -84,7 +84,7 @@ export async function extractBillAction(data: FormData) {
                     resolve(parsedExpense);
                 } catch (error) {
                     console.error('Error processing file:', error);
-                    resolve({} as Expense);
+                    resolve({} as Bill);
                 }
             });
         });

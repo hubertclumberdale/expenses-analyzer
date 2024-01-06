@@ -10,6 +10,9 @@ export class Transaction {
     _id?: mongoose.Types.ObjectId;
 
     @typegoose.prop()
+    name: string;
+
+    @typegoose.prop()
     transactionId!: number;
 
     @typegoose.prop({ type: Date })
@@ -108,6 +111,9 @@ export class Household {
 
     @typegoose.prop({ ref: () => Transaction, discriminate: () => 'type' })
     expenses!: typegoose.Ref<Transaction>[];
+
+    @typegoose.prop({ ref: () => Transaction })
+    refunds!: typegoose.Ref<Transaction>[];
 }
 
 @typegoose.modelOptions({ options: { allowMixed: typegoose.Severity.ERROR } })

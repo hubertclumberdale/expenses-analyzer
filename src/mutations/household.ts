@@ -22,9 +22,10 @@ export async function editHousehold(household: IHousehold) {
 
         const participants = await addOrUpdateParticipants(household.participants)
         const expenses = await addOrUpdateExpenses(household.expenses)
+        const refunds = await addOrUpdateExpenses(household.refunds)
         const newHousehold = await HouseholdModel.findOneAndUpdate(
             { _id: household._id },
-            { $set: { ...household, participants: [...participants], expenses: [...expenses] } },
+            { $set: { ...household, participants: [...participants], expenses: [...expenses], refunds: [...refunds] } },
             { new: true }
         );
         console.log("newHousehold", newHousehold)
@@ -60,7 +61,18 @@ export async function getAllHouseholds() {
             populate: {
                 path: 'incomes'
             }
-        }).populate('expenses').lean();
+        }).populate('expenses').populate({
+            path: 'expenses',
+            populate: {
+                path: 'owner'
+            }
+        })
+            .populate('refunds').populate({
+                path: 'refunds',
+                populate: {
+                    path: 'owner'
+                }
+            }).lean();
         return households
     } catch (error) {
         console.error(error)

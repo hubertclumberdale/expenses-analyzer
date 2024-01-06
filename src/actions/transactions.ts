@@ -1,7 +1,6 @@
 "use server";
 import { createTransaction, deleteTransaction, getTransactions, updateTransaction } from "@/mutations/transactions";
 import { Transaction } from "@/types/types";
-const pdf = require('pdf-parse');
 
 export async function getTransactionsActions() {
     const transactions = await getTransactions()
@@ -32,13 +31,13 @@ export async function updateTransactionAction(
 }
 
 export async function deleteTransactionAction({
-    transaction,
+    id,
     path,
 }: {
-    transaction: Transaction;
+    id: string;
     path: string;
 }) {
-    if (transaction._id) {
-        await deleteTransaction(transaction._id.toString());
+    if (id) {
+        await deleteTransaction(id);
     }
 }

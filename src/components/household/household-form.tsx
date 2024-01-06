@@ -2,182 +2,35 @@ import ExpensesList from "@/components/expenses/expenses-list";
 import ExpensesSelection from "@/components/expenses/expenses-selection";
 import ParticipantSelection from "@/components/participants/participant-selection";
 import ParticipantList from "@/components/participants/participant-list";
-import { useParticipantsContext } from "@/contexts/participants";
-import {
-  Bill,
-  Expense,
-  Household,
-  Participant,
-  Transaction,
-} from "@/types/types";
-import React, { useEffect, useState } from "react";
-import { Accordion, Button, Card, Form } from "react-bootstrap";
+import { Bill, Expense, Household } from "@/types/types";
+import React from "react";
+import { Accordion, Card, Form } from "react-bootstrap";
 import BillList from "@/components/bills/bills-list";
 import BillsSelection from "@/components/bills/bills-selection";
-import { useHouseholdContext } from "@/contexts/households";
-import { debounce } from "lodash";
-import { useTransactionsContext } from "@/contexts/transactions";
 import RefundList from "@/components/refunds/refund-list";
 import RefundSelection from "@/components/refunds/refund-selection";
+import { useHouseholdForm } from "@/components/household/use-household-form";
 
 interface HouseholdFormProps {
   household: Household;
 }
 
 const HouseholdForm: React.FC<HouseholdFormProps> = ({ household }) => {
-  const [initialized, setInitialized] = useState<boolean>(false);
-  const { editHousehold } = useHouseholdContext();
-
-  const { updateTransaction, createTransaction } = useTransactionsContext();
-  const [editedHousehold, setEditedHousehold] = useState<Household>({
-    name: "",
-    participants: [],
-    expenses: [],
-    refunds: [],
-  });
-
-  useEffect(() => {
-    if (!initialized && household._id) {
-      setEditedHousehold(household);
-      setInitialized(true);
-    }
-  }, [household]);
-
-  useEffect(() => {
-    if (!initialized) {
-      return;
-    }
-    debouncedEditHousehold();
-
-    return () => {
-      debouncedEditHousehold.cancel();
-    };
-  }, [
-    editedHousehold.name,
-    editedHousehold.participants.length,
-    editedHousehold.expenses.length,
-    editedHousehold.refunds.length,
-  ]);
-
-  const debouncedEditHousehold = debounce(() => {
-    saveHousehold();
-  }, 300);
-
-  const saveHousehold = () => {
-    if (!editedHousehold._id) {
-      return;
-    }
-    editHousehold(editedHousehold);
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleInputChange");
-    const { name, value } = e.target;
-    setEditedHousehold((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-    debouncedEditHousehold();
-  };
-
-  const handleDeleteParticipant = ({ index }: { index: number }) => {
-    console.log("handleDeleteParticipant");
-    const newParticipants = [...editedHousehold.participants];
-    newParticipants.splice(index, 1);
-    setEditedHousehold((prev) => ({
-      ...prev,
-      participants: newParticipants,
-    }));
-  };
-
-  const handleParticipantSelect = (participant: Participant) => {
-    console.log("handleParticipantSelect");
-    if (participant) {
-      setEditedHousehold((prev) => ({
-        ...prev,
-        participants: [...prev.participants, participant],
-      }));
-    }
-  };
-
-  const handleParticipantSubmit = (participant: Participant) => {
-    console.log("handleParticipantSubmit");
-    setEditedHousehold((prev) => ({
-      ...prev,
-      participants: [...prev.participants, participant],
-    }));
-  };
-
-  const handleUpdateBill = (bill: Bill) => {
-    console.log("handleUpdateBill");
-    updateTransaction(bill);
-  };
-
-  const handleRemoveBill = (id: string) => {
-    console.log("handleRemoveBill");
-    setEditedHousehold((prev) => ({
-      ...prev,
-      expenses: prev.expenses.filter((expense) => expense._id !== id),
-    }));
-  };
-
-  const handleBillsSubmit = async (bills: Bill[]) => {
-    console.log("handleBillsSubmit");
-    const createdBills: Bill[] = [];
-    for (const bill of bills) {
-      const createdBill = await createTransaction(bill);
-      if (createdBill?._id) {
-        createdBills.push(createdBill as Bill);
-      }
-    }
-    setEditedHousehold((prev) => ({
-      ...prev,
-      expenses: [...prev.expenses, ...createdBills],
-    }));
-  };
-
-  const handleRemoveExpense = (id: string) => {
-    console.log("handleRemoveExpense");
-    setEditedHousehold((prev) => ({
-      ...prev,
-      expenses: prev.expenses.filter((expense) => expense._id !== id),
-    }));
-  };
-
-  const handleUpdateExpense = (expense: Expense) => {
-    console.log("handleUpdateExpense");
-    updateTransaction(expense);
-  };
-
-  const handleExpensesSubmit = (expenses: Expense[]) => {
-    console.log("handleExpensesSubmit");
-    setEditedHousehold((prev) => ({
-      ...prev,
-      expenses: [...prev.expenses, ...expenses],
-    }));
-  };
-
-  const handleRemoveRefund = (id: string) => {
-    console.log("handleRemoveRefund");
-    setEditedHousehold((prev) => ({
-      ...prev,
-      expenses: prev.expenses.filter((expense) => expense._id !== id),
-    }));
-  };
-
-  const handleUpdateRefund = (expense: Transaction) => {
-    console.log("handleUpdateRefund");
-    updateTransaction(expense);
-  };
-
-  const handleRefundsSubmit = (refunds: Transaction[]) => {
-    console.log("handleRefundsSubmit");
-    setEditedHousehold((prev) => ({
-      ...prev,
-      refunds: [...prev.refunds, ...refunds],
-    }));
-  };
-
+  const {
+    editedHousehold,
+    updateName,
+    addParticipant,
+    removeParticipant,
+    addBills,
+    updateBill,
+    removeBill,
+    addExpenses,
+    updateExpense,
+    removeExpense,
+    addRefunds,
+    updateRefund,
+    removeRefund,
+  } = useHouseholdForm(household);
   return (
     <>
       <div>
@@ -190,7 +43,7 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({ household }) => {
                 type="text"
                 name="name"
                 value={editedHousehold?.name}
-                onChange={handleInputChange}
+                onChange={updateName}
               />
             </Form.Group>
             <hr></hr>
@@ -201,13 +54,13 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({ household }) => {
                   <h5>Existing Participants:</h5>
                   <ParticipantList
                     participants={editedHousehold?.participants}
-                    onDelete={handleDeleteParticipant}
+                    onDelete={removeParticipant}
                   ></ParticipantList>
                   <hr></hr>
                   <h5>Add participants</h5>
                   <ParticipantSelection
-                    onParticipantSelect={handleParticipantSelect}
-                    onParticipantCreation={handleParticipantSubmit}
+                    onParticipantSelect={addParticipant}
+                    onParticipantCreation={addParticipant}
                   ></ParticipantSelection>
                   <hr></hr>
                 </Accordion.Body>
@@ -217,8 +70,8 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({ household }) => {
                 <Accordion.Body>
                   <h5>Exisiting Bills:</h5>
                   <BillList
-                    onRemoveBill={handleRemoveBill}
-                    onUpdateBill={handleUpdateBill}
+                    onRemoveBill={removeBill}
+                    onUpdateBill={updateBill}
                     bills={
                       editedHousehold?.expenses.filter(
                         (expense) => expense.type === "bill"
@@ -228,7 +81,7 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({ household }) => {
                   <hr></hr>
 
                   <h5>Add bills</h5>
-                  <BillsSelection handleBillsSubmit={handleBillsSubmit} />
+                  <BillsSelection handleBillsSubmit={addBills} />
                 </Accordion.Body>
               </Accordion.Item>
               <Accordion.Item eventKey="2">
@@ -236,8 +89,8 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({ household }) => {
                 <Accordion.Body>
                   <h5>Exisiting Expenses:</h5>
                   <ExpensesList
-                    onRemoveExpense={handleRemoveExpense}
-                    onUpdateExpense={handleUpdateExpense}
+                    onRemoveExpense={removeExpense}
+                    onUpdateExpense={updateExpense}
                     expenses={
                       editedHousehold?.expenses.filter(
                         (expense) => expense.type === "expense"
@@ -247,9 +100,7 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({ household }) => {
                   <hr></hr>
 
                   <h5>Add expenses</h5>
-                  <ExpensesSelection
-                    handleExpensesSubmit={handleExpensesSubmit}
-                  />
+                  <ExpensesSelection handleExpensesSubmit={addExpenses} />
                 </Accordion.Body>
               </Accordion.Item>
               <Accordion.Item eventKey="3">
@@ -257,14 +108,14 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({ household }) => {
                 <Accordion.Body>
                   <h5>Exisiting Refunds:</h5>
                   <RefundList
-                    onRemoveRefund={handleRemoveRefund}
-                    onUpdateRefund={handleUpdateRefund}
+                    onRemoveRefund={removeRefund}
+                    onUpdateRefund={updateRefund}
                     refunds={editedHousehold?.refunds ?? []}
                   ></RefundList>
                   <hr></hr>
 
                   <h5>Add expenses</h5>
-                  <RefundSelection handleRefundsSubmit={handleRefundsSubmit} />
+                  <RefundSelection handleRefundsSubmit={addRefunds} />
                 </Accordion.Body>
               </Accordion.Item>
             </Accordion>

@@ -5,6 +5,7 @@ import {
   updateTransactionAction,
 } from "@/actions/transactions";
 import { Transaction } from "@/types/types";
+import { Types } from "mongoose";
 import React, {
   createContext,
   useContext,
@@ -24,7 +25,7 @@ interface TransactionsContextProps {
   setRefresh: React.Dispatch<React.SetStateAction<number>>;
   refreshTransactions: () => void;
   createTransaction: (transaction: Transaction) => Promise<Transaction>;
-  deleteTransaction: (transaction: Transaction) => Promise<void>;
+  deleteTransaction: (id: string) => Promise<void>;
   updateTransaction: (transaction: Transaction) => Promise<void>;
 }
 
@@ -67,8 +68,8 @@ export const TransactionsProvider: React.FC<{ children: ReactNode }> = ({
     return newTransaction;
   };
 
-  const deleteTransaction = async (transaction: Transaction) => {
-    await deleteTransactionAction({ transaction, path: "/expenses" });
+  const deleteTransaction = async (id: string) => {
+    await deleteTransactionAction({ id, path: "/expenses" });
   };
 
   const updateTransaction = async (transaction: Transaction) => {

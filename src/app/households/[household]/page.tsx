@@ -56,7 +56,6 @@ const Page = ({ params }: { params: { household: string } }) => {
       ...currentHousehold.expenses,
       ...currentHousehold.refunds,
     ];
-    console.log(transactions);
     setTransactions(transactions);
   }, [
     currentHousehold,

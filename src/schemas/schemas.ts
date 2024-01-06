@@ -27,8 +27,8 @@ export class Transaction {
     @typegoose.prop()
     paid!: boolean;
 
-    @typegoose.prop({ enum: ['bill', 'paycheck', 'expense', 'income'] })
-    type!: 'bill' | 'paycheck' | 'expense' | 'income';
+    @typegoose.prop({ enum: ['bill', 'paycheck', 'expense', 'income', 'refund'] })
+    type!: 'bill' | 'paycheck' | 'expense' | 'income' | 'refund';
 }
 
 @typegoose.modelOptions({ options: { allowMixed: typegoose.Severity.ERROR } })
@@ -112,7 +112,7 @@ export class Household {
     @typegoose.prop({ ref: () => Transaction, discriminate: () => 'type' })
     expenses!: typegoose.Ref<Transaction>[];
 
-    @typegoose.prop({ ref: () => Transaction })
+    @typegoose.prop({ ref: () => Transaction, discriminate: () => 'type' })
     refunds!: typegoose.Ref<Transaction>[];
 }
 

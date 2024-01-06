@@ -44,7 +44,6 @@ export const HouseholdsProvider: React.FC<{ children: ReactNode }> = ({
   const [refresh, setRefresh] = useState<number>(0);
 
   const refreshHouseholds = () => {
-    console.log("refreshing households");
     const newRefresh = refresh + 1;
     setRefresh(newRefresh);
   };
@@ -112,7 +111,6 @@ export const HouseholdsProvider: React.FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     if (refresh > 0) {
-      console.log("fetching households");
       fetchHouseholds();
     }
   }, [refresh]);

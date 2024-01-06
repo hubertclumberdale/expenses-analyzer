@@ -17,7 +17,7 @@ const RefundSelection: React.FC<RefundSelectionProps> = ({
         date: new Date(),
         paid: false,
         transactionId: 0,
-        type: TransactionType.EXPENSE,
+        type: TransactionType.REFUND,
       },
     ]);
   };

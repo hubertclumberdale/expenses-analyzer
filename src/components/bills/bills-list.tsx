@@ -18,17 +18,50 @@ const BillList: React.FC<BillListProps> = ({
   onUpdateBill,
 }) => {
   const dateFormatter = (data: any) => {
-    return data.value ? new Date(data.value).toLocaleDateString() : "";
+    return data.value
+      ? new Date(data.value).toLocaleDateString("it-IT", {
+          day: "numeric",
+          month: "numeric",
+          year: "numeric",
+        })
+      : "";
   };
 
   const columnDefs: ColDef<Bill>[] = [
-    { headerName: "Id", field: "_id", flex: 1 },
+    { headerName: "Id", field: "_id" },
+    {
+      headerName: "Transaction ID",
+      flex: 1,
+      field: "transactionId",
+      editable: true,
+    },
     { headerName: "Name", field: "name", editable: true },
-    { headerName: "Transaction ID", field: "transactionId", editable: true },
     {
       headerName: "Date",
       field: "date",
       editable: true,
+      cellEditor: "agDateStringCellEditor",
+      cellRenderer: dateFormatter,
+    },
+    {
+      headerName: "From Date",
+      field: "fromDate",
+      editable: true,
+      cellEditor: "agDateStringCellEditor",
+      cellRenderer: dateFormatter,
+    },
+    {
+      headerName: "To Date",
+      field: "toDate",
+      editable: true,
+      cellEditor: "agDateStringCellEditor",
+      cellRenderer: dateFormatter,
+    },
+    {
+      headerName: "Due Date",
+      field: "dueDate",
+      editable: true,
+      cellEditor: "agDateStringCellEditor",
       cellRenderer: dateFormatter,
     },
     { headerName: "Amount", field: "amount", editable: true },
@@ -56,24 +89,6 @@ const BillList: React.FC<BillListProps> = ({
       ),
     },
     { headerName: "Type", field: "type", editable: true },
-    {
-      headerName: "From Date",
-      field: "fromDate",
-      editable: true,
-      cellRenderer: dateFormatter,
-    },
-    {
-      headerName: "To Date",
-      field: "toDate",
-      editable: true,
-      cellRenderer: dateFormatter,
-    },
-    {
-      headerName: "Due Date",
-      field: "dueDate",
-      editable: true,
-      cellRenderer: dateFormatter,
-    },
     { headerName: "Consumption", field: "consumption", editable: true },
     { headerName: "Activation Cost", field: "activationCost", editable: true },
     {

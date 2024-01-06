@@ -65,17 +65,17 @@ const RefundList: React.FC<RefundListProps> = ({
           variant="danger"
           onClick={() => handleDeleteRefund(params.node.rowIndex)}
         >
-          Remove Expense
+          Remove Refund
         </Button>
       ),
     },
   ];
 
   const handleDeleteRefund = async (index: number) => {
-    const expense = refunds[index];
-    if (expense._id) {
-      await deleteTransaction(expense);
-      onRemoveRefund(expense._id?.toString());
+    const refund = refunds[index];
+    if (refund._id) {
+      await deleteTransaction(refund?._id?.toString());
+      onRemoveRefund(refund._id?.toString());
     }
   };
 

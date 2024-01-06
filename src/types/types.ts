@@ -1,11 +1,13 @@
-import mongoose from "mongoose";
 import { Types } from "mongoose";
 
 
 export enum TransactionType {
+    TRANSACTION = 'transaction',
     EXPENSE = 'expense',
     INCOME = 'income',
-    BILL = 'bill'
+    BILL = 'bill',
+    REFUND = 'refund',
+    PAYCHECK = 'paycheck',
 }
 
 export interface Participant {

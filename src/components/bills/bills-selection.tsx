@@ -1,5 +1,4 @@
 import BillsUploader from "@/components/bills/bills-uploader";
-import ExpensesUploader from "@/components/expenses/expenses-uploader";
 import { Bill, TransactionType } from "@/types/types";
 import React from "react";
 import { Accordion, Button } from "react-bootstrap";

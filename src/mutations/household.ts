@@ -18,17 +18,15 @@ export async function createHousehold(household: IHousehold) {
 export async function editHousehold(household: IHousehold) {
     try {
 
-        console.log("household", household)
 
         const participants = await addOrUpdateParticipants(household.participants)
         const expenses = await addOrUpdateExpenses(household.expenses)
         const refunds = await addOrUpdateExpenses(household.refunds)
-        const newHousehold = await HouseholdModel.findOneAndUpdate(
+        await HouseholdModel.findOneAndUpdate(
             { _id: household._id },
             { $set: { ...household, participants: [...participants], expenses: [...expenses], refunds: [...refunds] } },
             { new: true }
         );
-        console.log("newHousehold", newHousehold)
     } catch (error) {
         console.error(error)
         return { error };

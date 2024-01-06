@@ -88,24 +88,32 @@ export async function updateTransaction(
         let found = null
 
         if (transaction.type === 'expense') {
-            found = updateExpense(transaction)
+            found = await updateExpense(transaction)
         }
 
         if (transaction.type === 'income') {
-            found = updateIncome(transaction)
+            found = await updateIncome(transaction)
         }
 
         if (transaction.type === 'bill') {
-            found = updateBill(transaction)
+            found = await updateBill(transaction)
         }
 
+        found = await TransactionModel.findByIdAndUpdate(
+            transaction._id,
+            transaction,
+            { new: true }
+        )
+            .lean()
+            .exec();
 
         if (found) {
             return {
                 transaction: found,
             };
         } else {
-            return { error: "Income not found" };
+            console.error("Transaction not found")
+            return { error: "Transaction not found" };
         }
     } catch (error) {
         console.error(error)
@@ -117,12 +125,12 @@ export async function deleteTransaction(id: string) {
     try {
         await connectDB();
 
-        const income = await IncomeModel.findByIdAndDelete(id).exec();
+        const transaction = await TransactionModel.findByIdAndDelete(id).exec();
 
-        if (income) {
+        if (transaction) {
             return {};
         } else {
-            return { error: "Income not found" };
+            return { error: "Transaction not found" };
         }
     } catch (error) {
         console.error(error)

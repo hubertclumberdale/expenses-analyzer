@@ -18,12 +18,26 @@ const IncomeList: React.FC<ExpenseListProps> = ({
   onUpdateExpense,
 }) => {
   const { deleteExpense, updateExpense } = useExpensesContext();
-
+  const dateFormatter = (data: any) => {
+    return data.value
+      ? new Date(data.value).toLocaleDateString("it-IT", {
+          day: "numeric",
+          month: "numeric",
+          year: "numeric",
+        })
+      : "";
+  };
   const columnDefs: ColDef<Expense>[] = [
     { headerName: "Id", flex: 1, field: "_id" },
     { headerName: "Name", field: "name", editable: true },
     { headerName: "Transaction ID", field: "transactionId", editable: true },
-    { headerName: "Date", field: "date", editable: true },
+    {
+      headerName: "Date",
+      field: "date",
+      editable: true,
+      cellEditor: "agDateStringCellEditor",
+      cellRenderer: dateFormatter,
+    },
     {
       headerName: "Amount",
       field: "amount",
@@ -127,6 +141,14 @@ const IncomeList: React.FC<ExpenseListProps> = ({
               columnDefs={columnDefs}
               rowData={expenses}
               onCellValueChanged={handleCellValueChanged}
+              pinnedBottomRowData={[
+                {
+                  amount: expenses.reduce(
+                    (acc, expense) => acc + (expense.amount ?? 0),
+                    0
+                  ),
+                },
+              ]}
             ></AgGridReact>
           </div>
         </Row>

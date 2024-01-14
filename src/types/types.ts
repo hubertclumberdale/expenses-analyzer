@@ -2,12 +2,12 @@ import { Types } from "mongoose";
 
 
 export enum TransactionType {
-    TRANSACTION = 'transaction',
-    EXPENSE = 'expense',
-    INCOME = 'income',
-    BILL = 'bill',
-    REFUND = 'refund',
-    PAYCHECK = 'paycheck',
+    TRANSACTION = 'Transaction',
+    EXPENSE = 'Expense',
+    INCOME = 'Income',
+    BILL = 'Bill',
+    REFUND = 'Refund',
+    PAYCHECK = 'Paycheck',
 }
 
 export interface Participant {
@@ -21,7 +21,7 @@ export interface Transaction {
     name: string
     transactionId: number, // generally the number that identifies the transaction such as rif.bolletta
     date: Date
-    amount: number;
+    amount: number; // this is the total price of the transaction, for bills is the total amount to pay (for example "Totale bolletta" or "Totale Fattura" or "Quanto devo pagare")
     paid: boolean
     owner?: Participant; // Updated type
     type: TransactionType;
@@ -61,28 +61,13 @@ export type Expense = Transaction & {
 };
 
 export interface Bill extends Transaction {
-    type: TransactionType.BILL;
-    fromDate: Date;
-
-    toDate: Date;
-
-    dueDate: Date;
-
-    consumption?: number; // it is generally the number of smc or kwh consumed
-
-    /* this is the extra cost for providers activations */
-    activationCost?: number;
-
-    /* this is the sum between cost and activation cost */
-    /*     readonly totalCost: number;
-     */
-    /* this is the number of months of this expense  */
-    monthlyInstallments?: number;
-
-    /* this is the total cost divided per months */
-    /*     readonly monthlyCost: number;
-     */
-    notes?: string;
-
-    provider: 'gas' | 'electricity'
+    type: TransactionType.BILL; // The type of the transaction, which is always TransactionType.BILL.
+    provider: 'gas' | 'electricity'; // The provider of the bill, which can be 'gas' or 'electricity'.
+    fromDate: Date; // The start date of the bill.
+    toDate: Date; // The end date of the bill.
+    dueDate: Date; // The due date of the bill.
+    consumption?: number; // The consumption amount, which represents the number of smc or kwh consumed based on the provider of the bill- (SMC is for gas bills, Khw is for electricity bills).
+    activationCost?: number; // The activation cost for the provider.
+    monthlyInstallments?: number; // The number of monthly installments for this expense, calculated by the difference in months between fromDate and toDate.
+    notes?: string; // Additional notes for the bill.
 }

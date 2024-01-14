@@ -1,6 +1,7 @@
 import { extractBillAction } from "@/actions/bills";
 import PdfUploader from "@/components/pdf-uploader";
-import { Bill } from "@/types/types";
+import { useSpinnerContext } from "@/contexts/spinner";
+import { Bill, TransactionType } from "@/types/types";
 import { startTransition } from "react";
 
 const BillsUploader = ({
@@ -8,27 +9,24 @@ const BillsUploader = ({
 }: {
   onSuccess: (expenses: Bill[]) => void;
 }) => {
+  const { incrementCounter, decrementCounter } = useSpinnerContext();
   const uploadAndGetExpense = async (files: File[]) => {
-    let formData = new FormData();
-    files.forEach((file) => {
-      formData.append(`files`, file);
+    files.forEach(async (file) => {
+      incrementCounter();
+      let formData = new FormData();
+      formData.append(`file`, file);
+      formData.append("transactionType", `${TransactionType.BILL}`);
+      const bill = await extractBillAction(formData);
+      if (bill) {
+        decrementCounter();
+        onSuccess([bill]);
+      }
     });
-    formData.append("expenseType", "Bill");
-    const { bills } = await extractBillAction(formData);
-    if (bills) {
-      onSuccess(bills);
-    }
   };
 
   return (
     <>
-      <PdfUploader
-        onSuccess={(droppedFiles) => {
-          startTransition(() => {
-            uploadAndGetExpense(droppedFiles);
-          });
-        }}
-      ></PdfUploader>
+      <PdfUploader onSuccess={uploadAndGetExpense}></PdfUploader>
     </>
   );
 };

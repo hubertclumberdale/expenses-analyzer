@@ -1,9 +1,10 @@
 "use server";
 
 import chatGPTClient from "@/lib/chatgpt-client";
-import { extractContentFromFile } from "@/lib/utils";
-import { Bill, Expense } from "@/types/types";
+import { extractContentFromFile, extractInterfaceForType } from "@/lib/utils";
+import { Bill, TransactionType } from "@/types/types";
 import { createBill, deleteBill, getBills, updateBill } from "@/mutations/bills";
+import { extractFirstUsefulPage } from "@/lib/extractor";
 const pdf = require('pdf-parse');
 
 export async function getBillsAction() {
@@ -46,64 +47,62 @@ export async function deleteBillAction({
     }
 }
 
-export async function extractBillAction(data: FormData) {
-    const files: File[] | null = data.getAll('files') as unknown as File[]
-    if (!files) {
-        throw new Error('No files uploaded')
+
+const generateEmptyBill = (bill = {}): Bill => {
+    return {
+        name: "",
+        amount: 0,
+        date: new Date(),
+        paid: false,
+        transactionId: 0,
+        type: TransactionType.BILL,
+        fromDate: new Date(),
+        toDate: new Date(),
+        dueDate: new Date(),
+        provider: "gas",
+        ...bill
+    }
+}
+
+export async function extractBillAction(data: FormData): Promise<Bill> {
+    const file: File | null = data.get('file') as unknown as File
+    if (!file) {
+        throw new Error('No file uploaded')
     }
 
-    const expenseType: string = data.get('expenseType') as string
+    const expenseType: string = data.get('transactionType') as string
 
-    let parentMessageId: string | undefined = undefined
+    const firstUsefulPage = await extractFirstUsefulPage(file);
+
+    if (!firstUsefulPage) {
+        console.log("Generating empty bill")
+        return generateEmptyBill({ name: file.name });
+    }
+    const extractedInterfaces = extractInterfaceForType(expenseType);
+
+    const prompt = `
+        Given this schema: ${extractedInterfaces} you must extract a JSON (give me only the json. directly) of type ${expenseType}. 
+        Constraints:
+            - The JSON must be valid
+            - The JSON must not contain "notes" field
+            - The JSON must not contain "owner" field
+            - If uncertain about dates, use this date ${new Date()}
+        This is from where you must extract the ${expenseType}: ${firstUsefulPage}`;
+
+    const sanitizedPrompt = prompt.replace('\n', '').replace(' ', '').replace(/\n/g, '');
+
+    const response = await chatGPTClient.sendMessage({
+        prompt: decodeURIComponent(sanitizedPrompt),
+    });
+    const bill = response.text.replace(/Invalid Date/g, `${new Date()}`).replace(/null/g, '""');
+    console.log("sanitized bill: ", bill)
     try {
-        const billsPromises = files.map(async (file: File) => {
-            return new Promise<Bill>(async (resolve) => {
-                try {
-                    const bytes = await file.arrayBuffer();
-                    const buffer = Buffer.from(bytes);
-                    const result = await pdf(buffer, { max: 1 });
-                    const firstPage = result?.text;
-
-                    const extractedInterface = extractContentFromFile('src/types/types.ts')
-
-                    const prompt = `You must extract a JSON of type ${expenseType} following this schema:
-        
-                        ${extractedInterface}
-    
-                        from this text: ${firstPage}`;
-
-                    const sanitizedPrompt = prompt.replace('\n', '').replace(' ', '').replace(/\n/g, '');
-
-                    const response = await chatGPTClient.sendMessage({
-                        prompt: sanitizedPrompt,
-                        parentMessageId,
-                    });
-                    parentMessageId = response.parentMessageId
-                    const expense = response.text;
-                    const parsedExpense = JSON.parse(expense)
-                    resolve(parsedExpense);
-                } catch (error) {
-                    console.error('Error processing file:', error);
-                    resolve({} as Bill);
-                }
-            });
-        });
-
-        const bills = await Promise.all(billsPromises);
-        const filteredBills = bills.filter((expense) => expense !== null);
-        return ({ success: true, bills: filteredBills })
-
-    } catch (error: any) {
-        if (typeof error === "string" && error.includes("Bill not found")) {
-            return {
-                status: 'error',
-                message: 'Expense not found'
-            }
-        }
-
-        return {
-            status: 'error',
-            message: 'Internal server error'
-        }
+        const parsedExpense = JSON.parse(bill)
+        parsedExpense.notes = ''
+        return (parsedExpense);
+    } catch (e) {
+        console.error("Error parsing expense: ", e)
+        console.log("Generating empty bill")
+        return generateEmptyBill({ name: file.name });
     }
 }

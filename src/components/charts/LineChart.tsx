@@ -31,12 +31,21 @@ const LineChart = ({
   return (
     <ResponsiveContainer width="100%" height={300}>
       <RechartLineChart
-        data={localTransactions.map((transaction) => ({
-          ...transaction,
-          date: transaction.date
-            ? new Date(transaction.date).toLocaleDateString()
-            : "",
-        }))}
+        data={localTransactions
+
+          .map((transaction) => ({
+            ...transaction,
+            date: transaction.date
+              ? new Date(transaction.date).toLocaleDateString("it-IT", {
+                  day: "numeric",
+                  month: "numeric",
+                  year: "numeric",
+                })
+              : "",
+          }))
+          .sort(
+            (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+          )}
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="date" />

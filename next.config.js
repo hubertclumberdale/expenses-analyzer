@@ -5,6 +5,7 @@ const nextConfig = {
       "mongoose",
       "@typegoose/typegoose",
       "pdf-parse",
+      "pdf2json",
     ],
   },
 };

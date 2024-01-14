@@ -2,7 +2,7 @@ import ExpensesList from "@/components/expenses/expenses-list";
 import ExpensesSelection from "@/components/expenses/expenses-selection";
 import ParticipantSelection from "@/components/participants/participant-selection";
 import ParticipantList from "@/components/participants/participant-list";
-import { Bill, Expense, Household } from "@/types/types";
+import { Bill, Expense, Household, TransactionType } from "@/types/types";
 import React from "react";
 import { Accordion, Card, Form } from "react-bootstrap";
 import BillList from "@/components/bills/bills-list";
@@ -68,13 +68,20 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({ household }) => {
               <Accordion.Item eventKey="1">
                 <Accordion.Header>Bills</Accordion.Header>
                 <Accordion.Body>
-                  <h5>Exisiting Bills:</h5>
+                  <h5>
+                    Existing Bills:{" "}
+                    {
+                      editedHousehold.expenses.filter(
+                        (expense) => expense.type === TransactionType.BILL
+                      ).length
+                    }
+                  </h5>
                   <BillList
                     onRemoveBill={removeBill}
                     onUpdateBill={updateBill}
                     bills={
                       editedHousehold?.expenses.filter(
-                        (expense) => expense.type === "bill"
+                        (expense) => expense.type === TransactionType.BILL
                       ) as Bill[]
                     }
                   ></BillList>
@@ -87,13 +94,20 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({ household }) => {
               <Accordion.Item eventKey="2">
                 <Accordion.Header>Expenses</Accordion.Header>
                 <Accordion.Body>
-                  <h5>Exisiting Expenses:</h5>
+                  <h5>
+                    Exisiting Expenses:
+                    {
+                      editedHousehold.expenses.filter(
+                        (expense) => expense.type === TransactionType.EXPENSE
+                      ).length
+                    }
+                  </h5>
                   <ExpensesList
                     onRemoveExpense={removeExpense}
                     onUpdateExpense={updateExpense}
                     expenses={
                       editedHousehold?.expenses.filter(
-                        (expense) => expense.type === "expense"
+                        (expense) => expense.type === TransactionType.EXPENSE
                       ) as Expense[]
                     }
                   ></ExpensesList>
@@ -106,7 +120,7 @@ const HouseholdForm: React.FC<HouseholdFormProps> = ({ household }) => {
               <Accordion.Item eventKey="3">
                 <Accordion.Header>Refunds</Accordion.Header>
                 <Accordion.Body>
-                  <h5>Exisiting Refunds:</h5>
+                  <h5>Exisiting Refunds: {household.refunds.length}</h5>
                   <RefundList
                     onRemoveRefund={removeRefund}
                     onUpdateRefund={updateRefund}

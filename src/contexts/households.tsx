@@ -5,6 +5,7 @@ import {
   getHouseholdAction,
   removeAllHouseholdsAction,
 } from "@/actions/household";
+import { useSpinnerContext } from "@/contexts/spinner";
 import { Household } from "@/types/types";
 import React, {
   createContext,
@@ -38,6 +39,8 @@ const HouseholdContext = createContext<HouseholdsContextProps | undefined>(
 export const HouseholdsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  const { incrementCounter, decrementCounter } = useSpinnerContext();
+
   const [households, setHouseholds] = useState<Household[]>([]);
   const [results, setResults] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
@@ -49,6 +52,7 @@ export const HouseholdsProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const fetchHouseholds = async () => {
+    incrementCounter();
     const { households, results } = await getAllHouseholdsAction();
     if (households?.length === 0) {
       setResults(0);
@@ -60,6 +64,7 @@ export const HouseholdsProvider: React.FC<{ children: ReactNode }> = ({
     if (results) {
       setResults(results);
     }
+    decrementCounter();
   };
 
   const fetchSingleHousehold = async (id: string) => {
@@ -81,6 +86,7 @@ export const HouseholdsProvider: React.FC<{ children: ReactNode }> = ({
 
   const getAllHouseholds = async () => {
     try {
+      incrementCounter();
       setLoading(true);
       const allHouseholds = await getAllHouseholdsAction();
       if (allHouseholds?.length === 0) {
@@ -93,11 +99,14 @@ export const HouseholdsProvider: React.FC<{ children: ReactNode }> = ({
       console.error("Error fetching households:", error);
     } finally {
       setLoading(false);
+      decrementCounter();
     }
   };
 
   const removeAllHouseholds = async () => {
     try {
+      incrementCounter();
+
       setLoading(true);
 
       await removeAllHouseholdsAction();
@@ -106,6 +115,7 @@ export const HouseholdsProvider: React.FC<{ children: ReactNode }> = ({
       console.error("Error fetching households:", error);
     } finally {
       setLoading(false);
+      decrementCounter();
     }
   };
 

@@ -1,5 +1,6 @@
-import { updateIncomes } from "@/lib/income";
+import { addOrUpdateExpenses } from "@/lib/household";
 import { ParticipantModel } from "@/models/models";
+import { updateTransaction } from "@/mutations/transactions";
 import { Participant } from "@/types/types";
 import { Types } from "mongoose";
 
@@ -27,9 +28,9 @@ export const persistParticipant = async (participant: Participant) => {
     const newParticipant = await new ParticipantModel({ _id: new Types.ObjectId(), ...participant, incomes: [] });
     await newParticipant.save();
     participant.incomes.forEach(income => {
-        income.owner = newParticipant._id.toString()
+        income.owner = newParticipant as Participant
     })
-    const incomes = await updateIncomes(participant.incomes)
+    const incomes = await addOrUpdateExpenses(participant.incomes)
     await ParticipantModel.findOneAndUpdate(
         { _id: newParticipant._id },
         { $set: { ...participant, incomes: incomes } },

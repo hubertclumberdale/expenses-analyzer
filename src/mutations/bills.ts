@@ -40,6 +40,7 @@ export async function createBill(transaction: Transaction) {
             created,
         };
     } catch (error) {
+        console.error(error)
         return { error };
     }
 }

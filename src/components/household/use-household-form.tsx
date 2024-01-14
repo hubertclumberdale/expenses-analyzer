@@ -13,7 +13,7 @@ import { debounce } from "lodash";
 
 export const useHouseholdForm = (household: Household) => {
   const [initialized, setInitialized] = useState<boolean>(false);
-  const { editHousehold } = useHouseholdContext();
+  const { editHousehold, refreshHouseholds } = useHouseholdContext();
 
   const { updateTransaction, createTransaction, deleteTransaction } =
     useTransactionsContext();
@@ -55,7 +55,9 @@ export const useHouseholdForm = (household: Household) => {
     if (!editedHousehold._id) {
       return;
     }
+    console.log("Saving household", editedHousehold);
     editHousehold(editedHousehold);
+    refreshHouseholds();
   };
 
   const updateName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,7 +67,6 @@ export const useHouseholdForm = (household: Household) => {
       ...prev,
       [name]: value,
     }));
-    debouncedSave();
   };
 
   const addParticipant = (participant: Participant) => {
@@ -89,7 +90,6 @@ export const useHouseholdForm = (household: Household) => {
   };
 
   const addBills = async (bills: Bill[]) => {
-    console.log("addBills");
     const createdBills: Bill[] = [];
     for (const bill of bills) {
       const createdBill = await createTransaction(bill);
@@ -117,11 +117,18 @@ export const useHouseholdForm = (household: Household) => {
     }));
   };
 
-  const addExpenses = (expenses: Expense[]) => {
+  const addExpenses = async (expenses: Expense[]) => {
     console.log("addExpenses");
+    const createdExpenses: Expense[] = [];
+    for (const expense of expenses) {
+      const createdExpense = await createTransaction(expense);
+      if (createdExpense?._id) {
+        createdExpenses.push(createdExpense as Expense);
+      }
+    }
     setEditedHousehold((prev) => ({
       ...prev,
-      expenses: [...prev.expenses, ...expenses],
+      expenses: [...prev.expenses, ...createdExpenses],
     }));
   };
 
@@ -139,11 +146,18 @@ export const useHouseholdForm = (household: Household) => {
     }));
   };
 
-  const addRefunds = (refunds: Transaction[]) => {
+  const addRefunds = async (refunds: Transaction[]) => {
     console.log("addRefunds");
+    const createdRefunds: Transaction[] = [];
+    for (const refund of refunds) {
+      const createdRefund = await createTransaction(refund);
+      if (createdRefund?._id) {
+        createdRefunds.push(createdRefund as Transaction);
+      }
+    }
     setEditedHousehold((prev) => ({
       ...prev,
-      refunds: [...prev.refunds, ...refunds],
+      refunds: [...prev.refunds, ...createdRefunds],
     }));
   };
 

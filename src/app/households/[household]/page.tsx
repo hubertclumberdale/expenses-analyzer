@@ -4,7 +4,7 @@ import BarChart from "@/components/charts/BarChart";
 import LineChart from "@/components/charts/LineChart";
 import PieChart from "@/components/charts/PieChart";
 import { useHouseholdContext } from "@/contexts/households";
-import { Household, Transaction } from "@/types/types";
+import { Household, Transaction, TransactionType } from "@/types/types";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
@@ -63,6 +63,18 @@ const Page = ({ params }: { params: { household: string } }) => {
     currentHousehold.refunds.length,
   ]);
 
+  const generateForecast = async () => {
+    const data = currentHousehold.expenses
+      .filter((expense) => expense.type === TransactionType.BILL)
+      .map((expense) => {
+        return {
+          date: expense.date,
+          amount: expense.amount,
+        };
+      });
+    console.log(data);
+  };
+
   return (
     <>
       <Breadcrumb>
@@ -106,6 +118,9 @@ const Page = ({ params }: { params: { household: string } }) => {
                     </Col>
                     <Col>
                       <PieChart transactions={transactions}></PieChart>
+                    </Col>
+                    <Col>
+                      <Button onClick={generateForecast}>Forecast</Button>
                     </Col>
                   </Row>
                 </Container>

@@ -3,8 +3,8 @@ import React from "react";
 import { AgGridReact } from "ag-grid-react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { CellValueChangedEvent, ColDef } from "ag-grid-community";
-import { useBillsContext } from "@/contexts/bills";
 import ParticipantDropdown from "@/components/participants/participant-dropdown";
+import { debounce } from "lodash";
 
 interface BillListProps {
   bills: Bill[];
@@ -43,29 +43,7 @@ const BillList: React.FC<BillListProps> = ({
       cellEditor: "agDateStringCellEditor",
       cellRenderer: dateFormatter,
     },
-    {
-      headerName: "From Date",
-      field: "fromDate",
-      editable: true,
-      cellEditor: "agDateStringCellEditor",
-      cellRenderer: dateFormatter,
-    },
-    {
-      headerName: "To Date",
-      field: "toDate",
-      editable: true,
-      cellEditor: "agDateStringCellEditor",
-      cellRenderer: dateFormatter,
-    },
-    {
-      headerName: "Due Date",
-      field: "dueDate",
-      editable: true,
-      cellEditor: "agDateStringCellEditor",
-      cellRenderer: dateFormatter,
-    },
     { headerName: "Amount", field: "amount", editable: true },
-    { headerName: "Paid", field: "paid", editable: true },
     {
       headerName: "Owner",
       field: "owner",
@@ -88,7 +66,29 @@ const BillList: React.FC<BillListProps> = ({
         </Container>
       ),
     },
-    { headerName: "Type", field: "type", editable: true },
+    {
+      headerName: "From Date",
+      field: "fromDate",
+      editable: true,
+      cellEditor: "agDateStringCellEditor",
+      cellRenderer: dateFormatter,
+    },
+    {
+      headerName: "To Date",
+      field: "toDate",
+      editable: true,
+      cellEditor: "agDateStringCellEditor",
+      cellRenderer: dateFormatter,
+    },
+    {
+      headerName: "Due Date",
+      field: "dueDate",
+      editable: true,
+      cellEditor: "agDateStringCellEditor",
+      cellRenderer: dateFormatter,
+    },
+    { headerName: "Paid", field: "paid", editable: true },
+
     { headerName: "Consumption", field: "consumption", editable: true },
     { headerName: "Activation Cost", field: "activationCost", editable: true },
     {
@@ -96,19 +96,19 @@ const BillList: React.FC<BillListProps> = ({
       field: "monthlyInstallments",
       editable: true,
     },
-    { headerName: "Notes", field: "notes", editable: true },
     { headerName: "Provider", field: "provider", editable: true },
     {
       headerName: "Actions",
       cellRenderer: (params: any) => (
         <Button
           variant="danger"
-          onClick={() => handleDeleteBill(params.node.rowIndex)}
+          onClick={() => debouncedHandleDeleteBill(params.node.rowIndex)}
         >
           Remove Bill
         </Button>
       ),
     },
+    { headerName: "Notes", field: "notes", editable: true },
   ];
 
   const handleDeleteBill = async (index: number) => {
@@ -118,20 +118,11 @@ const BillList: React.FC<BillListProps> = ({
     }
   };
 
+  const debouncedHandleDeleteBill = debounce(handleDeleteBill, 1000);
+
   const handleCellValueChanged = async (event: CellValueChangedEvent<Bill>) => {
-    const index = event?.rowIndex ?? -1;
-    if (index < 0) {
-      return;
-    }
-    const bill = bills[index];
-    if (bill._id) {
-      const field = event.colDef.field as string;
-      const updatedBill = {
-        ...bill,
-        [field]: event.newValue,
-      };
-      onUpdateBill(updatedBill);
-    }
+    const bill = event.data;
+    onUpdateBill(bill);
   };
 
   const handleParticipantSelect = async ({
@@ -163,6 +154,14 @@ const BillList: React.FC<BillListProps> = ({
               columnDefs={columnDefs}
               rowData={bills}
               onCellValueChanged={handleCellValueChanged}
+              pinnedBottomRowData={[
+                {
+                  amount: bills.reduce(
+                    (acc, bill) => acc + (bill.amount ?? 0),
+                    0
+                  ),
+                },
+              ]}
             ></AgGridReact>
           </div>
         </Row>

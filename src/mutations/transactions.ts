@@ -1,6 +1,6 @@
 import { IncomeModel, TransactionModel } from "@/models/models";
 import connectDB from "../lib/connect-db";
-import { Transaction } from '@/types/types'
+import { Transaction, TransactionType } from '@/types/types'
 import { Types } from "mongoose";
 import { createExpense, getExpenses, updateExpense } from "@/mutations/expenses";
 import { createIncome, getIncomes, updateIncome } from "@/mutations/incomes";
@@ -34,20 +34,20 @@ export async function createTransaction(transaction: Transaction) {
     try {
         await connectDB();
 
-        if (transaction.type === 'expense') {
+        if (transaction.type === TransactionType.EXPENSE) {
             const { created } = await createExpense(transaction)
             return {
                 created,
             };
         }
-        if (transaction.type === 'income') {
+        if (transaction.type === TransactionType.INCOME) {
             const { created } = await createIncome(transaction)
             return {
                 created,
             };
         }
 
-        if (transaction.type === 'bill') {
+        if (transaction.type === TransactionType.BILL) {
             const { created } = await createBill(transaction)
             return {
                 created,
@@ -87,15 +87,15 @@ export async function updateTransaction(
         await connectDB();
         let found = null
 
-        if (transaction.type === 'expense') {
+        if (transaction.type === TransactionType.EXPENSE) {
             found = await updateExpense(transaction)
         }
 
-        if (transaction.type === 'income') {
+        if (transaction.type === TransactionType.INCOME) {
             found = await updateIncome(transaction)
         }
 
-        if (transaction.type === 'bill') {
+        if (transaction.type === TransactionType.BILL) {
             found = await updateBill(transaction)
         }
 

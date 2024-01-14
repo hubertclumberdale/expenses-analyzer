@@ -14,6 +14,7 @@ import { ParticipantsProvider } from "@/contexts/participants";
 import { IncomesProvider } from "@/contexts/incomes";
 import { BillsProvider } from "@/contexts/bills";
 import { TransactionsProvider } from "@/contexts/transactions";
+import { SpinnerProvider } from "@/contexts/spinner";
 
 export default function RootLayout({
   children,
@@ -30,19 +31,21 @@ export default function RootLayout({
             <div id="content">
               <Header></Header>
 
-              <HouseholdsProvider>
-                <ParticipantsProvider>
-                  <TransactionsProvider>
-                    <IncomesProvider>
-                      <ExpensesProvider>
-                        <BillsProvider>
-                          <Container fluid>{children}</Container>
-                        </BillsProvider>
-                      </ExpensesProvider>
-                    </IncomesProvider>
-                  </TransactionsProvider>
-                </ParticipantsProvider>
-              </HouseholdsProvider>
+              <SpinnerProvider>
+                <HouseholdsProvider>
+                  <ParticipantsProvider>
+                    <TransactionsProvider>
+                      <IncomesProvider>
+                        <ExpensesProvider>
+                          <BillsProvider>
+                            <Container fluid>{children}</Container>
+                          </BillsProvider>
+                        </ExpensesProvider>
+                      </IncomesProvider>
+                    </TransactionsProvider>
+                  </ParticipantsProvider>
+                </HouseholdsProvider>
+              </SpinnerProvider>
             </div>
             <Footer></Footer>
           </div>

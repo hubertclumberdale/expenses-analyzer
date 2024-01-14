@@ -18,12 +18,27 @@ const RefundList: React.FC<RefundListProps> = ({
   onUpdateRefund,
 }) => {
   const { deleteTransaction, updateTransaction } = useTransactionsContext();
+  const dateFormatter = (data: any) => {
+    return data.value
+      ? new Date(data.value).toLocaleDateString("it-IT", {
+          day: "numeric",
+          month: "numeric",
+          year: "numeric",
+        })
+      : "";
+  };
 
   const columnDefs: ColDef<Transaction>[] = [
     { headerName: "Id", flex: 1, field: "_id" },
     { headerName: "Name", field: "name", editable: true },
     { headerName: "Transaction ID", field: "transactionId", editable: true },
-    { headerName: "Date", field: "date", editable: true },
+    {
+      headerName: "Date",
+      field: "date",
+      editable: true,
+      cellEditor: "agDateStringCellEditor",
+      cellRenderer: dateFormatter,
+    },
     {
       headerName: "Amount",
       field: "amount",
@@ -127,6 +142,14 @@ const RefundList: React.FC<RefundListProps> = ({
               columnDefs={columnDefs}
               rowData={refunds}
               onCellValueChanged={handleCellValueChanged}
+              pinnedBottomRowData={[
+                {
+                  amount: refunds.reduce(
+                    (acc, refund) => acc + (refund.amount ?? 0),
+                    0
+                  ),
+                },
+              ]}
             ></AgGridReact>
           </div>
         </Row>

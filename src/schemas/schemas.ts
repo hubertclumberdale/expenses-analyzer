@@ -13,28 +13,28 @@ export class Transaction {
     name: string;
 
     @typegoose.prop()
-    transactionId!: number;
+    transactionId: number;
 
     @typegoose.prop({ type: Date })
-    date!: Date;
+    date: Date;
 
     @typegoose.prop({ type: Number })
-    amount!: number;
+    amount: number;
 
     @typegoose.prop({ ref: () => Participant })
     owner?: typegoose.Ref<Participant>;
 
     @typegoose.prop()
-    paid!: boolean;
+    paid: boolean;
 
-    @typegoose.prop({ enum: ['bill', 'paycheck', 'expense', 'income', 'refund'] })
-    type!: 'bill' | 'paycheck' | 'expense' | 'income' | 'refund';
+    @typegoose.prop({ enum: ['Bill', 'Paycheck', 'Expense', 'Income', 'Refund'] })
+    type!: 'Bill' | 'Paycheck' | 'Expense' | 'Income' | 'Refund';
 }
 
 @typegoose.modelOptions({ options: { allowMixed: typegoose.Severity.ERROR } })
 export class Income extends Transaction {
-    @typegoose.prop({ enum: ['income'], default: 'income' })
-    type!: 'income';
+    @typegoose.prop({ enum: ['Income'], default: 'Income' })
+    type!: 'Income';
 }
 
 @typegoose.modelOptions({ options: { allowMixed: typegoose.Severity.ERROR } })
@@ -51,20 +51,20 @@ export class Paycheck extends Income {
 
 @typegoose.modelOptions({ options: { allowMixed: typegoose.Severity.ERROR } })
 export class Expense extends Transaction {
-    @typegoose.prop({ enum: ['expense'], default: 'expense' })
-    type!: 'expense';
+    @typegoose.prop({ enum: ['Expense'], default: 'Expense' })
+    type!: 'Expense';
 }
 
 @typegoose.modelOptions({ options: { allowMixed: typegoose.Severity.ERROR } })
 export class Bill extends Transaction {
     @typegoose.prop({ type: Date })
-    fromDate!: Date;
+    fromDate: Date;
 
     @typegoose.prop({ type: Date })
-    toDate!: Date;
+    toDate: Date;
 
     @typegoose.prop({ type: Date })
-    dueDate!: Date;
+    dueDate: Date;
 
     @typegoose.prop({ type: Number })
     consumption?: number;
@@ -85,10 +85,10 @@ export class Bill extends Transaction {
     notes?: string;
 
     @typegoose.prop({ enum: ['gas', 'electricity'] })
-    provider!: 'gas' | 'electricity';
+    provider: 'gas' | 'electricity';
 
-    @typegoose.prop({ enum: ['bill'], default: 'bill' })
-    type!: 'bill';
+    @typegoose.prop({ enum: ['Bill'], default: 'Bill' })
+    type!: 'Bill';
 }
 
 @typegoose.modelOptions({ options: { allowMixed: typegoose.Severity.ERROR } })

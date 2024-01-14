@@ -53,7 +53,7 @@ export async function extractExpenseAction(data: FormData) {
     throw new Error('No files uploaded')
   }
 
-  const expenseType: string = data.get('expenseType') as string
+  const expenseType: string = data.get('transactionType') as string
 
   let parentMessageId: string | undefined = undefined
   try {

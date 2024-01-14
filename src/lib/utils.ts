@@ -4,6 +4,7 @@ import path from "path";
 
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
+import { TransactionType } from '@/types/types';
 
 export function stringToObjectId(id: string): mongoose.Types.ObjectId | null {
   if (mongoose.Types.ObjectId.isValid(id)) {
@@ -54,5 +55,38 @@ export const extractContentFromFile = (filePath: string) => {
     return output
   } else {
     console.error(`Couldn't extract file: ${filePathInProcess}`);
+  }
+}
+
+export const extractInterfaceForType = (type: string) => {
+  const repoRoot = process.cwd();
+
+  const filePathInProcess = path.join(repoRoot, 'src/types/types.ts')
+
+  const fileContent = fs.readFileSync(filePathInProcess, "utf-8");
+
+  const sourceFile = ts.createSourceFile(
+    filePathInProcess,
+    fileContent,
+    ts.ScriptTarget.Latest,
+    true
+  );
+
+  const printer = ts.createPrinter();
+
+  const output = sourceFile.statements.reduce((acc: string, statement: any) => {
+    if (
+      (ts.isInterfaceDeclaration(statement) || ts.isEnumDeclaration(statement)) &&
+      (statement.name.text === 'Transaction' || statement.name.text === type || statement.name.text === 'TransactionType')
+    ) {
+      return acc + printer.printNode(ts.EmitHint.Unspecified, statement, sourceFile);
+    }
+    return acc;
+  }, '');
+
+  if (output) {
+    return output;
+  } else {
+    console.error(`Couldn't extract interface for type: ${type}`);
   }
 }

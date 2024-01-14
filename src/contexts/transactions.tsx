@@ -4,6 +4,7 @@ import {
   getTransactionsActions,
   updateTransactionAction,
 } from "@/actions/transactions";
+import { useSpinnerContext } from "@/contexts/spinner";
 import { Transaction } from "@/types/types";
 import { Types } from "mongoose";
 import React, {
@@ -36,6 +37,8 @@ const TransactionsContext = createContext<TransactionsContextProps | undefined>(
 export const TransactionsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  const { incrementCounter, decrementCounter } = useSpinnerContext();
+
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [results, setResults] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
@@ -47,6 +50,7 @@ export const TransactionsProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const fetchTransactions = async () => {
+    incrementCounter();
     const { transactions, results } = await getTransactionsActions();
     if (transactions?.length === 0) {
       setResults(0);
@@ -58,22 +62,29 @@ export const TransactionsProvider: React.FC<{ children: ReactNode }> = ({
     if (results) {
       setResults(results);
     }
+    decrementCounter();
   };
 
   const createTransaction = async (transaction: Transaction) => {
+    incrementCounter();
     const newTransaction = await createTransactionAction({
       transaction,
       path: "/expenses",
     });
+    decrementCounter();
     return newTransaction;
   };
 
   const deleteTransaction = async (id: string) => {
+    incrementCounter();
     await deleteTransactionAction({ id, path: "/expenses" });
+    decrementCounter();
   };
 
   const updateTransaction = async (transaction: Transaction) => {
+    incrementCounter();
     await updateTransactionAction({ path: `/expenses`, transaction });
+    decrementCounter();
   };
 
   useEffect(() => {

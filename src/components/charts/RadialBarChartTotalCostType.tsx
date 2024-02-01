@@ -22,7 +22,7 @@ const RadialBarChartTotalCostType = () => {
         outerRadius="80%"
         data={localExpenses}
       >
-        <RadialBar dataKey="totalCost" fill="#8884d8" />
+        <RadialBar dataKey="totalCost" fill="#4e73df" />
         <Legend />
         <Tooltip />
       </RadialBarChart>

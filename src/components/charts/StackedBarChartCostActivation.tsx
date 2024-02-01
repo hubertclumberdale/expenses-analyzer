@@ -23,7 +23,7 @@ const StackedBarChartCostActivation = () => {
       >
         <XAxis dataKey="reference" />
         <YAxis />
-        <Bar dataKey="cost" fill="#8884d8" />
+        <Bar dataKey="cost" fill="#4e73df" />
         <Bar dataKey="activationCost" fill="#82ca9d" />
         <Tooltip />
       </BarChart>

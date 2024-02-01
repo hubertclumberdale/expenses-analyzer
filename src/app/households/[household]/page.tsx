@@ -1,20 +1,12 @@
 "use client";
 
-import BarChart from "@/components/charts/BarChart";
-import LineChart from "@/components/charts/LineChart";
-import PieChart from "@/components/charts/PieChart";
+import HouseholdDashboard from "@/components/household/dashboard";
 import { useHouseholdContext } from "@/contexts/households";
 import { Household, Transaction, TransactionType } from "@/types/types";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
-  Accordion,
   Breadcrumb,
-  Button,
-  Card,
-  Col,
-  Container,
-  Row,
 } from "react-bootstrap";
 
 const Page = ({ params }: { params: { household: string } }) => {
@@ -27,7 +19,6 @@ const Page = ({ params }: { params: { household: string } }) => {
     refunds: [],
   });
 
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
 
   const findAndSetCurrentParticipant = () => {
     const household = households.find(
@@ -47,21 +38,7 @@ const Page = ({ params }: { params: { household: string } }) => {
     findAndSetCurrentParticipant();
   }, [households]);
 
-  useEffect(() => {
-    if (!currentHousehold._id) {
-      return;
-    }
-
-    const transactions = [
-      ...currentHousehold.expenses,
-      ...currentHousehold.refunds,
-    ];
-    setTransactions(transactions);
-  }, [
-    currentHousehold,
-    currentHousehold.expenses.length,
-    currentHousehold.refunds.length,
-  ]);
+  
 
   const generateForecast = async () => {
     const data = currentHousehold.expenses
@@ -87,48 +64,9 @@ const Page = ({ params }: { params: { household: string } }) => {
         <Breadcrumb.Item active>{<>{currentHousehold._id}</>}</Breadcrumb.Item>
       </Breadcrumb>
 
-      <Card>
-        <Card.Header>
-          <Card.Title>
-            <h1>Household: {currentHousehold.name}</h1>
-            <h4>Household id: {currentHousehold._id?.toString()}</h4>
-            <Link href={`/households/${currentHousehold._id}/edit`}>
-              <Button variant="warning">Edit Household</Button>
-            </Link>
-          </Card.Title>
-        </Card.Header>
-        <Card.Body>
-          <Accordion activeKey="0">
-            <Accordion.Item eventKey="0">
-              <Accordion.Header>Expenses</Accordion.Header>
-              <Accordion.Body>
-                <Container>
-                  <Row>
-                    <Col>
-                      <BarChart
-                        transactions={currentHousehold.expenses}
-                        dataKey="amount"
-                      ></BarChart>
-                    </Col>
-                    <Col>
-                      <LineChart
-                        transactions={currentHousehold.expenses}
-                        dataKey="amount"
-                      ></LineChart>
-                    </Col>
-                    <Col>
-                      <PieChart transactions={transactions}></PieChart>
-                    </Col>
-                    <Col>
-                      <Button onClick={generateForecast}>Forecast</Button>
-                    </Col>
-                  </Row>
-                </Container>
-              </Accordion.Body>
-            </Accordion.Item>
-          </Accordion>
-        </Card.Body>
-      </Card>
+      <HouseholdDashboard household={currentHousehold}></HouseholdDashboard>
+
+     
     </>
   );
 };

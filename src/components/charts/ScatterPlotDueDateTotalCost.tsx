@@ -18,7 +18,7 @@ const ScatterPlotDueDateTotalCost = () => {
       <ScatterChart width={400} height={300}>
         <XAxis dataKey="dueDate" />
         <YAxis />
-        <Scatter data={localExpenses} fill="#8884d8" />
+        <Scatter data={localExpenses} fill="#4e73df" />
         <Tooltip />
       </ScatterChart>
     </>

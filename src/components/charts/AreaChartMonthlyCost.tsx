@@ -17,7 +17,7 @@ const AreaChartMonthlyCost = () => {
       <AreaChart width={400} height={300} data={localExpenses}>
         <XAxis dataKey="issuedDate" />
         <YAxis />
-        <Area type="monotone" dataKey="monthlyCost" fill="#8884d8" />
+        <Area type="monotone" dataKey="monthlyCost" fill="#4e73df" />
         <Tooltip />
       </AreaChart>
     </>

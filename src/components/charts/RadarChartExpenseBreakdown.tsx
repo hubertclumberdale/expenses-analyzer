@@ -25,7 +25,7 @@ const RadarChartExpenseBreakdown = () => {
         <PolarGrid />
         <PolarAngleAxis dataKey="property" />
         <PolarRadiusAxis />
-        <Scatter data={localExpenses} fill="#8884d8" />
+        <Scatter data={localExpenses} fill="#4e73df" />
         <Tooltip />
       </RadarChart>
     </>

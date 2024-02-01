@@ -34,7 +34,7 @@ const PieChart = ({ transactions }: { transactions: Transaction[] }) => {
             data={expenseData}
             dataKey="value"
             nameKey="name"
-            fill="#8884d8"
+            fill="#4e73df"
           />
           <Tooltip />
           <Legend />

@@ -5,10 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
     "lint": "next lint",
     "init": "docker-compose build",
-    "run": "docker-compose up -d",
+    "start": "docker-compose up -d",
     "electron": "electron .",
     "package": "electron-builder"
   },

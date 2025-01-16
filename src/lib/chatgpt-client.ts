@@ -13,13 +13,15 @@ class ChatGPTClient {
 
     constructor() {
         this.apiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY ?? ''
-        this.chatGPTAPI = new ChatGPTAPI({
-            apiKey: this.apiKey,
-            completionParams: {
-                temperature: 0.2
-            },
-            debug: true
-        })
+        if(this.apiKey) {
+            this.chatGPTAPI = new ChatGPTAPI({
+                apiKey: this.apiKey,
+                completionParams: {
+                    temperature: 0.2
+                },
+                debug: true
+            })
+        }
     }
 
     public async sendMessage({ prompt, systemMessage = '', parentMessageId }: SendMessageRequest): Promise<ChatMessage> {

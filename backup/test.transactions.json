@@ -977,4 +977,40 @@
   "owner": {
     "$oid": "67894c10d7c5951fc8469428"
   }
+},
+{
+  "_id": {
+    "$oid": "678a938b2d5725e190453d48"
+  },
+  "name": "Tubo del gas",
+  "transactionId": 0,
+  "date": {
+    "$date": "2025-01-17T17:29:47.135Z"
+  },
+  "amount": 70,
+  "paid": true,
+  "type": "Expense",
+  "__t": "Expense",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c10d7c5951fc8469428"
+  }
+},
+{
+  "_id": {
+    "$oid": "678a93b82d5725e190453dad"
+  },
+  "name": "Roby Caldaie",
+  "transactionId": 0,
+  "date": {
+    "$date": "2024-07-17T00:00:00.000Z"
+  },
+  "amount": 128,
+  "paid": true,
+  "type": "Expense",
+  "__t": "Expense",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c10d7c5951fc8469428"
+  }
 }]

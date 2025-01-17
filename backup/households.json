@@ -1,0 +1,448 @@
+[
+  {
+    "_id": {
+      "$oid": "67894c2ad7c5951fc8469458"
+    },
+    "name": "Casa di Ponte Nossa",
+    "participants": [
+      {
+        "$oid": "67894c10d7c5951fc8469428"
+      },
+      {
+        "$oid": "67894c1fd7c5951fc8469440"
+      }
+    ],
+    "expenses": [
+      {
+        "$oid": "67895f4cd7c5951fc8469770"
+      },
+      {
+        "$oid": "678955d4d7c5951fc8469645"
+      },
+      {
+        "$oid": "67895696d7c5951fc84696ca"
+      },
+      {
+        "$oid": "678956ebd7c5951fc84696f7"
+      },
+      {
+        "$oid": "6789556ad7c5951fc846961a"
+      },
+      {
+        "$oid": "67895ffcd7c5951fc8469807"
+      },
+      {
+        "$oid": "6789563bd7c5951fc846969b"
+      },
+      {
+        "$oid": "67894e94d7c5951fc846952f"
+      },
+      {
+        "$oid": "67896321d7c5951fc8469a4f"
+      },
+      {
+        "$oid": "67896147d7c5951fc84698e9"
+      },
+      {
+        "$oid": "678960f1d7c5951fc84698ae"
+      },
+      {
+        "$oid": "678960b3d7c5951fc8469879"
+      },
+      {
+        "$oid": "678961f0d7c5951fc8469998"
+      },
+      {
+        "$oid": "67895f87d7c5951fc84697a1"
+      },
+      {
+        "$oid": "6789647bd7c5951fc8469b26"
+      },
+      {
+        "$oid": "67896513d7c5951fc8469bb2"
+      },
+      {
+        "$oid": "67896576d7c5951fc8469bff"
+      },
+      {
+        "$oid": "678965bdd7c5951fc8469c48"
+      },
+      {
+        "$oid": "6789628ed7c5951fc84699d5"
+      },
+      {
+        "$oid": "678964c4d7c5951fc8469b6d"
+      },
+      {
+        "$oid": "678965fad7c5951fc8469c93"
+      },
+      {
+        "$oid": "67896664d7c5951fc8469d33"
+      },
+      {
+        "$oid": "678966d3d7c5951fc8469dd5"
+      },
+      {
+        "_id": {
+          "$oid": "678a90cc2d5725e190453683"
+        },
+        "name": "Lavatrice",
+        "transactionId": 0,
+        "date": {
+          "$date": "2021-12-26T00:00:00.000Z"
+        },
+        "amount": 359,
+        "paid": true,
+        "type": "Expense",
+        "__t": "Expense",
+        "__v": 0,
+        "owner": {
+          "$oid": "67894c10d7c5951fc8469428"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "678a90e42d5725e1904536ce"
+        },
+        "name": "Elettricista",
+        "transactionId": 0,
+        "date": {
+          "$date": "2022-01-01T00:00:00.000Z"
+        },
+        "amount": 100,
+        "paid": true,
+        "type": "Expense",
+        "__t": "Expense",
+        "__v": 0,
+        "owner": {
+          "$oid": "67894c10d7c5951fc8469428"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "678a90fb2d5725e19045371b"
+        },
+        "name": "Roby Caldaie",
+        "transactionId": 0,
+        "date": {
+          "$date": "2022-07-21T00:00:00.000Z"
+        },
+        "amount": 128,
+        "paid": true,
+        "type": "Expense",
+        "__t": "Expense",
+        "__v": 0,
+        "owner": {
+          "$oid": "67894c10d7c5951fc8469428"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "678a91102d5725e19045376a"
+        },
+        "name": "Denise",
+        "transactionId": 0,
+        "date": {
+          "$date": "2022-11-10T00:00:00.000Z"
+        },
+        "amount": 264,
+        "paid": true,
+        "type": "Expense",
+        "__t": "Expense",
+        "__v": 0,
+        "owner": {
+          "$oid": "67894c10d7c5951fc8469428"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "678a91222d5725e1904537bb"
+        },
+        "name": "Idraulico",
+        "transactionId": 0,
+        "date": {
+          "$date": "2022-12-10T00:00:00.000Z"
+        },
+        "amount": 40,
+        "paid": true,
+        "type": "Expense",
+        "__t": "Expense",
+        "__v": 0,
+        "owner": {
+          "$oid": "67894c10d7c5951fc8469428"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "678a913e2d5725e190453811"
+        },
+        "name": "Eikos",
+        "transactionId": 0,
+        "date": {
+          "$date": "2023-07-24T00:00:00.000Z"
+        },
+        "amount": 990,
+        "paid": true,
+        "type": "Expense",
+        "__t": "Expense",
+        "__v": 0,
+        "owner": {
+          "$oid": "67894c10d7c5951fc8469428"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "678a91512d5725e190453866"
+        },
+        "name": "Roby Caldaie",
+        "transactionId": 0,
+        "date": {
+          "$date": "2023-07-25T00:00:00.000Z"
+        },
+        "amount": 120,
+        "paid": true,
+        "type": "Expense",
+        "__t": "Expense",
+        "__v": 0,
+        "owner": {
+          "$oid": "67894c10d7c5951fc8469428"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "678a91672d5725e1904538ba"
+        },
+        "name": "Zanzariera",
+        "transactionId": 0,
+        "date": {
+          "$date": "2023-08-13T00:00:00.000Z"
+        },
+        "amount": 270,
+        "paid": true,
+        "type": "Expense",
+        "__t": "Expense",
+        "__v": 0,
+        "owner": {
+          "$oid": "67894c10d7c5951fc8469428"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "678a91952d5725e190453916"
+        },
+        "name": "Tubo doccia",
+        "transactionId": 0,
+        "date": {
+          "$date": "2023-08-28T00:00:00.000Z"
+        },
+        "amount": 10,
+        "paid": true,
+        "type": "Expense",
+        "__t": "Expense",
+        "__v": 0,
+        "owner": {
+          "$oid": "67894c10d7c5951fc8469428"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "678a91c02d5725e1904539d4"
+        },
+        "name": "Idraulico",
+        "transactionId": 0,
+        "date": {
+          "$date": "2023-08-31T00:00:00.000Z"
+        },
+        "amount": 30,
+        "paid": true,
+        "type": "Expense",
+        "__t": "Expense",
+        "__v": 0,
+        "owner": {
+          "$oid": "67894c10d7c5951fc8469428"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "678a91d32d5725e190453a31"
+        },
+        "name": "Serratura",
+        "transactionId": 0,
+        "date": {
+          "$date": "2023-12-08T00:00:00.000Z"
+        },
+        "amount": 35,
+        "paid": true,
+        "type": "Expense",
+        "__t": "Expense",
+        "__v": 0,
+        "owner": {
+          "$oid": "67894c10d7c5951fc8469428"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "678a91e32d5725e190453a92"
+        },
+        "name": "Guarnizioni finestre",
+        "transactionId": 0,
+        "date": {
+          "$date": "2024-01-02T00:00:00.000Z"
+        },
+        "amount": 61,
+        "paid": true,
+        "type": "Expense",
+        "__t": "Expense",
+        "__v": 0,
+        "owner": {
+          "$oid": "67894c10d7c5951fc8469428"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "678a938b2d5725e190453d48"
+        },
+        "name": "Tubo del gas",
+        "transactionId": 0,
+        "date": {
+          "$date": "2024-10-17T00:00:00.000Z"
+        },
+        "amount": 70,
+        "paid": true,
+        "type": "Expense",
+        "__t": "Expense",
+        "__v": 0,
+        "owner": {
+          "$oid": "67894c10d7c5951fc8469428"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "678a93b82d5725e190453dad"
+        },
+        "name": "Roby Caldaie",
+        "transactionId": 0,
+        "date": {
+          "$date": "2024-07-17T00:00:00.000Z"
+        },
+        "amount": 128,
+        "paid": true,
+        "type": "Expense",
+        "__t": "Expense",
+        "__v": 0,
+        "owner": {
+          "$oid": "67894c10d7c5951fc8469428"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "678a952b2d5725e190453ef5"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "678a95a32d5725e190453f85"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "678a960b2d5725e19045407d"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "678a96c12d5725e1904540f7"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "678a97262d5725e1904541f7"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "678a976a2d5725e190454277"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "678a97ac2d5725e1904542f3"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "678a97f42d5725e1904543fb"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "678a985e2d5725e190454483"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "678a98ba2d5725e19045450b"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "678a99182d5725e190454599"
+        }
+      }
+    ],
+    "refunds": [
+      {
+        "_id": {
+          "$oid": "678a92362d5725e190453b5c"
+        },
+        "name": "Rimborso 2022",
+        "transactionId": 0,
+        "date": {
+          "$date": "2022-12-20T00:00:00.000Z"
+        },
+        "amount": 1200,
+        "paid": true,
+        "type": "Refund",
+        "__v": 0,
+        "owner": {
+          "$oid": "67894c10d7c5951fc8469428"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "678a92492d5725e190453bbb"
+        },
+        "name": "Rimborso metà 2023",
+        "transactionId": 0,
+        "date": {
+          "$date": "2023-06-22T00:00:00.000Z"
+        },
+        "amount": 1000,
+        "paid": true,
+        "type": "Refund",
+        "__v": 0,
+        "owner": {
+          "$oid": "67894c10d7c5951fc8469428"
+        }
+      },
+      {
+        "_id": {
+          "$oid": "678a92552d5725e190453c1b"
+        },
+        "name": "Rimborso fine 2023",
+        "transactionId": 0,
+        "date": {
+          "$date": "2023-12-25T00:00:00.000Z"
+        },
+        "amount": 1200,
+        "paid": true,
+        "type": "Refund",
+        "__v": 0,
+        "owner": {
+          "$oid": "67894c10d7c5951fc8469428"
+        }
+      }
+    ],
+    "__v": 0
+  }
+]

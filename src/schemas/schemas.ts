@@ -2,7 +2,6 @@ import * as typegoose from '@typegoose/typegoose';
 import mongoose from 'mongoose';
 import { setLogLevel, LogLevels } from '@typegoose/typegoose';
 
-setLogLevel(LogLevels.DEBUG);
 
 @typegoose.modelOptions({ options: { allowMixed: typegoose.Severity.ERROR } })
 export class Transaction {
@@ -27,8 +26,6 @@ export class Transaction {
     @typegoose.prop()
     paid: boolean;
 
-    @typegoose.prop({ enum: ['Bill', 'Paycheck', 'Expense', 'Income', 'Refund'] })
-    type!: 'Bill' | 'Paycheck' | 'Expense' | 'Income' | 'Refund';
 }
 
 @typegoose.modelOptions({ options: { allowMixed: typegoose.Severity.ERROR } })

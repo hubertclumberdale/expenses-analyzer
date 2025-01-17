@@ -1,0 +1,980 @@
+[{
+  "_id": {
+    "$oid": "67894e94d7c5951fc846952f"
+  },
+  "name": "",
+  "transactionId": null,
+  "date": {
+    "$date": "2022-10-13T00:00:00.000Z"
+  },
+  "amount": 145.5,
+  "paid": true,
+  "type": "Bill",
+  "fromDate": {
+    "$date": "2022-09-01T00:00:00.000Z"
+  },
+  "toDate": {
+    "$date": "2022-09-30T00:00:00.000Z"
+  },
+  "dueDate": {
+    "$date": "2022-10-13T00:00:00.000Z"
+  },
+  "provider": "electricity",
+  "__t": "Bill",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c1fd7c5951fc8469440"
+  },
+  "monthlyInstallments": 1,
+  "consumption": 29
+},
+{
+  "_id": {
+    "$oid": "6789556ad7c5951fc846961a"
+  },
+  "name": "Gas",
+  "transactionId": {
+    "$numberLong": "2208197522"
+  },
+  "date": {
+    "$date": "2022-01-28T00:00:00.000Z"
+  },
+  "amount": 111.55,
+  "paid": true,
+  "type": "Bill",
+  "fromDate": {
+    "$date": "2021-12-01T00:00:00.000Z"
+  },
+  "toDate": {
+    "$date": "2022-01-28T00:00:00.000Z"
+  },
+  "dueDate": {
+    "$date": "2022-02-18T00:00:00.000Z"
+  },
+  "provider": "gas",
+  "__t": "Bill",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c1fd7c5951fc8469440"
+  },
+  "consumption": 144,
+  "monthlyInstallments": 2
+},
+{
+  "_id": {
+    "$oid": "678955d4d7c5951fc8469645"
+  },
+  "name": "Luce",
+  "transactionId": {
+    "$numberLong": "2208197522"
+  },
+  "date": {
+    "$date": "2022-01-20T00:00:00.000Z"
+  },
+  "amount": 77.97,
+  "paid": true,
+  "type": "Bill",
+  "fromDate": {
+    "$date": "2021-12-01T00:00:00.000Z"
+  },
+  "toDate": {
+    "$date": "2022-01-28T00:00:00.000Z"
+  },
+  "dueDate": {
+    "$date": "2022-02-18T00:00:00.000Z"
+  },
+  "provider": "electricity",
+  "__t": "Bill",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c1fd7c5951fc8469440"
+  },
+  "consumption": 320,
+  "monthlyInstallments": 2
+},
+{
+  "_id": {
+    "$oid": "6789563bd7c5951fc846969b"
+  },
+  "name": "Mazzata del gas",
+  "transactionId": {
+    "$numberLong": "2217235867"
+  },
+  "date": {
+    "$date": "2022-04-15T00:00:00.000Z"
+  },
+  "amount": 1267.89,
+  "paid": true,
+  "type": "Bill",
+  "fromDate": {
+    "$date": "2022-04-01T00:00:00.000Z"
+  },
+  "toDate": {
+    "$date": "2022-04-01T00:00:00.000Z"
+  },
+  "dueDate": {
+    "$date": "2022-05-11T00:00:00.000Z"
+  },
+  "provider": "gas",
+  "__t": "Bill",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c1fd7c5951fc8469440"
+  },
+  "consumption": 1711,
+  "monthlyInstallments": 2
+},
+{
+  "_id": {
+    "$oid": "67895696d7c5951fc84696ca"
+  },
+  "name": "",
+  "transactionId": {
+    "$numberLong": "2239429663"
+  },
+  "date": {
+    "$date": "2022-11-22T00:00:00.000Z"
+  },
+  "amount": 68.62,
+  "paid": true,
+  "type": "Bill",
+  "fromDate": {
+    "$date": "2022-09-18T00:00:00.000Z"
+  },
+  "toDate": {
+    "$date": "2022-11-22T00:00:00.000Z"
+  },
+  "dueDate": {
+    "$date": "2022-12-13T00:00:00.000Z"
+  },
+  "provider": "gas",
+  "__t": "Bill",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c1fd7c5951fc8469440"
+  },
+  "monthlyInstallments": 2,
+  "consumption": 44
+},
+{
+  "_id": {
+    "$oid": "678956ebd7c5951fc84696f7"
+  },
+  "name": "",
+  "transactionId": {
+    "$numberLong": "2307428069"
+  },
+  "date": {
+    "$date": "2023-01-18T00:00:00.000Z"
+  },
+  "amount": 905.9,
+  "paid": true,
+  "type": "Bill",
+  "fromDate": {
+    "$date": "2022-11-23T00:00:00.000Z"
+  },
+  "toDate": {
+    "$date": "2022-12-31T00:00:00.000Z"
+  },
+  "dueDate": {
+    "$date": "2023-02-09T00:00:00.000Z"
+  },
+  "provider": "gas",
+  "__t": "Bill",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c1fd7c5951fc8469440"
+  },
+  "consumption": 620,
+  "monthlyInstallments": 2
+},
+{
+  "_id": {
+    "$oid": "67895f4cd7c5951fc8469770"
+  },
+  "name": "",
+  "transactionId": {
+    "$numberLong": "2314563910"
+  },
+  "date": {
+    "$date": "2023-03-17T00:00:00.000Z"
+  },
+  "amount": 639.29,
+  "paid": true,
+  "type": "Bill",
+  "fromDate": {
+    "$date": "2023-01-01T00:00:00.000Z"
+  },
+  "toDate": {
+    "$date": "2023-02-28T00:00:00.000Z"
+  },
+  "dueDate": {
+    "$date": "2023-04-07T00:00:00.000Z"
+  },
+  "provider": "gas",
+  "__t": "Bill",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c1fd7c5951fc8469440"
+  },
+  "consumption": 658,
+  "monthlyInstallments": 2
+},
+{
+  "_id": {
+    "$oid": "67895f87d7c5951fc84697a1"
+  },
+  "name": "",
+  "transactionId": {
+    "$numberLong": "2321784986"
+  },
+  "date": {
+    "$date": "2023-05-26T00:00:00.000Z"
+  },
+  "amount": 112.5,
+  "paid": true,
+  "type": "Bill",
+  "fromDate": {
+    "$date": "2023-03-01T00:00:00.000Z"
+  },
+  "toDate": {
+    "$date": "2023-04-30T00:00:00.000Z"
+  },
+  "dueDate": {
+    "$date": "2025-01-16T19:35:35.853Z"
+  },
+  "provider": "gas",
+  "__t": "Bill",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c1fd7c5951fc8469440"
+  },
+  "consumption": 92,
+  "monthlyInstallments": 2
+},
+{
+  "_id": {
+    "$oid": "67895ffcd7c5951fc8469807"
+  },
+  "name": "",
+  "transactionId": {
+    "$numberLong": "2328367221"
+  },
+  "date": {
+    "$date": "2023-07-18T00:00:00.000Z"
+  },
+  "amount": 32.28,
+  "paid": true,
+  "type": "Bill",
+  "fromDate": {
+    "$date": "2023-05-01T00:00:00.000Z"
+  },
+  "toDate": {
+    "$date": "2023-06-30T00:00:00.000Z"
+  },
+  "dueDate": {
+    "$date": "2023-08-08T00:00:00.000Z"
+  },
+  "provider": "gas",
+  "__t": "Bill",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c1fd7c5951fc8469440"
+  },
+  "consumption": 6,
+  "monthlyInstallments": 2
+},
+{
+  "_id": {
+    "$oid": "678960b3d7c5951fc8469879"
+  },
+  "name": "",
+  "transactionId": {
+    "$numberLong": "2335070305"
+  },
+  "date": {
+    "$date": "2023-09-26T00:00:00.000Z"
+  },
+  "amount": 69.93,
+  "paid": true,
+  "type": "Bill",
+  "fromDate": {
+    "$date": "2023-07-01T00:00:00.000Z"
+  },
+  "toDate": {
+    "$date": "2023-08-31T00:00:00.000Z"
+  },
+  "dueDate": {
+    "$date": "2023-10-17T00:00:00.000Z"
+  },
+  "provider": "gas",
+  "__t": "Bill",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c1fd7c5951fc8469440"
+  },
+  "consumption": 40,
+  "monthlyInstallments": 2
+},
+{
+  "_id": {
+    "$oid": "678960f1d7c5951fc84698ae"
+  },
+  "name": "",
+  "transactionId": {
+    "$numberLong": "2340658912"
+  },
+  "date": {
+    "$date": "2023-11-14T00:00:00.000Z"
+  },
+  "amount": 33.88,
+  "paid": true,
+  "type": "Bill",
+  "fromDate": {
+    "$date": "2023-09-01T00:00:00.000Z"
+  },
+  "toDate": {
+    "$date": "2023-10-31T00:00:00.000Z"
+  },
+  "dueDate": {
+    "$date": "2023-10-05T00:00:00.000Z"
+  },
+  "provider": "gas",
+  "__t": "Bill",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c1fd7c5951fc8469440"
+  },
+  "consumption": 1,
+  "monthlyInstallments": 2
+},
+{
+  "_id": {
+    "$oid": "67896147d7c5951fc84698e9"
+  },
+  "name": "",
+  "transactionId": {
+    "$numberLong": "4229507864"
+  },
+  "date": {
+    "$date": "2022-05-21T00:00:00.000Z"
+  },
+  "amount": 236.4,
+  "paid": true,
+  "type": "Bill",
+  "fromDate": {
+    "$date": "2022-04-01T00:00:00.000Z"
+  },
+  "toDate": {
+    "$date": "2022-04-30T00:00:00.000Z"
+  },
+  "dueDate": {
+    "$date": "2022-06-10T00:00:00.000Z"
+  },
+  "provider": "gas",
+  "__t": "Bill",
+  "__v": 0,
+  "monthlyInstallments": 1,
+  "consumption": 200,
+  "owner": {
+    "$oid": "67894c1fd7c5951fc8469440"
+  }
+},
+{
+  "_id": {
+    "$oid": "678961f0d7c5951fc8469998"
+  },
+  "name": "",
+  "transactionId": 2077890,
+  "date": {
+    "$date": "2022-11-15T00:00:00.000Z"
+  },
+  "amount": 59.38,
+  "paid": true,
+  "type": "Bill",
+  "fromDate": {
+    "$date": "2022-10-01T00:00:00.000Z"
+  },
+  "toDate": {
+    "$date": "2022-10-31T00:00:00.000Z"
+  },
+  "dueDate": {
+    "$date": "2022-11-30T00:00:00.000Z"
+  },
+  "provider": "electricity",
+  "__t": "Bill",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c1fd7c5951fc8469440"
+  },
+  "consumption": 30,
+  "monthlyInstallments": 1
+},
+{
+  "_id": {
+    "$oid": "6789628ed7c5951fc84699d5"
+  },
+  "name": "",
+  "transactionId": 31228,
+  "date": {
+    "$date": "2023-01-11T00:00:00.000Z"
+  },
+  "amount": 114.14,
+  "paid": true,
+  "type": "Bill",
+  "fromDate": {
+    "$date": "2022-12-01T00:00:00.000Z"
+  },
+  "toDate": {
+    "$date": "2022-12-31T00:00:00.000Z"
+  },
+  "dueDate": {
+    "$date": "2022-01-31T00:00:00.000Z"
+  },
+  "provider": "electricity",
+  "__t": "Bill",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c1fd7c5951fc8469440"
+  },
+  "consumption": 102,
+  "monthlyInstallments": 1
+},
+{
+  "_id": {
+    "$oid": "67896321d7c5951fc8469a4f"
+  },
+  "name": "",
+  "transactionId": 179954,
+  "date": {
+    "$date": "2023-03-13T00:00:00.000Z"
+  },
+  "amount": 70.52,
+  "paid": true,
+  "type": "Bill",
+  "fromDate": {
+    "$date": "2023-02-01T00:00:00.000Z"
+  },
+  "toDate": {
+    "$date": "2023-02-28T00:00:00.000Z"
+  },
+  "dueDate": {
+    "$date": "2023-04-03T00:00:00.000Z"
+  },
+  "provider": "electricity",
+  "__t": "Bill",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c1fd7c5951fc8469440"
+  },
+  "consumption": 37,
+  "monthlyInstallments": 1
+},
+{
+  "_id": {
+    "$oid": "6789647bd7c5951fc8469b26"
+  },
+  "name": "",
+  "transactionId": 253462,
+  "date": {
+    "$date": "2023-04-13T00:00:00.000Z"
+  },
+  "amount": 72.75,
+  "paid": true,
+  "type": "Bill",
+  "fromDate": {
+    "$date": "2023-03-01T00:00:00.000Z"
+  },
+  "toDate": {
+    "$date": "2023-03-31T00:00:00.000Z"
+  },
+  "dueDate": {
+    "$date": "2023-05-03T00:00:00.000Z"
+  },
+  "provider": "electricity",
+  "__t": "Bill",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c1fd7c5951fc8469440"
+  },
+  "activationCost": null,
+  "monthlyInstallments": 1,
+  "consumption": 13
+},
+{
+  "_id": {
+    "$oid": "678964c4d7c5951fc8469b6d"
+  },
+  "name": "",
+  "transactionId": 329339,
+  "date": {
+    "$date": "2023-05-11T00:00:00.000Z"
+  },
+  "amount": 84.37,
+  "paid": true,
+  "type": "Bill",
+  "fromDate": {
+    "$date": "2023-04-01T00:00:00.000Z"
+  },
+  "toDate": {
+    "$date": "2023-04-30T00:00:00.000Z"
+  },
+  "dueDate": {
+    "$date": "2023-05-31T00:00:00.000Z"
+  },
+  "provider": "electricity",
+  "__t": "Bill",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c1fd7c5951fc8469440"
+  },
+  "consumption": 50,
+  "monthlyInstallments": 1
+},
+{
+  "_id": {
+    "$oid": "67896513d7c5951fc8469bb2"
+  },
+  "name": "",
+  "transactionId": 415278,
+  "date": {
+    "$date": "2023-06-12T00:00:00.000Z"
+  },
+  "amount": 79.58,
+  "paid": true,
+  "type": "Bill",
+  "fromDate": {
+    "$date": "2023-05-01T00:00:00.000Z"
+  },
+  "toDate": {
+    "$date": "2023-05-31T00:00:00.000Z"
+  },
+  "dueDate": {
+    "$date": "2023-07-03T00:00:00.000Z"
+  },
+  "provider": "electricity",
+  "__t": "Bill",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c1fd7c5951fc8469440"
+  },
+  "consumption": 29,
+  "monthlyInstallments": 1
+},
+{
+  "_id": {
+    "$oid": "67896576d7c5951fc8469bff"
+  },
+  "name": "",
+  "transactionId": 489658,
+  "date": {
+    "$date": "2023-07-12T00:00:00.000Z"
+  },
+  "amount": 82.43,
+  "paid": true,
+  "type": "Bill",
+  "fromDate": {
+    "$date": "2023-06-01T00:00:00.000Z"
+  },
+  "toDate": {
+    "$date": "2023-06-30T00:00:00.000Z"
+  },
+  "dueDate": {
+    "$date": "2023-08-01T00:00:00.000Z"
+  },
+  "provider": "gas",
+  "__t": "Bill",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c1fd7c5951fc8469440"
+  },
+  "consumption": 36,
+  "monthlyInstallments": 1
+},
+{
+  "_id": {
+    "$oid": "678965bdd7c5951fc8469c48"
+  },
+  "name": "",
+  "transactionId": 560581,
+  "date": {
+    "$date": "2023-08-08T00:00:00.000Z"
+  },
+  "amount": 99.33,
+  "paid": true,
+  "type": "Bill",
+  "fromDate": {
+    "$date": "2023-07-01T00:00:00.000Z"
+  },
+  "toDate": {
+    "$date": "2023-07-31T00:00:00.000Z"
+  },
+  "dueDate": {
+    "$date": "2023-09-01T00:00:00.000Z"
+  },
+  "provider": "electricity",
+  "__t": "Bill",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c1fd7c5951fc8469440"
+  },
+  "consumption": 105,
+  "monthlyInstallments": 1
+},
+{
+  "_id": {
+    "$oid": "678965fad7c5951fc8469c93"
+  },
+  "name": "",
+  "transactionId": 632019,
+  "date": {
+    "$date": "2023-09-11T00:00:00.000Z"
+  },
+  "amount": 103.47,
+  "paid": true,
+  "type": "Bill",
+  "fromDate": {
+    "$date": "2023-06-01T00:00:00.000Z"
+  },
+  "toDate": {
+    "$date": "2023-08-31T00:00:00.000Z"
+  },
+  "dueDate": {
+    "$date": "2023-10-02T00:00:00.000Z"
+  },
+  "provider": "electricity",
+  "__t": "Bill",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c1fd7c5951fc8469440"
+  },
+  "monthlyInstallments": 1,
+  "consumption": 128
+},
+{
+  "_id": {
+    "$oid": "67896664d7c5951fc8469d33"
+  },
+  "name": "",
+  "transactionId": 778482,
+  "date": {
+    "$date": "2023-11-13T00:00:00.000Z"
+  },
+  "amount": 70.85,
+  "paid": true,
+  "type": "Bill",
+  "fromDate": {
+    "$date": "2023-10-01T00:00:00.000Z"
+  },
+  "toDate": {
+    "$date": "2023-10-31T00:00:00.000Z"
+  },
+  "dueDate": {
+    "$date": "2023-12-04T00:00:00.000Z"
+  },
+  "provider": "electricity",
+  "__t": "Bill",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c1fd7c5951fc8469440"
+  },
+  "consumption": 28,
+  "monthlyInstallments": 1
+},
+{
+  "_id": {
+    "$oid": "678966d3d7c5951fc8469dd5"
+  },
+  "name": "",
+  "transactionId": 853397,
+  "date": {
+    "$date": "2023-12-18T00:00:00.000Z"
+  },
+  "amount": 71.3,
+  "paid": true,
+  "type": "Bill",
+  "fromDate": {
+    "$date": "2023-11-01T00:00:00.000Z"
+  },
+  "toDate": {
+    "$date": "2023-11-30T00:00:00.000Z"
+  },
+  "dueDate": {
+    "$date": "2024-01-08T00:00:00.000Z"
+  },
+  "provider": "electricity",
+  "__t": "Bill",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c1fd7c5951fc8469440"
+  },
+  "consumption": 30,
+  "monthlyInstallments": 1
+},
+{
+  "_id": {
+    "$oid": "678a90cc2d5725e190453683"
+  },
+  "name": "Lavatrice",
+  "transactionId": 0,
+  "date": {
+    "$date": "2021-12-26T00:00:00.000Z"
+  },
+  "amount": 359,
+  "paid": true,
+  "type": "Expense",
+  "__t": "Expense",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c10d7c5951fc8469428"
+  }
+},
+{
+  "_id": {
+    "$oid": "678a90e42d5725e1904536ce"
+  },
+  "name": "Elettricista",
+  "transactionId": 0,
+  "date": {
+    "$date": "2022-01-01T00:00:00.000Z"
+  },
+  "amount": 100,
+  "paid": true,
+  "type": "Expense",
+  "__t": "Expense",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c10d7c5951fc8469428"
+  }
+},
+{
+  "_id": {
+    "$oid": "678a90fb2d5725e19045371b"
+  },
+  "name": "Roby Caldaie",
+  "transactionId": 0,
+  "date": {
+    "$date": "2022-07-21T00:00:00.000Z"
+  },
+  "amount": 128,
+  "paid": true,
+  "type": "Expense",
+  "__t": "Expense",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c10d7c5951fc8469428"
+  }
+},
+{
+  "_id": {
+    "$oid": "678a91102d5725e19045376a"
+  },
+  "name": "Denise",
+  "transactionId": 0,
+  "date": {
+    "$date": "2022-11-10T00:00:00.000Z"
+  },
+  "amount": 264,
+  "paid": true,
+  "type": "Expense",
+  "__t": "Expense",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c10d7c5951fc8469428"
+  }
+},
+{
+  "_id": {
+    "$oid": "678a91222d5725e1904537bb"
+  },
+  "name": "Idraulico",
+  "transactionId": 0,
+  "date": {
+    "$date": "2022-12-10T00:00:00.000Z"
+  },
+  "amount": 40,
+  "paid": true,
+  "type": "Expense",
+  "__t": "Expense",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c10d7c5951fc8469428"
+  }
+},
+{
+  "_id": {
+    "$oid": "678a913e2d5725e190453811"
+  },
+  "name": "Eikos",
+  "transactionId": 0,
+  "date": {
+    "$date": "2023-07-24T00:00:00.000Z"
+  },
+  "amount": 990,
+  "paid": true,
+  "type": "Expense",
+  "__t": "Expense",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c10d7c5951fc8469428"
+  }
+},
+{
+  "_id": {
+    "$oid": "678a91512d5725e190453866"
+  },
+  "name": "Roby Caldaie",
+  "transactionId": 0,
+  "date": {
+    "$date": "2023-07-25T00:00:00.000Z"
+  },
+  "amount": 120,
+  "paid": true,
+  "type": "Expense",
+  "__t": "Expense",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c10d7c5951fc8469428"
+  }
+},
+{
+  "_id": {
+    "$oid": "678a91672d5725e1904538ba"
+  },
+  "name": "Zanzariera",
+  "transactionId": 0,
+  "date": {
+    "$date": "2023-08-13T00:00:00.000Z"
+  },
+  "amount": 270,
+  "paid": true,
+  "type": "Expense",
+  "__t": "Expense",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c10d7c5951fc8469428"
+  }
+},
+{
+  "_id": {
+    "$oid": "678a91952d5725e190453916"
+  },
+  "name": "Tubo doccia",
+  "transactionId": 0,
+  "date": {
+    "$date": "2023-08-28T00:00:00.000Z"
+  },
+  "amount": 10,
+  "paid": true,
+  "type": "Expense",
+  "__t": "Expense",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c10d7c5951fc8469428"
+  }
+},
+{
+  "_id": {
+    "$oid": "678a91c02d5725e1904539d4"
+  },
+  "name": "Idraulico",
+  "transactionId": 0,
+  "date": {
+    "$date": "2023-08-31T00:00:00.000Z"
+  },
+  "amount": 30,
+  "paid": true,
+  "type": "Expense",
+  "__t": "Expense",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c10d7c5951fc8469428"
+  }
+},
+{
+  "_id": {
+    "$oid": "678a91d32d5725e190453a31"
+  },
+  "name": "Serratura",
+  "transactionId": 0,
+  "date": {
+    "$date": "2023-12-08T00:00:00.000Z"
+  },
+  "amount": 35,
+  "paid": true,
+  "type": "Expense",
+  "__t": "Expense",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c10d7c5951fc8469428"
+  }
+},
+{
+  "_id": {
+    "$oid": "678a91e32d5725e190453a92"
+  },
+  "name": "Guarnizioni finestre",
+  "transactionId": 0,
+  "date": {
+    "$date": "2025-01-17T17:22:43.264Z"
+  },
+  "amount": 61,
+  "paid": true,
+  "type": "Expense",
+  "__t": "Expense",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c10d7c5951fc8469428"
+  }
+},
+{
+  "_id": {
+    "$oid": "678a92362d5725e190453b5c"
+  },
+  "name": "Rimborso 2022",
+  "transactionId": 0,
+  "date": {
+    "$date": "2022-12-20T00:00:00.000Z"
+  },
+  "amount": 1200,
+  "paid": true,
+  "type": "Refund",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c10d7c5951fc8469428"
+  }
+},
+{
+  "_id": {
+    "$oid": "678a92492d5725e190453bbb"
+  },
+  "name": "Rimborso metà 2023",
+  "transactionId": 0,
+  "date": {
+    "$date": "2025-01-17T17:24:25.929Z"
+  },
+  "amount": 1000,
+  "paid": true,
+  "type": "Refund",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c10d7c5951fc8469428"
+  }
+},
+{
+  "_id": {
+    "$oid": "678a92552d5725e190453c1b"
+  },
+  "name": "Rimborso fine 2023",
+  "transactionId": 0,
+  "date": {
+    "$date": "2025-01-17T17:24:37.112Z"
+  },
+  "amount": 1200,
+  "paid": true,
+  "type": "Refund",
+  "__v": 0,
+  "owner": {
+    "$oid": "67894c10d7c5951fc8469428"
+  }
+}]

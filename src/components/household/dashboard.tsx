@@ -122,7 +122,7 @@ const HouseholdDashboard = ({ household }: { household: Household }) => {
                     <hr></hr>
                     <Row>
                       <Col>
-                        <h2>All Expenses</h2>
+                        <h2>All Expenses: {household.expenses.length}</h2>
                         <LineChart
                           transactions={household.expenses}
                           dataKey="amount"

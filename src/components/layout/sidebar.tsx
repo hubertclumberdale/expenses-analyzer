@@ -39,17 +39,6 @@ const Sidebar = () => {
           </Link>
         </li>
 
-        <hr className="sidebar-divider" />
-
-        <div className="sidebar-heading">Expenses</div>
-
-        <li className="nav-item">
-          <Link href="/expenses" className="nav-link">
-            <i className="fas fa-fw fa-chart-area"></i>
-            <span>Manage Expenses</span>
-          </Link>
-        </li>
-
         <hr className="sidebar-divider d-none d-md-block" />
 
         <div className="text-center d-none d-md-inline">

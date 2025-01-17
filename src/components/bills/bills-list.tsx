@@ -28,14 +28,6 @@ const BillList: React.FC<BillListProps> = ({
   };
 
   const columnDefs: ColDef<Bill>[] = [
-    { headerName: "Id", field: "_id" },
-    {
-      headerName: "Transaction ID",
-      flex: 1,
-      field: "transactionId",
-      editable: true,
-    },
-    { headerName: "Name", field: "name", editable: true },
     {
       headerName: "Date",
       field: "date",
@@ -43,6 +35,12 @@ const BillList: React.FC<BillListProps> = ({
       cellEditor: "agDateStringCellEditor",
       cellRenderer: dateFormatter,
     },
+    {
+      headerName: "Transaction ID",
+      field: "transactionId",
+      editable: true,
+    },
+    { headerName: "Name", field: "name", editable: true },
     { headerName: "Amount", field: "amount", editable: true },
     {
       headerName: "Owner",

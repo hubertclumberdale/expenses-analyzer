@@ -11,11 +11,7 @@ const Page = () => {
     {
       title: "Households",
       link: "/households",
-    },
-    {
-      title: "Expenses",
-      link: "/expenses",
-    },
+    }
   ];
 
   return (

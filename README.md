@@ -18,3 +18,9 @@ Ensure you have Docker installed on your system. You can download and install Do
    ```bash
    npm run start
    ```
+
+## Seeding
+To seed the data into the database, open a terminal and run the following command:
+```bash
+npm run seed
+```
